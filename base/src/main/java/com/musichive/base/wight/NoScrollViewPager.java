@@ -32,4 +32,9 @@ public class NoScrollViewPager extends ViewPager {
     public boolean onTouchEvent(MotionEvent ev) {
         return false;
     }
+
+    @Override
+    public void setCurrentItem(int item) {
+        super.setCurrentItem(item,false);
+    }
 }

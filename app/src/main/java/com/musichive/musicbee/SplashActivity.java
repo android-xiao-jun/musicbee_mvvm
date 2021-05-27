@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.kunminx.architecture.ui.page.BaseActivity;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
-import com.musichive.common.ui.home.HomeActivity;
+import com.musichive.common.ui.home.activity.HomeActivity;
 import com.musichive.musicbee.viewmodel.SplashViewModel;
 
 /**

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="bottomTabs">
+        <item>发现</item>
+        <item>NFT</item>
+        <item>市集</item>
+        <item>创作</item>
+        <item>我的</item>
+    </array>
+
+    <array name="bottomTabIcons">
+        <item>@drawable/home_tab_follow_selector</item>
+        <item>@drawable/home_tab_follow_selector</item>
+        <item>@drawable/home_tab_follow_selector</item>
+        <item>@drawable/home_tab_follow_selector</item>
+        <item>@drawable/home_tab_user_selector</item>
+    </array>
+</resources>
