@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path
+        name="files_root"
+        path="Android/data/com/musichive/musicbee" />
+
+    <external-path
+        name="external_storage_root"
+        path="./" />
+
+    <root-path path="."  name="root-path" />
+
+    <root-path name="opensdk_root" path=""/>
+    <external-files-path name="opensdk_external" path="Images/tmp"/>
+
+</paths>
