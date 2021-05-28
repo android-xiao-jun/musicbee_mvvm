@@ -9,12 +9,14 @@ import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.musichive.common.BR;
 import com.musichive.common.R;
 import com.musichive.common.app.BaseStatusBarActivity;
+import com.musichive.common.config.AppConfig;
 import com.musichive.common.ui.home.adapter.HomeFragmentPageAdapter;
 import com.musichive.common.ui.home.fragment.HomeFragment;
 import com.musichive.common.ui.home.fragment.MarketFragment;
 import com.musichive.common.ui.home.fragment.MeFragment;
 import com.musichive.common.ui.home.fragment.NFTFragment;
 import com.musichive.common.ui.home.fragment.WorksFragment;
+import com.musichive.common.ui.home.repository.HomeDataRepository;
 import com.musichive.common.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
@@ -52,5 +54,13 @@ public class HomeActivity extends BaseStatusBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (AppConfig.URLPREFIX == null) {
+            HomeDataRepository.getInstance().obtainImageUrlPrefix();
+        }
     }
 }

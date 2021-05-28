@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.kunminx.architecture.ui.adapter.CommonViewPagerAdapter;
 import com.musichive.common.R;
+import com.musichive.common.config.AppConfig;
 import com.musichive.common.databinding.CommonHomeBottomNavBinding;
 
 import java.util.ArrayList;
@@ -30,6 +32,13 @@ public class HomeBottomNav extends RelativeLayout {
 
     private CommonHomeBottomNavBinding bottomNavBinding;
     private List<BottomNavBtn> mBottomNavBtns;
+    int[] icons = new int[]{
+            R.drawable.home_tab_follow_selector,
+            R.drawable.home_tab_nft_selector,
+            R.drawable.home_tab_discover_selector,
+            R.drawable.home_tab_creation_selector,
+            R.drawable.home_tab_user_selector,
+    };
 
     public HomeBottomNav(Context context) {
         this(context, null);
@@ -42,20 +51,20 @@ public class HomeBottomNav extends RelativeLayout {
     public HomeBottomNav(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         bottomNavBinding = CommonHomeBottomNavBinding.inflate(LayoutInflater.from(context), this, true);
-        mBottomNavBtns=new ArrayList<>();
+        mBottomNavBtns = new ArrayList<>();
+
     }
 
     public void initTabAndPage() {
         mBottomNavBtns.clear();
         bottomNavBinding.homeNavLayout.removeAllViews();
         String[] title = getContext().getResources().getStringArray(R.array.bottomTabs);
-        int[] icons = getContext().getResources().getIntArray(R.array.bottomTabIcons);
         for (int i = 0; i < title.length; i++) {
             BottomNavBtn bottomNavBtn = genButtonNavBtn(i);
             bottomNavBtn.setTag(i);
             bottomNavBtn.setTextResId(title[i]);
             bottomNavBtn.setImageResource(icons[i]);
-            if (i == 2) {
+            if (i == AppConfig.HomeTab.HOME_BOTTOM_CENTER_INDEX) {
                 bottomNavBtn.setVisibility(View.INVISIBLE);
             }
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0,
@@ -75,7 +84,7 @@ public class HomeBottomNav extends RelativeLayout {
 
                 @Override
                 public void onPageSelected(int position) {
-
+                    setBottomNavSelected(position);
                 }
 
                 @Override
@@ -90,7 +99,7 @@ public class HomeBottomNav extends RelativeLayout {
 
         BottomNavBtn bottomNavBtn = new BottomNavBtn(getContext());
         bottomNavBtn.setTag(index);
-        bottomNavBtn.setOnClickListener(new OnClickListener() {
+        OnClickListener onClickListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 ViewPager viewPager = (getRootView()).findViewById(R.id.viewPager);
@@ -98,49 +107,61 @@ public class HomeBottomNav extends RelativeLayout {
                     viewPager.setCurrentItem(index);
                 }
             }
-        });
+        };
+        if (index == AppConfig.HomeTab.HOME_BOTTOM_CENTER_INDEX) {
+            bottomNavBinding.ivMarket.setOnClickListener(onClickListener);
+            bottomNavBinding.tvMarketBg.setOnClickListener(onClickListener);
+        }
+        bottomNavBtn.setOnClickListener(onClickListener);
         return bottomNavBtn;
     }
 
-//    private void setBottomNavSelected(final int prePos, final int curPos) {
-//        if (curPos == HomeRefreshEvent.TAB_POSITION_NFT) {
-//            mBottomNavBtns.get(0).setImageResource(R.drawable.sy_fx_nft);
-//            mBottomNavBtns.get(1).setImageResource(R.drawable.sy_nft_nft);
-//            iv_market.setImageResource(R.drawable.sy_shiji);
-//            tv_market_bg.setVisibility(View.VISIBLE);
-//            mBottomNavBtns.get(3).setImageResource(R.drawable.sy_cz_nft);
-//            mBottomNavBtns.get(4).setImageResource(R.drawable.sy_user_nft);
-//            mBottomNavBtns.get(0).getmTextView().setTextColor(Color.parseColor("#9977C2FB"));
-//            mBottomNavBtns.get(1).getmTextView().setTextColor(Color.parseColor("#FF77C2FB"));
-//            tv_text.setTextColor(Color.parseColor("#9977C2FB"));
-//            mBottomNavBtns.get(3).getmTextView().setTextColor(Color.parseColor("#9977C2FB"));
-//            mBottomNavBtns.get(4).getmTextView().setTextColor(Color.parseColor("#9977C2FB"));
-//        } else {
-//            mBottomNavBtns.get(0).setImageResource(mFragments.get(0).getNavIconResId());
-//            mBottomNavBtns.get(1).setImageResource(mFragments.get(1).getNavIconResId());
-//            iv_market.setImageResource(R.drawable.sy_shiji3);
-//            tv_market_bg.setVisibility(View.INVISIBLE);
-//            mBottomNavBtns.get(3).setImageResource(mFragments.get(3).getNavIconResId());
-//            mBottomNavBtns.get(4).setImageResource(mFragments.get(4).getNavIconResId());
-//            mBottomNavBtns.get(0).getmTextView().setTextColor(getResources().getColor(R.color.color_1e1e1e));
-//            mBottomNavBtns.get(1).getmTextView().setTextColor(getResources().getColor(R.color.color_1e1e1e));
-//            tv_text.setTextColor(getResources().getColor(R.color.color_1e1e1e));
-//            mBottomNavBtns.get(3).getmTextView().setTextColor(getResources().getColor(R.color.color_1e1e1e));
-//            mBottomNavBtns.get(4).getmTextView().setTextColor(getResources().getColor(R.color.color_1e1e1e));
-//        }
-//        if (prePos >= 0) {
-//            mBottomNavBtns.get(prePos).setSelected(false);
-//        }
-//        if (curPos >= 0) {
-//            mBottomNavBtns.get(curPos).setSelected(true);
-//            if (curPos == 2) {
-//                iv_market.setImageResource(R.drawable.sy_shiji2);
-//                tv_text.setTextColor(getResources().getColor(R.color.colormusicbee));
-//                return;
-//            }
-//            if (curPos != HomeRefreshEvent.TAB_POSITION_NFT) {
-//                mBottomNavBtns.get(curPos).getmTextView().setTextColor(getResources().getColor(R.color.colormusicbee));
-//            }
-//        }
-//    }
+
+    private void setBottomNavSelected(int position) {
+        if (position == AppConfig.HomeTab.HOME_NFT_TAB_INDEX) {
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_TAB_INDEX).setImageResource(R.drawable.sy_fx_nft);
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_NFT_TAB_INDEX).setImageResource(R.drawable.sy_nft_nft);
+            bottomNavBinding.ivMarket.setImageResource(R.drawable.sy_shiji);
+            bottomNavBinding.tvMarketBg.setVisibility(View.VISIBLE);
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_WORKS_TAB_INDEX).setImageResource(R.drawable.sy_cz_nft);
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_ME_TAB_INDEX).setImageResource(R.drawable.sy_user_nft);
+
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#9977C2FB"));
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_NFT_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#9977C2FB"));
+            bottomNavBinding.tvText.setTextColor(Color.parseColor("#9977C2FB"));
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_WORKS_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#9977C2FB"));
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_ME_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#9977C2FB"));
+        } else {
+
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_TAB_INDEX).setImageResource(icons[AppConfig.HomeTab.HOME_TAB_INDEX]);
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_NFT_TAB_INDEX).setImageResource(icons[AppConfig.HomeTab.HOME_NFT_TAB_INDEX]);
+            bottomNavBinding.ivMarket.setImageResource(R.drawable.sy_shiji3);
+            bottomNavBinding.tvMarketBg.setVisibility(View.INVISIBLE);
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_WORKS_TAB_INDEX).setImageResource(icons[AppConfig.HomeTab.HOME_WORKS_TAB_INDEX]);
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_ME_TAB_INDEX).setImageResource(icons[AppConfig.HomeTab.HOME_ME_TAB_INDEX]);
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#1e1e1e"));
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_NFT_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#1e1e1e"));
+            bottomNavBinding.tvText.setTextColor(Color.parseColor("#1e1e1e"));
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_WORKS_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#1e1e1e"));
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_ME_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#1e1e1e"));
+        }
+        if (position == 1) {
+            bottomNavBinding.homeNavLayout.setBackgroundResource(R.drawable.sy_nft_bottom_bg);
+        } else {
+            bottomNavBinding.homeNavLayout.setBackgroundResource(R.color.colorHomeBottomBg);
+        }
+        for (int i = 0; i < icons.length; i++) {
+            mBottomNavBtns.get(i).setSelected(false);
+        }
+        mBottomNavBtns.get(position).setSelected(true);
+        if (position == AppConfig.HomeTab.HOME_BOTTOM_CENTER_INDEX) {
+            bottomNavBinding.ivMarket.setImageResource(R.drawable.sy_shiji2);
+            bottomNavBinding.tvText.setTextColor(ContextCompat.getColor(getContext(), R.color.colormusicbee));
+            return;
+        }
+        if (position != AppConfig.HomeTab.HOME_NFT_TAB_INDEX) {
+            mBottomNavBtns.get(position).getmTextView().setTextColor(ContextCompat.getColor(getContext(), R.color.colormusicbee));
+        }
+    }
+
 }

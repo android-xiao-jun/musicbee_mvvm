@@ -56,6 +56,13 @@ public abstract class BaseFragment extends DataBindingFragment {
         return mFragmentProvider.get(modelClass);
     }
 
+    protected <T extends ViewModel> T getFragmentScopeViewModel(@NonNull Class<T> modelClass, @NonNull ViewModelProvider.Factory factory) {
+        if (mFragmentProvider == null) {
+            mFragmentProvider = new ViewModelProvider(this,factory);
+        }
+        return mFragmentProvider.get(modelClass);
+    }
+
     protected <T extends ViewModel> T getActivityScopeViewModel(@NonNull Class<T> modelClass) {
         if (mActivityProvider == null) {
             mActivityProvider = new ViewModelProvider(mActivity);

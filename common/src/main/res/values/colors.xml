@@ -2,4 +2,11 @@
 <resources>
     <color name="colorTextMain">#1e1e1e</color>
     <color name="colorHomeBottomBg">#ffffff</color>
+    <color name="colormusicbee">#FF4F48</color>
+    <color name="color_home_recyclerview_bg">#f5f6f9</color>
+    <color name="backgroundColor">#fafafa</color>
+    <color name="gray">#666</color>
+    <color name="light_gray">#999</color>
+    <color name="transparent">#00000000</color>
+    <color name="color_home_bottom">#f5f6f9</color>
 </resources>

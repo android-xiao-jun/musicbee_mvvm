@@ -8,11 +8,4 @@
         <item>我的</item>
     </array>
 
-    <array name="bottomTabIcons">
-        <item>@drawable/home_tab_follow_selector</item>
-        <item>@drawable/home_tab_follow_selector</item>
-        <item>@drawable/home_tab_follow_selector</item>
-        <item>@drawable/home_tab_follow_selector</item>
-        <item>@drawable/home_tab_user_selector</item>
-    </array>
 </resources>

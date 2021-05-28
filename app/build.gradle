@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'android-aspectjx'
 }
 
 android {
@@ -25,7 +26,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    aspectjx {
+        include 'com.musichive.musicbee.mvvm'
+    }
+    packagingOptions {
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
     buildFeatures {
         viewBinding  true
         dataBinding  true

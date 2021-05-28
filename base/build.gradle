@@ -26,4 +26,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     api 'com.gyf.immersionbar:immersionbar:3.0.0'
     api 'com.gyf.immersionbar:immersionbar-components:3.0.0'
+
+    api files('libs/fastjson-1.2.62.jar')
 }

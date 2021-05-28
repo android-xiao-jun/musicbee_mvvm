@@ -4,6 +4,14 @@
     <data>
 
         <variable
+            name="refreshEvent"
+            type="com.musichive.common.ui.home.fragment.HomeFragment.RefreshEvent" />
+
+        <variable
+            name="adapter"
+            type="com.musichive.common.test.BaseItemAdapter" />
+
+        <variable
             name="viewModel"
             type="com.musichive.common.viewmodel.HomeFragmentViewModel" />
     </data>
@@ -13,11 +21,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/homeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:autoRefresh="@{viewModel.autoRefresh}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setOnRefreshLoadMoreListener="@{refreshEvent}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/homeRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_home_recyclerview_bg"
+                app:layoutManager=".other.WrapContentLinearLayoutManager"
+                app:setAdapter="@{adapter}"
+                app:setList="@{viewModel.list}" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        <com.musichive.common.ui.home.weight.HomeTopView
+            android:id="@+id/home_top"
+            initTop="@{viewModel.initTop}"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.indexStr}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
