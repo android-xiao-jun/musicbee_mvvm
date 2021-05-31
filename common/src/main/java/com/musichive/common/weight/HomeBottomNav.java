@@ -76,6 +76,7 @@ public class HomeBottomNav extends RelativeLayout {
         }
         ViewPager viewPager = (getRootView()).findViewById(R.id.viewPager);
         if (viewPager != null) {
+            viewPager.setCurrentItem(0);
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

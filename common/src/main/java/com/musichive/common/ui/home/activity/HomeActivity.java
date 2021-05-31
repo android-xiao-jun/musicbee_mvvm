@@ -2,7 +2,6 @@ package com.musichive.common.ui.home.activity;
 
 import android.os.Bundle;
 
-import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
 import com.kunminx.architecture.ui.page.DataBindingConfig;
@@ -17,7 +16,7 @@ import com.musichive.common.ui.home.fragment.MeFragment;
 import com.musichive.common.ui.home.fragment.NFTFragment;
 import com.musichive.common.ui.home.fragment.WorksFragment;
 import com.musichive.common.ui.home.repository.HomeDataRepository;
-import com.musichive.common.viewmodel.HomeViewModel;
+import com.musichive.common.ui.home.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

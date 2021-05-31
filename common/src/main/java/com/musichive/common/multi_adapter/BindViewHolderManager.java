@@ -1,4 +1,4 @@
-package com.musichive.common.test;
+package com.musichive.common.multi_adapter;
 
 
 import androidx.databinding.DataBindingUtil;
@@ -18,7 +18,7 @@ public abstract class BindViewHolderManager<T,D extends ViewDataBinding> extends
     public void onBindViewHolder(BaseViewHolder holder, T data) {
         D dataBinding = DataBindingUtil.getBinding(holder.itemView);
         onBindViewHolder(dataBinding, data);
-//        dataBinding.executePendingBindings();
+        dataBinding.executePendingBindings();
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.musichive.common.api;
 
 import com.musichive.common.bean.BaseResponseBean;
+import com.musichive.common.bean.home.HomeDynamicInfo;
 import com.musichive.common.bean.home.HomeMusicDataBean;
 import com.musichive.common.bean.home.ListBean;
 
@@ -36,4 +37,8 @@ public interface HomeService {
     //获取首页存证作品和音乐人数量
     @POST("api/data/getMusicData")
     Observable<BaseResponseBean<HomeMusicDataBean>> getMusicData();
+
+    //获取首页音乐人动态
+    @GET("api/data/getHomePageDynamicInfo")
+    Observable<BaseResponseBean<HomeDynamicInfo>> getHomePageDynamicInfo(@Query("page") int page, @Query("pageSize") int pageSize);
 }

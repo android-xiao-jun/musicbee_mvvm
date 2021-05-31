@@ -4,28 +4,36 @@
     <data>
 
         <variable
+            name="topListener"
+            type="com.musichive.common.ui.home.weight.HomeTopView.HomeBannerTopStatusBgListener" />
+
+        <variable
             name="refreshEvent"
             type="com.musichive.common.ui.home.fragment.HomeFragment.RefreshEvent" />
 
         <variable
             name="adapter"
-            type="com.musichive.common.test.BaseItemAdapter" />
+            type="com.musichive.common.multi_adapter.BaseItemAdapter" />
 
         <variable
             name="viewModel"
-            type="com.musichive.common.viewmodel.HomeFragmentViewModel" />
+            type="com.musichive.common.ui.home.viewmodel.HomeFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/homeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:autoRefresh="@{viewModel.autoRefresh}"
+            app:closeLoad="@{viewModel.closeRefresh}"
+            app:closeRefresh="@{viewModel.closeLoad}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,19 +44,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/color_home_recyclerview_bg"
-                app:layoutManager=".other.WrapContentLinearLayoutManager"
-                app:setAdapter="@{adapter}"
-                app:setList="@{viewModel.list}" />
+                app:setAdapter="@{adapter}" />
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
         <com.musichive.common.ui.home.weight.HomeTopView
             android:id="@+id/home_top"
-            initTop="@{viewModel.initTop}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:initTop="@{viewModel.initTop}"
+            app:resetY="@{viewModel.resetY}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:setStatusBgListener="@{topListener}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

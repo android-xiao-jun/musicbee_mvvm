@@ -79,14 +79,19 @@ public class HomeTopView extends LinearLayout {
         setStatus(persent);
     }
 
-    public void initTop(){
+    public void initTop() {
         RecyclerView homeRecyclerView = (getRootView()).findViewById(R.id.homeRecyclerView);
-        if (homeRecyclerView!=null){
+        if (homeRecyclerView != null) {
             bindRecyclerView(homeRecyclerView);
         }
     }
 
+    public void resetY(){
+        scrollRecyclerY = 0;
+    }
+
     public void bindRecyclerView(RecyclerView recyclerView) {
+        resetY();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -124,5 +129,18 @@ public class HomeTopView extends LinearLayout {
             view_bg.setVisibility(VISIBLE);
             ivSearchHome.setImageResource(R.drawable.icon_search_home_top_w);
         }
+        if (statusBgListener != null) {
+            statusBgListener.onStatus(isWhite);
+        }
+    }
+
+    private HomeBannerTopStatusBgListener statusBgListener;
+
+    public void setStatusBgListener(HomeBannerTopStatusBgListener statusBgListener) {
+        this.statusBgListener = statusBgListener;
+    }
+
+    public interface HomeBannerTopStatusBgListener {
+        void onStatus(boolean b);
     }
 }

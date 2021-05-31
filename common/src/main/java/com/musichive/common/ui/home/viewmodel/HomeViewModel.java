@@ -1,4 +1,4 @@
-package com.musichive.common.viewmodel;
+package com.musichive.common.ui.home.viewmodel;
 
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.ViewModel;

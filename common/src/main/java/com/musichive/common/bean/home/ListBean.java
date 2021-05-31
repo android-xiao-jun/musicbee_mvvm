@@ -1,5 +1,7 @@
 package com.musichive.common.bean.home;
 
+import com.musichive.common.config.AppConfig;
+
 /**
  * @Author Jun
  * Date 2021 年 05月 28 日 17:13
@@ -56,6 +58,10 @@ public  class ListBean {
 
     public String getCoverUrl() {
         return coverUrl;
+    }
+
+    public String getCoverUrlLink(){
+        return AppConfig.URLPREFIX + getCoverUrl();
     }
 
     public void setCoverUrl(String coverUrl) {

@@ -1,5 +1,6 @@
 package com.musichive.common.utils;
 
+import android.app.Application;
 import android.content.Context;
 
 
@@ -12,12 +13,22 @@ public class ToastUtils {
 
     private static Context applicationContext;
 
-    public static void init(Context context) {
+    public static void init(Application context) {
         applicationContext = context.getApplicationContext();
+        com.hjq.toast.ToastUtils.init(context);
+//        com.hjq.toast.ToastUtils.setGravity(Gravity.BOTTOM ,0,0,0, SizeUtils.dp2px(50));
     }
 
 
     public static void showShort(String msg) {
+        com.hjq.toast.ToastUtils.show(msg);
+    }
 
+    public static void showShort(int msg) {
+        com.hjq.toast.ToastUtils.show(msg);
+    }
+
+    public static void showShort(CharSequence msg) {
+        com.hjq.toast.ToastUtils.show(msg);
     }
 }

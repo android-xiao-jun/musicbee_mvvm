@@ -56,5 +56,10 @@
       <option name="name" value="maven5" />
       <option name="url" value="https://jitpack.io" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven6" />
+      <option name="name" value="maven6" />
+      <option name="url" value="https://s01.oss.sonatype.org/content/groups/public" />
+    </remote-repository>
   </component>
 </project>

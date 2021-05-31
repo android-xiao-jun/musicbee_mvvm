@@ -8,20 +8,17 @@
             type="com.musichive.common.bean.home.MusicStateMusic" />
 
         <variable
-            name="viewModel"
-            type="com.musichive.common.viewmodel.HomeFragmentViewModel" />
-
-        <variable
             name="clickProxy"
             type="com.musichive.common.ui.home.fragment.HomeFragment.ClickProxy" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{()->clickProxy.homeDynamicClick()}"
+        android:onClick="@{() -> clickProxy.homeDynamicClick(data.id)}"
         android:orientation="horizontal"
         android:paddingStart="20dp"
         android:paddingTop="12dp"
@@ -31,7 +28,8 @@
         <com.musichive.common.weight.AvatarImageTagView
             android:id="@+id/iv_avatar_tag"
             android:layout_width="36dp"
-            android:layout_height="36dp" />
+            android:layout_height="36dp"
+            app:loadPic="@{data.item.getHeadUrlLink}" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,7 +37,9 @@
             android:layout_marginStart="10dp"
             android:orientation="vertical">
 
-            <include layout="@layout/item_musician_state" />
+            <include
+                layout="@layout/item_musician_state"
+                bind:showData="@{data.item}" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_music"
@@ -48,12 +48,14 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_fafafa_6">
 
-                <RoundCornerImageView
+                <com.musichive.common.weight.RoundCornerImageView
                     android:id="@+id/music_iv_icon"
                     android:layout_width="60dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="60dp"
                     android:src="@drawable/default_pic"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:loadPic="@{data.item.getCoverLink()}"
                     app:round_radius="6dp" />
 
                 <ImageView
@@ -73,7 +75,7 @@
                     android:layout_marginStart="10dp"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:text="紫色苹果"
+                    android:text="@{data.item.getDemoName()}"
                     android:textColor="#ff1e1e1e"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -81,7 +83,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <include layout="@layout/item_musician_state_bottom" />
+            <include
+                layout="@layout/item_musician_state_bottom"
+                bind:showData="@{data.item}" />
         </LinearLayout>
     </LinearLayout>
 

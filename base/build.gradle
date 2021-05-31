@@ -28,4 +28,5 @@ dependencies {
     api 'com.gyf.immersionbar:immersionbar-components:3.0.0'
 
     api files('libs/fastjson-1.2.62.jar')
+    api 'me.jessyan:autosize:1.2.1'
 }

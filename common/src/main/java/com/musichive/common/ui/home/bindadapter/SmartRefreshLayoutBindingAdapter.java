@@ -21,4 +21,14 @@ public class SmartRefreshLayoutBindingAdapter {
     public static void autoRefresh(SmartRefreshLayout smartRefreshLayout, Boolean autoRefresh) {
         smartRefreshLayout.autoRefresh();
     }
+
+    @BindingAdapter(value = {"closeLoad"}, requireAll = false)
+    public static void closeLoad(SmartRefreshLayout smartRefreshLayout, Boolean closeLoad) {
+        smartRefreshLayout.finishLoadMore(closeLoad);
+    }
+
+    @BindingAdapter(value = {"closeRefresh"}, requireAll = false)
+    public static void closeRefresh(SmartRefreshLayout smartRefreshLayout, Boolean closeRefresh) {
+        smartRefreshLayout.finishRefresh(closeRefresh);
+    }
 }

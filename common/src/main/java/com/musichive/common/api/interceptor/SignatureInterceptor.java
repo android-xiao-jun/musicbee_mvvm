@@ -57,7 +57,7 @@ public class SignatureInterceptor implements Interceptor {
             userAgent = userAgent + " " + sourceAgent;
         }
         requestBuilder.addHeader(HttpConstants.HEADER_USER_AGENT, userAgent);
-        String token = "token";
+        String token = "";
         if (!TextUtils.isEmpty(token)) {
             requestBuilder.addHeader(HttpConstants.HEADER_AUTHORIZATION, HttpConstants.buildHeader(token));
         }

@@ -19,6 +19,7 @@ public class AppConfig {
         public static final String BASE_URL = "http://server.musicbee.com.cn/";
         //商城接口
         public static final String BASE_URL2 = "http://server.musichive.com.cn/";
+        public static final String BASE_WEB_PAGE_URL2 = "http://www.musichive.com.cn/";
         //连接时间增加
         public static final long connectTimeoutMills = 15 * 1000l;
         public static final long readTimeoutMills = 15 * 1000l;
@@ -52,5 +53,7 @@ public class AppConfig {
     public static final String COVER_PATH = Utils.getApp().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
 
     public static  String URLPREFIX = "";
+
+    public static final int REQUEST_LIMIT = 12;
 
 }

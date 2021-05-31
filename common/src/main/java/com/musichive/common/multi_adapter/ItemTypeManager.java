@@ -1,4 +1,4 @@
-package com.musichive.common.test;
+package com.musichive.common.multi_adapter;
 
 
 import androidx.annotation.NonNull;

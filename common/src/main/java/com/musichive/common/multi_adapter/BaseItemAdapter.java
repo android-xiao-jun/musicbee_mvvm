@@ -1,8 +1,10 @@
-package com.musichive.common.test;
+package com.musichive.common.multi_adapter;
 
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.musichive.common.config.AppConfig;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,11 +22,21 @@ public class BaseItemAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private List<Object> headItems = new ArrayList<>();
     private List<Object> footItems = new ArrayList<>();
     private ItemTypeManager itemTypeManager;
+    public int page = getPageDefault();
+    public int pageSize =getPageSize();
 
     public BaseItemAdapter() {
         itemTypeManager = new ItemTypeManager();
     }
 
+    public int getPageSize(){
+        return AppConfig.REQUEST_LIMIT;
+    }
+
+    //默认第一页 为1
+    public int getPageDefault(){
+        return 1;
+    }
 
     /**
      * 为数据源注册ViewHolder的管理类{@link ViewHolderManager}<br>
@@ -204,7 +216,7 @@ public class BaseItemAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public int getItemCount() {
-        return dataItems.size() + getHeadCount() + getFootCount();
+        return dataItems == null ? 0 : dataItems.size() + getHeadCount() + getFootCount();
     }
 
 
@@ -222,4 +234,15 @@ public class BaseItemAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return footItems.size();
     }
 
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
 }

@@ -22,8 +22,8 @@ import com.musichive.common.R;
  */
 public class AvatarImageTagView extends ConstraintLayout {
     public static final int TAG_DEFAULT = 0;
-    private static final int TAG_PERSONAL = 1;
-    private static final int TAG_ENTERPRISE = 2;
+    public static final int TAG_PERSONAL = 1;
+    public static final int TAG_ENTERPRISE = 2;
 
     private static final int DEFAULT_BORDER_WIDTH = 0;
     private static final int DEFAULT_BORDER_COLOR = Color.BLACK;

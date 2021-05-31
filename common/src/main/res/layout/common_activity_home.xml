@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.musichive.common.viewmodel.HomeViewModel" />
+            type="com.musichive.common.ui.home.viewmodel.HomeViewModel" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

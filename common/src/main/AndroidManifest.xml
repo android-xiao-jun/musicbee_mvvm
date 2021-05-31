@@ -8,6 +8,8 @@
     <application>
         <activity android:name=".ui.home.activity.HomeActivity" />
 
+        <activity android:name=".ui.player.activity.PlayerActivity" />
+
         <service android:name=".player.notification.PlayerService" />
 
         <receiver

@@ -5,10 +5,12 @@ import com.kunminx.architecture.data.response.ResponseStatus;
 import com.musichive.common.api.HomeService;
 import com.musichive.common.api.RetrofitApi;
 import com.musichive.common.bean.ModelSubscriber;
+import com.musichive.common.bean.home.HomeDynamicInfo;
 import com.musichive.common.bean.home.HomeMusicDataBean;
 import com.musichive.common.bean.home.ListBean;
 import com.musichive.common.config.AppConfig;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,12 +37,33 @@ public class HomeDataRepository {
 
                     @Override
                     public void onSuccess(List<ListBean> data) {
-
+                        result.onResult(new DataResult<>(data, new ResponseStatus()));
                     }
 
                     @Override
                     public void onFailure(String errorCode) {
+                        result.onResult(new DataResult<>(null, new ResponseStatus(errorCode, false)));
+                    }
 
+                    @Override
+                    protected void resultMsg(String msg) {
+                        super.resultMsg(msg);
+                    }
+                });
+    }
+
+    public void getHomePageDynamicInfo(int page,int pageSize,DataResult.Result<HomeDynamicInfo> result) {
+        RetrofitApi.addSubscribe(service1.getHomePageDynamicInfo(page, pageSize))
+                .subscribe(new ModelSubscriber<HomeDynamicInfo>() {
+
+                    @Override
+                    public void onSuccess(HomeDynamicInfo data) {
+                        result.onResult(new DataResult<>(data, new ResponseStatus()));
+                    }
+
+                    @Override
+                    public void onFailure(String errorCode) {
+                        result.onResult(new DataResult<>(null, new ResponseStatus(errorCode, false)));
                     }
 
                     @Override

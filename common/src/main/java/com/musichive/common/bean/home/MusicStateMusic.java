@@ -6,4 +6,14 @@ package com.musichive.common.bean.home;
  * Description 音乐蜜蜂-mvvm版本
  */
 public class MusicStateMusic {
+    public String id="";
+
+    public HomeDynamicInfo.ListBean item;
+
+    public MusicStateMusic() {
+    }
+
+    public MusicStateMusic(HomeDynamicInfo.ListBean item) {
+        this.item = item;
+    }
 }

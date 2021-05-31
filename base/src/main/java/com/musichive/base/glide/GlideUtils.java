@@ -11,8 +11,6 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.CustomViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 /**
@@ -29,6 +27,10 @@ public class GlideUtils {
 
     public static void loadPicToImageView(Context context, Object url, ImageView imageView) {
         Glide.with(context).load(url).apply(requestOptions).into(imageView);
+    }
+
+    public static void loadPicToImageViewAsBitmap(Context context, Object url, ImageView imageView) {
+        Glide.with(context).asBitmap().load(url).apply(requestOptions).into(imageView);
     }
 
     public static <T extends View> void loadPicToBackgroundView(Context context, String url, T view) {

@@ -6,16 +6,13 @@
             type="com.musichive.common.bean.home.MusicStateText" />
 
         <variable
-            name="viewModel"
-            type="com.musichive.common.viewmodel.HomeFragmentViewModel" />
-
-        <variable
             name="clickProxy"
             type="com.musichive.common.ui.home.fragment.HomeFragment.ClickProxy" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,13 +20,15 @@
         android:paddingStart="20dp"
         android:paddingTop="12dp"
         android:paddingEnd="20dp"
-        android:onClick="@{()->clickProxy.homeDynamicClick()}"
+        android:onClick="@{()->clickProxy.homeDynamicClick(data.id)}"
         tools:background="@color/color_home_bottom">
 
         <com.musichive.common.weight.AvatarImageTagView
             android:id="@+id/iv_avatar_tag"
             android:layout_width="36dp"
-            android:layout_height="36dp" />
+            android:layout_height="36dp"
+            app:setCurrTag="@{data.item.getVerifyType()}"
+            app:loadPic="@{data.item.getHeadUrlLink()}"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,9 +36,11 @@
             android:layout_marginStart="10dp"
             android:orientation="vertical">
 
-            <include layout="@layout/item_musician_state" />
+            <include layout="@layout/item_musician_state"
+                bind:showData="@{data.item}"/>
 
-            <include layout="@layout/item_musician_state_bottom" />
+            <include layout="@layout/item_musician_state_bottom"
+                bind:showData="@{data.item}"/>
         </LinearLayout>
     </LinearLayout>
 </layout>

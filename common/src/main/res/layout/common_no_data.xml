@@ -8,8 +8,8 @@
             type="com.musichive.common.bean.home.HomeEmptyBean" />
 
         <variable
-            name="viewModel"
-            type="com.musichive.common.viewmodel.HomeFragmentViewModel" />
+            name="click"
+            type="com.musichive.common.ui.home.fragment.HomeFragment.ClickProxy" />
 
     </data>
 
@@ -44,7 +44,7 @@
             android:layout_below="@id/empty_text_view"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:onClick="@{()->viewModel.loadOne()}"
+            android:onClick="@{()->click.homeEmptyClick()}"
             android:text="重新加载" />
 
     </LinearLayout>
