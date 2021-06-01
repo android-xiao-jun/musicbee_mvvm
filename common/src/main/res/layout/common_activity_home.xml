@@ -20,9 +20,19 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/container_player"
+            app:setAdapter="@{adapter}"
+            android:paddingBottom="-25dp"
+            android:layout_marginBottom="-50dp"/>
+
+        <FrameLayout
+            android:id="@+id/container_player"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_above="@+id/home_ll_container"
-            android:layout_marginBottom="-16dp"
-            app:setAdapter="@{adapter}" />
+            android:layout_marginBottom="-16dp">
+
+        </FrameLayout>
 
         <com.musichive.common.weight.HomeBottomNav
             android:id="@+id/home_ll_container"

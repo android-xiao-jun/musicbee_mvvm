@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.musichive.common.R;
+import com.musichive.common.config.AppConfig;
 import com.musichive.common.player.PlayerManager;
 
 /**
@@ -60,7 +61,7 @@ public class PlayerToolHelperView extends FrameLayout {
         }
         FrameLayout.LayoutParams layoutParams = (LayoutParams) childAt.getLayoutParams();
         //显示 和 隐藏处理
-        if (current) {
+        if (current || AppConfig.FLOAT_VIEW_TYPE == AppConfig.FLOAT_VIEW_TYPE_2) {
             layoutParams.setMarginEnd(viewRight);
             layoutParams.setMarginStart(0);
         } else {

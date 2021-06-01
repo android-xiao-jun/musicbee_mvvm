@@ -6,12 +6,18 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.kunminx.player.bean.dto.ChangeMusic;
 import com.musichive.base.glide.GlideUtils;
 import com.musichive.common.R;
+import com.musichive.common.player.PlayerManager;
+import com.musichive.common.utils.HandlerUtils;
 import com.musichive.common.weight.CircleImageView;
 
 /**
@@ -19,25 +25,59 @@ import com.musichive.common.weight.CircleImageView;
  * Date 2021年5月31日15:25:14
  * Description 悬浮播放view
  */
-public class PlayerToolView extends PlayerToolViewDataListener {
+public class PlayerToolTwoView extends PlayerToolViewDataListener {
 
     private CircleImageView icon;
+    private TextView tv_name;
+    private ImageView iv_play;
     private ValueAnimator rotateAnimation;
     private View view_tempo_float;
 
-    public PlayerToolView(@NonNull Context context) {
+    public PlayerToolTwoView(@NonNull Context context) {
         this(context, null);
     }
 
-    public PlayerToolView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public PlayerToolTwoView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public PlayerToolView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public PlayerToolTwoView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        LayoutInflater.from(context).inflate(R.layout.view_layout_float_imp, this);
+        LayoutInflater.from(context).inflate(R.layout.view_layout_float_bottom, this);
         view_tempo_float = findViewById(R.id.view_tempo_float);
         icon = findViewById(R.id.icon);
+        tv_name = findViewById(R.id.tv_name);
+        iv_play = findViewById(R.id.iv_play);
+        iv_play.setOnClickListener(v -> {
+            HandlerUtils.getInstance().postWork(() -> {
+                if ( PlayerManager.getInstance().isPlaying()){
+                    PlayerManager.getInstance().pauseAudio();
+                }else {
+                    PlayerManager.getInstance().playAudio();
+                }
+            });
+        });
+        findViewById(R.id.iv_play_next).setOnClickListener(v -> {
+            HandlerUtils.getInstance().postWork(() -> {
+                PlayerManager.getInstance().playNext();
+            });
+        });
+    }
+
+    @Override
+    public void upData(ChangeMusic changeMusic) {
+        super.upData(changeMusic);
+        tv_name.setText(changeMusic.getTitle());
+    }
+
+    @Override
+    public void upPlayStatus(boolean isPlay) {
+        super.upPlayStatus(isPlay);
+        if (isPlay) {
+            iv_play.setImageResource(R.drawable.ic_action_pause);
+        } else {
+            iv_play.setImageResource(R.drawable.ic_action_play);
+        }
     }
 
     @Override
@@ -46,7 +86,7 @@ public class PlayerToolView extends PlayerToolViewDataListener {
     }
 
     @Override
-    public void setFloatClick(View.OnClickListener listener) {
+    public void setFloatClick(OnClickListener listener) {
         view_tempo_float.setOnClickListener(listener);
     }
 

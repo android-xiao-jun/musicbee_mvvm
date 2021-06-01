@@ -52,8 +52,13 @@ public class AppConfig {
 
     public static final String COVER_PATH = Utils.getApp().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
 
-    public static  String URLPREFIX = "";
+    public static String URLPREFIX = "";
 
     public static final int REQUEST_LIMIT = 12;
+
+    public static final int FLOAT_VIEW_TYPE_1 = 0;
+    public static final int FLOAT_VIEW_TYPE_2 = 1;
+    public static final int FLOAT_VIEW_TYPE_0 = -1;
+    public static  int FLOAT_VIEW_TYPE = FLOAT_VIEW_TYPE_0;//0 显示 顶部悬浮  1 显示底部悬浮 -1都显示
 
 }

@@ -48,7 +48,7 @@ public class PlayerActivity extends BaseStatusBarActivity {
         });
     }
 
-    public class ClickProxy {
+    public static class ClickProxy {
 
         public void playPrevious() {
             HandlerUtils.getInstance().postWork(() -> {
@@ -58,7 +58,7 @@ public class PlayerActivity extends BaseStatusBarActivity {
 
         public void play() {
             HandlerUtils.getInstance().postWork(() -> {
-                if (playerViewModel.isPlaying.get()) {
+                if ( PlayerManager.getInstance().isPlaying()) {
                     PlayerManager.getInstance().pauseAudio();
                 } else {
                     PlayerManager.getInstance().playAudio();

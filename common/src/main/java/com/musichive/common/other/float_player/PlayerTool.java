@@ -68,6 +68,7 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
         public void onChanged(ChangeMusic changeMusic) {
             // 切歌时，音乐的标题、作者、封面 状态的改变
             PlayerToolFloatUtils.get().loadPic(changeMusic.getImg());
+            PlayerToolFloatUtils.get().upData(changeMusic);
         }
     };
 
@@ -75,6 +76,7 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
         @Override
         public void onChanged(PlayingMusic playingMusic) {
             // 播放进度 状态的改变
+            PlayerToolFloatUtils.get().upDataProgress(playingMusic);
         }
     };
 
@@ -83,7 +85,7 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
         public void onChanged(Boolean aBoolean) {
             // 播放按钮 状态的改变(aBoolean 标识 当前是否是暂停状态)
             PlayerToolFloatUtils.get().startAnimation(!aBoolean);
-
+            PlayerToolFloatUtils.get().upPlayStatus(!aBoolean);
         }
     };
     private Observer<Boolean> clear = new Observer<Boolean>() {
@@ -127,7 +129,8 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
             LiveData<Boolean> liveData = PlayerManager.getInstance().getClearPlayListLiveData();
             Boolean value = liveData.getValue();
             if (value != null && !value) {
-                PlayerToolFloatUtils.get().attach(activity);
+                PlayerToolShowHelper playerToolShowHelper = (PlayerToolShowHelper) activity;
+                PlayerToolFloatUtils.get().attach(activity,playerToolShowHelper.getBottomView());
             }
         }
     }
@@ -140,7 +143,8 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
     @Override
     public void onActivityStopped(Activity activity) {
         if (activity instanceof PlayerToolShowHelper) {
-            PlayerToolFloatUtils.get().detach(activity);
+            PlayerToolShowHelper playerToolShowHelper = (PlayerToolShowHelper) activity;
+            PlayerToolFloatUtils.get().detach(activity,playerToolShowHelper.getBottomView());
         }
     }
 

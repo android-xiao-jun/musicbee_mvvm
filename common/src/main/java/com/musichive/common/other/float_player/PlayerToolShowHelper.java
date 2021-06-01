@@ -1,12 +1,6 @@
 package com.musichive.common.other.float_player;
 
-import android.app.Activity;
-import android.content.Context;
-import android.view.View;
-
-import androidx.annotation.IdRes;
-
-import com.musichive.common.R;
+import android.view.ViewGroup;
 
 /**
  * @Author Jun
@@ -15,5 +9,9 @@ import com.musichive.common.R;
  */
 public interface PlayerToolShowHelper {
 
+
+    default ViewGroup getBottomView() {
+        return null;
+    }
 
 }

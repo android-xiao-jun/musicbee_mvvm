@@ -1,6 +1,8 @@
 package com.musichive.common.ui.home.activity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
@@ -62,5 +64,15 @@ public class HomeActivity extends BaseStatusBarActivity implements PlayerToolSho
         if (AppConfig.URLPREFIX == null) {
             HomeDataRepository.getInstance().obtainImageUrlPrefix();
         }
+    }
+
+    private ViewGroup bottom;
+
+    @Override
+    public ViewGroup getBottomView() {
+        if (bottom==null){
+            bottom = findViewById(R.id.container_player);
+        }
+        return bottom;
     }
 }
