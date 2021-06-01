@@ -36,6 +36,7 @@ public class PlayerDataTransformUtils {
         }
         PlayerDataTransformUtils.transformHomeMusic(musicStateMusic, position);
         List<MusicEntity> musicEntities = PlayerDataTransformUtils.transformHomeMusicToEntity(musicStateMusic);
+        MusicDatabase.getInstance(BaseApplication.mInstance).musicDao().deleteMusicAll();
         MusicDatabase.getInstance(BaseApplication.mInstance).musicDao().insertMusics(musicEntities);
     }
 

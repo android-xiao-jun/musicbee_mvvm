@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="PlayerToolHelperView">
+        <!--    （没播放的时候）距离右边的边距    -->
+        <attr name="viewRight" format="dimension" />
+    </declare-styleable>
+
     <declare-styleable name="CircleImageView">
         <attr name="fotor_CI_border_width" format="dimension" />
         <attr name="fotor_CI_border_color" format="color" />

@@ -9,7 +9,7 @@ import com.musichive.common.BR;
 import com.musichive.common.R;
 import com.musichive.common.app.BaseStatusBarActivity;
 import com.musichive.common.config.AppConfig;
-import com.musichive.common.other.float_player.PlayerToolShowHelp;
+import com.musichive.common.other.float_player.PlayerToolShowHelper;
 import com.musichive.common.ui.home.adapter.HomeFragmentPageAdapter;
 import com.musichive.common.ui.home.fragment.HomeFragment;
 import com.musichive.common.ui.home.fragment.MarketFragment;
@@ -27,7 +27,7 @@ import java.util.List;
  * Date 2021 年 05月 27 日 16:02
  * Description 音乐蜜蜂-mvvm版本
  */
-public class HomeActivity extends BaseStatusBarActivity implements PlayerToolShowHelp {
+public class HomeActivity extends BaseStatusBarActivity implements PlayerToolShowHelper {
 
     private HomeViewModel homeViewModel;
     private HomeFragmentPageAdapter homeFragmentPageAdapter;

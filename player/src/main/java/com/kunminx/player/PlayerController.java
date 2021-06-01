@@ -69,6 +69,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
         if (extraFormatList != null) {
             MediaPlayerHelper.getInstance().getFormatList().addAll(extraFormatList);
         }
+        clearPlayListLiveData.postValue(true);
     }
 
     public boolean isInit() {

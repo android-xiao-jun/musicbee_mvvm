@@ -36,7 +36,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_height="44dp">
 
             <ImageView
                 android:id="@+id/iv_home_top_logo"
@@ -49,16 +50,19 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <ImageView
-                android:id="@+id/iv_search_home"
-                android:layout_width="29dp"
-                android:layout_height="29dp"
-                android:padding="5dp"
-                android:src="@drawable/icon_search_home_top_w"
+            <com.musichive.common.other.float_player.PlayerToolHelperView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <include layout="@layout/view_layout_float" />
+                <ImageView
+                    android:id="@+id/iv_search_home"
+                    android:layout_width="29dp"
+                    android:layout_height="29dp"
+                    android:padding="5dp"
+                    android:src="@drawable/icon_search_home_top_w" />
+            </com.musichive.common.other.float_player.PlayerToolHelperView>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.kunminx.player.bean.dto.ChangeMusic;
 import com.kunminx.player.bean.dto.PlayingMusic;
 import com.musichive.common.player.PlayerManager;
@@ -87,10 +89,13 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
     private Observer<Boolean> clear = new Observer<Boolean>() {
         @Override
         public void onChanged(Boolean aBoolean) {
-            if (aBoolean){
+            if (aBoolean) {
                 // 清空列表监听
                 PlayerToolFloatUtils.get().startAnimation(false);
                 PlayerToolFloatUtils.get().loadPic("");
+                onActivityStopped(ActivityUtils.getTopActivity());
+            } else {
+                onActivityResumed(ActivityUtils.getTopActivity());
             }
         }
     };
@@ -102,10 +107,7 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
         }
     };
 
-    private View.OnClickListener listener;
-
     public void setOnClickListener(View.OnClickListener listener) {
-        this.listener = listener;
         PlayerToolFloatUtils.get().setOnClickListener(listener);
     }
 
@@ -121,8 +123,12 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
 
     @Override
     public void onActivityResumed(Activity activity) {
-        if (activity instanceof PlayerToolShowHelp) {
-            PlayerToolFloatUtils.get().attach(activity);
+        if (activity instanceof PlayerToolShowHelper) {
+            LiveData<Boolean> liveData = PlayerManager.getInstance().getClearPlayListLiveData();
+            Boolean value = liveData.getValue();
+            if (value != null && !value) {
+                PlayerToolFloatUtils.get().attach(activity);
+            }
         }
     }
 
@@ -133,7 +139,7 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
 
     @Override
     public void onActivityStopped(Activity activity) {
-        if (activity instanceof PlayerToolShowHelp) {
+        if (activity instanceof PlayerToolShowHelper) {
             PlayerToolFloatUtils.get().detach(activity);
         }
     }
