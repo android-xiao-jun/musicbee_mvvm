@@ -56,6 +56,9 @@ public class AppConfig {
 
     public static final int REQUEST_LIMIT = 12;
 
+    /**
+     * 悬浮相关参数
+     */
     public static final int FLOAT_VIEW_TYPE_1 = 0;
     public static final int FLOAT_VIEW_TYPE_2 = 1;
     public static final int FLOAT_VIEW_TYPE_0 = -1;

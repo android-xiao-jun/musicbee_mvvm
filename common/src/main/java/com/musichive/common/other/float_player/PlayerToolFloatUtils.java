@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * @Author Jun
  * Date 2021年6月1日09:26:56
- * Description 悬浮播放（右上角小圆圈）
+ * Description 悬浮播放（右上角小圆圈，，布局侵入挺严重的）
  */
 public class PlayerToolFloatUtils {
     private static volatile PlayerToolFloatUtils mInstance;
@@ -68,18 +68,18 @@ public class PlayerToolFloatUtils {
 
             if (AppConfig.FLOAT_VIEW_TYPE == AppConfig.FLOAT_VIEW_TYPE_2) {
                 PlayerToolTwoView playerToolView = new PlayerToolTwoView(BaseApplication.mInstance);
-                playerToolView.setLayoutParams(getParams(playerToolView,2));
+                playerToolView.setLayoutParams(getParams(playerToolView, 2));
                 playerToolViews.add(playerToolView);
             } else if (AppConfig.FLOAT_VIEW_TYPE == AppConfig.FLOAT_VIEW_TYPE_0) {
                 PlayerToolTwoView playerToolView2 = new PlayerToolTwoView(BaseApplication.mInstance);
                 PlayerToolView playerToolView1 = new PlayerToolView(BaseApplication.mInstance);
-                playerToolView2.setLayoutParams(getParams(playerToolView2,2));
-                playerToolView1.setLayoutParams(getParams(playerToolView1,1));
+                playerToolView2.setLayoutParams(getParams(playerToolView2, 2));
+                playerToolView1.setLayoutParams(getParams(playerToolView1, 1));
                 playerToolViews.add(playerToolView2);
                 playerToolViews.add(playerToolView1);
             } else {
                 PlayerToolView playerToolView = new PlayerToolView(BaseApplication.mInstance);
-                playerToolView.setLayoutParams(getParams(playerToolView,1));
+                playerToolView.setLayoutParams(getParams(playerToolView, 1));
                 playerToolViews.add(playerToolView);
             }
             for (PlayerToolViewDataListener playerToolView : playerToolViews) {
@@ -102,20 +102,27 @@ public class PlayerToolFloatUtils {
         return mContainer.get();
     }
 
-    private FrameLayout.LayoutParams getParams(ViewGroup viewGroup,int type) {
+    /**
+     * @param viewGroup 需要添加进的 viewGroup
+     * @param type      1 顶部样式 2 底部样式
+     * @return
+     */
+    private ViewGroup.LayoutParams getParams(ViewGroup viewGroup, int type) {
         if (type == 1) {
             int actionBarHeight = BarUtils.getActionBarHeight();
             int statusBarHeight = BarUtils.getStatusBarHeight();
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, actionBarHeight);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, actionBarHeight);
             params.gravity = Gravity.END;
             params.setMargins(0, statusBarHeight, 0, statusBarHeight);
             return params;
         } else if (type == 2) {
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) viewGroup.getLayoutParams();
-            params.gravity = Gravity.BOTTOM;
-            return params;
+            ViewGroup.LayoutParams layoutParams = viewGroup.getLayoutParams();
+            if (layoutParams == null) {
+                layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+            return layoutParams;
         } else {
-            return null;
+            return new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
 
     }
@@ -147,9 +154,9 @@ public class PlayerToolFloatUtils {
         }
         mContainer = new WeakReference<>(container);
         if (playerToolView instanceof PlayerToolTwoView) {
-            playerToolView.setLayoutParams(getParams(playerToolView,2));
+            playerToolView.setLayoutParams(getParams(playerToolView, 2));
         } else {
-            playerToolView.setLayoutParams(getParams(playerToolView,1));
+            playerToolView.setLayoutParams(getParams(playerToolView, 1));
         }
         addViewToWindow(playerToolView);
     }
