@@ -130,7 +130,10 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
             pauseAudio();
         } else {
             //涉及到网络请求，因而使用时 请在外部自行判断网络连接状态
-            if ((url.contains("http:") || url.contains("ftp:") || url.contains("https:"))) {
+            if (url.lastIndexOf(".m3u8") != -1) {
+                MediaPlayerHelper.getInstance().play(url);
+                afterPlay();
+            } else if ((url.contains("http:") || url.contains("ftp:") || url.contains("https:"))) {
                 MediaPlayerHelper.getInstance().play(proxy.getProxyUrl(url));
                 afterPlay();
             } else if (url.contains("storage")) {
@@ -147,7 +150,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
         setChangingPlayingMusic(false);
         bindProgressListener();
         mIsPaused = false;
-        pauseLiveData.setValue(false);
+        pauseLiveData.postValue(false);
         if (mIServiceNotifier != null) {
             mIServiceNotifier.notifyService(true);
         }
@@ -163,7 +166,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
                         mCurrentPlay.setAllTime(calculateTime(duration / 1000));
                         mCurrentPlay.setDuration(duration);
                         mCurrentPlay.setPlayerPosition(position);
-                        playingMusicLiveData.setValue(mCurrentPlay);
+                        playingMusicLiveData.postValue(mCurrentPlay);
                         if (mCurrentPlay.getAllTime().equals(mCurrentPlay.getNowTime())
                                 //容许两秒内的误差，有的内容它就是会差那么 1 秒
                                 || duration / 1000 - position / 1000 < 2) {
@@ -178,9 +181,9 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
     }
 
     public void requestLastPlayingInfo() {
-        playingMusicLiveData.setValue(mCurrentPlay);
-        changeMusicLiveData.setValue(mChangeMusic);
-        pauseLiveData.setValue(mIsPaused);
+        playingMusicLiveData.postValue(mCurrentPlay);
+        changeMusicLiveData.postValue(mChangeMusic);
+        pauseLiveData.postValue(mIsPaused);
     }
 
     public void setSeek(int progress) {
@@ -231,7 +234,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
     public void pauseAudio() {
         MediaPlayerHelper.getInstance().getMediaPlayer().pause();
         mIsPaused = true;
-        pauseLiveData.setValue(true);
+        pauseLiveData.postValue(true);
         if (mIServiceNotifier != null) {
             mIServiceNotifier.notifyService(true);
         }
@@ -241,7 +244,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
     public void resumeAudio() {
         MediaPlayerHelper.getInstance().getMediaPlayer().start();
         mIsPaused = false;
-        pauseLiveData.setValue(false);
+        pauseLiveData.postValue(false);
         if (mIServiceNotifier != null) {
             mIServiceNotifier.notifyService(true);
         }
@@ -251,7 +254,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
     public void clear() {
         MediaPlayerHelper.getInstance().getMediaPlayer().stop();
         MediaPlayerHelper.getInstance().getMediaPlayer().reset();
-        pauseLiveData.setValue(true);
+        pauseLiveData.postValue(true);
         //这里设为true是因为可能通知栏清除后，还可能在页面中点击播放
         resetIsChangingPlayingChapter();
         MediaPlayerHelper.getInstance().setProgressInterval(1000).setMediaPlayerHelperCallBack(null);
@@ -266,7 +269,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
     }
 
     public void changeMode() {
-        playModeLiveData.setValue(mPlayingInfoManager.changeMode());
+        playModeLiveData.postValue(mPlayingInfoManager.changeMode());
     }
 
     public B getAlbum() {
@@ -282,7 +285,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
         mIsChangingPlayingMusic = changingPlayingMusic;
         if (mIsChangingPlayingMusic) {
             mChangeMusic.setBaseInfo(mPlayingInfoManager.getMusicAlbum(), getCurrentPlayingMusic());
-            changeMusicLiveData.setValue(mChangeMusic);
+            changeMusicLiveData.postValue(mChangeMusic);
             mCurrentPlay.setBaseInfo(mPlayingInfoManager.getMusicAlbum(), getCurrentPlayingMusic());
         }
     }

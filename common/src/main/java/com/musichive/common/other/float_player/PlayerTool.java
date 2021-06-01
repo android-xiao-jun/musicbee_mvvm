@@ -3,23 +3,25 @@ package com.musichive.common.other.float_player;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
-import android.view.Choreographer;
+import android.view.View;
 
-import com.musichive.common.utils.HandlerUtils;
+import androidx.lifecycle.Observer;
+
+import com.kunminx.player.bean.dto.ChangeMusic;
+import com.kunminx.player.bean.dto.PlayingMusic;
+import com.musichive.common.player.PlayerManager;
 
 
 /**
  * @Author Jun
  * Date 2021年5月31日15:34:11
- * Description 检测fps工具（TODO 进度更新和监听页面数据更新）
+ * Description 旋转播放view 顶部
  */
 public final class PlayerTool implements Application.ActivityLifecycleCallbacks {
     private static final String TAG = "FPSTool";
     public static PlayerTool mInstance;
 
-    private FrameRunnable frameRunnable = new FrameRunnable();
     private Application application;
 
     public static PlayerTool getInstance() {
@@ -39,17 +41,56 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
         Log.e(TAG, "start");
         PlayerToolFloatUtils.get().add();
         PlayerToolFloatUtils.get().initFpsLayout();
-        HandlerUtils.getInstance().getWorkHander().post(frameRunnable);
-        Choreographer.getInstance().postFrameCallback(frameRunnable);
+        PlayerManager.getInstance().getChangeMusicLiveData().observeForever(changeMusic);
+        PlayerManager.getInstance().getPlayingMusicLiveData().observeForever(playingMusic);
+        PlayerManager.getInstance().getPauseLiveData().observeForever(aBoolean);
+        PlayerManager.getInstance().getPlayModeLiveData().observeForever(anEnum);
     }
 
     public void stop() {
         Log.e(TAG, "stop");
         PlayerToolFloatUtils.get().remove();
-        HandlerUtils.getInstance().getWorkHander().removeCallbacks(frameRunnable);
+        PlayerManager.getInstance().getChangeMusicLiveData().removeObserver(changeMusic);
+        PlayerManager.getInstance().getPlayingMusicLiveData().removeObserver(playingMusic);
+        PlayerManager.getInstance().getPauseLiveData().removeObserver(aBoolean);
+        PlayerManager.getInstance().getPlayModeLiveData().removeObserver(anEnum);
         application.unregisterActivityLifecycleCallbacks(null);
-        Choreographer.getInstance().postFrameCallback(null);
         application = null;
+    }
+
+    private Observer<ChangeMusic> changeMusic = new Observer<ChangeMusic>() {
+        @Override
+        public void onChanged(ChangeMusic changeMusic) {
+            // 切歌时，音乐的标题、作者、封面 状态的改变
+            PlayerToolFloatUtils.get().loadPic(changeMusic.getImg());
+        }
+    };
+
+    private Observer<PlayingMusic> playingMusic = new Observer<PlayingMusic>() {
+        @Override
+        public void onChanged(PlayingMusic playingMusic) {
+            // 播放进度 状态的改变
+        }
+    };
+
+    private Observer<Boolean> aBoolean = new Observer<Boolean>() {
+        @Override
+        public void onChanged(Boolean aBoolean) {
+            // 播放按钮 状态的改变(aBoolean 标识 当前是否是暂停状态)
+            PlayerToolFloatUtils.get().startAnimation(!aBoolean);
+
+        }
+    };
+
+    private Observer<Enum> anEnum = new Observer<Enum>() {
+        @Override
+        public void onChanged(Enum anEnum) {
+            // 播放模式 状态的改变
+        }
+    };
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        PlayerToolFloatUtils.get().setOnClickListener(listener);
     }
 
     @Override
@@ -64,7 +105,9 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
 
     @Override
     public void onActivityResumed(Activity activity) {
-        PlayerToolFloatUtils.get().attach(activity);
+        if (activity instanceof PlayerToolShowHelp) {
+            PlayerToolFloatUtils.get().attach(activity);
+        }
     }
 
     @Override
@@ -74,7 +117,9 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
 
     @Override
     public void onActivityStopped(Activity activity) {
-        PlayerToolFloatUtils.get().detach(activity);
+        if (activity instanceof PlayerToolShowHelp) {
+            PlayerToolFloatUtils.get().detach(activity);
+        }
     }
 
     @Override
@@ -85,40 +130,6 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
     @Override
     public void onActivityDestroyed(Activity activity) {
 
-    }
-
-    private class FrameRunnable implements Runnable, Choreographer.FrameCallback {
-
-        long time = 0;
-        int count = 0;
-
-        @Override
-        public void doFrame(long frameTimeNanos) {
-            count++;
-            Choreographer.getInstance().postFrameCallback(this);
-        }
-
-        @Override
-        public void run() {
-            long curTime = SystemClock.elapsedRealtime();
-            if (time == 0) {
-                // 第一次开始监控，跳过
-            } else {
-                int fps = (int) (1000.f * count / (curTime - time) + 0.5f);
-                HandlerUtils.getInstance().getMainHander().post(() -> {
-                    PlayerToolFloatUtils.get().loadPic();
-                });
-                String fpsStr = String.format("APP FPS is: %-3sHz", fps);
-//                if (fps <= 50) {
-//                    Log.e(TAG, fpsStr);
-//                } else {
-//                    Log.w(TAG, fpsStr);
-//                }
-            }
-            count = 0;
-            time = curTime;
-            HandlerUtils.getInstance().getWorkHander().postDelayed(this, 1000);//1秒 检测一次
-        }
     }
 
 }

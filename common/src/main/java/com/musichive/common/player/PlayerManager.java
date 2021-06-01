@@ -29,7 +29,6 @@ import com.kunminx.player.contract.IServiceNotifier;
 import com.musichive.common.bean.music.TestAlbum;
 import com.musichive.common.player.notification.PlayerService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,13 +58,7 @@ public class PlayerManager implements IPlayController<TestAlbum, TestAlbum.TestM
     public void init(Context context, IServiceNotifier iServiceNotifier) {
         mContext = context.getApplicationContext();
 
-        //添加额外的音乐格式
-        List<String> extraFormats = new ArrayList<>();
-        extraFormats.add(".flac");
-        extraFormats.add(".ape");
-        extraFormats.add(".m3u8");
-
-        mController.init(mContext, extraFormats, startOrStop -> {
+        mController.init(mContext, null, startOrStop -> {
             Intent intent = new Intent(mContext, PlayerService.class);
             if (startOrStop) {
                 mContext.startService(intent);

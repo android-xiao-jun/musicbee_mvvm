@@ -25,11 +25,11 @@ import java.util.List;
  */
 public class BaseAlbumItem<M extends BaseMusicItem, A extends BaseArtistItem> {
 
-    private String albumId;
-    private String title;
-    private String summary;
+    private String albumId;//专辑id
+    private String title;//专辑标题
+    private String summary;//专辑描述
     private A artist;
-    private String coverImg;
+    private String coverImg;//专辑封面
     private List<M> musics;
 
     public BaseAlbumItem() {

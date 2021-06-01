@@ -23,7 +23,7 @@ package com.kunminx.player.bean.base;
  */
 public class BaseArtistItem {
 
-    private String name;
+    private String name;//作者名称
 
     public String getName() {
         return name;

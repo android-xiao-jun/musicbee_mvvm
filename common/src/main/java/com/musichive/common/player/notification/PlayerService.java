@@ -102,8 +102,9 @@ public class PlayerService extends Service {
     private void createNotification(TestAlbum.TestMusic testMusic) {
         try {
             String title = testMusic.getTitle();
-            TestAlbum album = PlayerManager.getInstance().getAlbum();
-            String summary = album.getSummary();
+
+//            TestAlbum album = PlayerManager.getInstance().getAlbum();
+            String summary = testMusic.getArtist().getName();
 
             RemoteViews simpleContentView = new RemoteViews(
                     getApplicationContext().getPackageName(), R.layout.notify_player_small);

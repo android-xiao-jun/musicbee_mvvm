@@ -23,10 +23,10 @@ package com.kunminx.player.bean.base;
  */
 public class BaseMusicItem<A extends BaseArtistItem> {
 
-    private String musicId;
-    private String coverImg;
-    private String url;
-    private String title;
+    private String musicId;//音乐id（goodsId 或者 permlink 或者 nftid）
+    private String coverImg;//封面图
+    private String url;// 可以直接播放的链接
+    private String title;//demo 歌曲 名称
     private A artist;
 
     public BaseMusicItem() {

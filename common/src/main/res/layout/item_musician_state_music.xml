@@ -46,15 +46,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/shape_fafafa_6">
+                android:background="@drawable/shape_fafafa_6"
+                android:onClick="@{()->clickProxy.homeDynamicClickMusic(data.item)}">
 
                 <com.musichive.common.weight.RoundCornerImageView
                     android:id="@+id/music_iv_icon"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:src="@drawable/default_pic"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:loadPic="@{data.item.getCoverLink()}"
                     app:round_radius="6dp" />
 
@@ -80,7 +81,8 @@
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/music_iv_icon"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="1111111111" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include

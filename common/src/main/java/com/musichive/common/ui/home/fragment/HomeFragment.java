@@ -13,8 +13,10 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.musichive.common.BR;
 import com.musichive.common.R;
+import com.musichive.common.aop.SingleClick;
 import com.musichive.common.app.BaseStatusBarFragment;
 import com.musichive.common.bean.home.HomeBannerModel;
+import com.musichive.common.bean.home.HomeDynamicInfo;
 import com.musichive.common.bean.home.HomeEmptyBean;
 import com.musichive.common.bean.home.HomeServiceBean;
 import com.musichive.common.bean.home.MusicStateMusic;
@@ -26,8 +28,11 @@ import com.musichive.common.databinding.ItemMusicianStateMusicBinding;
 import com.musichive.common.databinding.ItemMusicianStatePictextBinding;
 import com.musichive.common.multi_adapter.BaseItemAdapter;
 import com.musichive.common.multi_adapter.DataBindViewHolderManager;
+import com.musichive.common.player.PlayerManager;
+import com.musichive.common.player.helper.PlayerDataTransformUtils;
 import com.musichive.common.ui.home.repository.HomeDataRepository;
 import com.musichive.common.ui.home.weight.HomeTopView;
+import com.musichive.common.utils.HandlerUtils;
 import com.musichive.common.utils.ToastUtils;
 import com.musichive.common.ui.home.viewmodel.HomeFragmentViewModel;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -144,6 +149,13 @@ public class HomeFragment extends BaseStatusBarFragment {
         //活动点击
         public void homeActivityClick() {
             ToastUtils.showShort("活动点击");
+        }
+
+        @SingleClick
+        public void homeDynamicClickMusic(HomeDynamicInfo.ListBean musicStateMusic) {
+            HandlerUtils.getInstance().postWork(() -> {
+                PlayerDataTransformUtils.transformHomeMusic(musicStateMusic);
+            });
         }
     }
 

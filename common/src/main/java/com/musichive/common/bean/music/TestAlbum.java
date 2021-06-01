@@ -20,12 +20,22 @@ import com.kunminx.player.bean.base.BaseAlbumItem;
 import com.kunminx.player.bean.base.BaseArtistItem;
 import com.kunminx.player.bean.base.BaseMusicItem;
 
+import java.util.List;
+
 /**
  * Create by KunMinX at 19/10/31
  */
 public class TestAlbum extends BaseAlbumItem<TestAlbum.TestMusic, TestAlbum.TestArtist> {
 
-    private String albumMid;
+    private String albumMid;//专辑
+
+    public TestAlbum() {
+
+    }
+
+    public TestAlbum(String goodsId, String demoName, String s, TestArtist testArtist, String coverLink, List<TestMusic> musics) {
+        super(goodsId, demoName, s, testArtist, coverLink, musics);
+    }
 
     public String getAlbumMid() {
         return albumMid;
@@ -35,30 +45,25 @@ public class TestAlbum extends BaseAlbumItem<TestAlbum.TestMusic, TestAlbum.Test
         this.albumMid = albumMid;
     }
 
+    /**
+     * 每条播放数据
+     */
     public static class TestMusic extends BaseMusicItem<TestArtist> {
 
-        private String songMid;
 
-        public String getSongMid() {
-            return songMid;
+        public TestMusic() {
+
         }
 
-        public void setSongMid(String songMid) {
-            this.songMid = songMid;
+        public TestMusic(String musicId, String coverImg, String url, String title, TestArtist artist) {
+            super(musicId, coverImg, url, title, artist);
         }
+
     }
 
     public static class TestArtist extends BaseArtistItem {
+        //扩展--比如歌词，附加信息，标签 什么的
 
-        private String birthday;
-
-        public String getBirthday() {
-            return birthday;
-        }
-
-        public void setBirthday(String birthday) {
-            this.birthday = birthday;
-        }
     }
 }
 

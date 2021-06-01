@@ -9,18 +9,19 @@ import android.widget.RelativeLayout;
 
 import androidx.core.view.ViewCompat;
 
+import com.blankj.utilcode.util.BarUtils;
 import com.musichive.common.app.BaseApplication;
 
 import java.lang.ref.WeakReference;
 
 /**
  * @Author Jun
- * Date 2021 年 02月 07 日 14:53
- * Description 检测fps悬浮工具类
+ * Date 2021年6月1日09:26:56
+ * Description 悬浮播放（右上角小圆圈）
  */
 public class PlayerToolFloatUtils {
     private static volatile PlayerToolFloatUtils mInstance;
-    private PlayerToolView fpsToolView;
+    private PlayerToolView playerToolView;
     private WeakReference<FrameLayout> mContainer;
 
     private PlayerToolFloatUtils() {
@@ -42,23 +43,23 @@ public class PlayerToolFloatUtils {
     }
 
     public void remove() {
-        if (fpsToolView == null) {
+        if (playerToolView == null) {
             return;
         }
-        if (ViewCompat.isAttachedToWindow(fpsToolView) && getContainer() != null) {
-            getContainer().removeView(fpsToolView);
+        if (ViewCompat.isAttachedToWindow(playerToolView) && getContainer() != null) {
+            getContainer().removeView(playerToolView);
         }
-        fpsToolView = null;
+        playerToolView = null;
     }
 
     private void ensureFloatingView() {
         synchronized (this) {
-            if (fpsToolView != null) {
+            if (playerToolView != null) {
                 return;
             }
-            fpsToolView = new PlayerToolView(BaseApplication.mInstance);
-            fpsToolView.setLayoutParams(getParams());
-            addViewToWindow(fpsToolView);
+            playerToolView = new PlayerToolView(BaseApplication.mInstance);
+            playerToolView.setLayoutParams(getParams());
+            addViewToWindow(playerToolView);
         }
     }
 
@@ -77,11 +78,11 @@ public class PlayerToolFloatUtils {
     }
 
     private FrameLayout.LayoutParams getParams() {
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.CENTER | Gravity.START;
-        params.setMargins(40, params.topMargin, 40, params.bottomMargin);
+        int actionBarHeight = BarUtils.getActionBarHeight();
+        int statusBarHeight = BarUtils.getStatusBarHeight();
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, actionBarHeight);
+        params.gravity = Gravity.END;
+        params.setMargins(0, statusBarHeight, 0, statusBarHeight);
         return params;
     }
 
@@ -90,18 +91,19 @@ public class PlayerToolFloatUtils {
     }
 
     public void attach(FrameLayout container) {
-        if (container == null || fpsToolView == null) {
+        if (container == null || playerToolView == null) {
             mContainer = new WeakReference<>(container);
             return;
         }
-        if (fpsToolView.getParent() == container) {
+        if (playerToolView.getParent() == container) {
             return;
         }
-        if (fpsToolView.getParent() != null) {
-            ((ViewGroup) fpsToolView.getParent()).removeView(fpsToolView);
+        if (playerToolView.getParent() != null) {
+            ((ViewGroup) playerToolView.getParent()).removeView(playerToolView);
         }
         mContainer = new WeakReference<>(container);
-        container.addView(fpsToolView);
+        playerToolView.setLayoutParams(getParams());
+        addViewToWindow(playerToolView);
     }
 
     public void detach(Activity activity) {
@@ -109,8 +111,8 @@ public class PlayerToolFloatUtils {
     }
 
     public void detach(FrameLayout container) {
-        if (fpsToolView != null && container != null && ViewCompat.isAttachedToWindow(fpsToolView)) {
-            container.removeView(fpsToolView);
+        if (playerToolView != null && container != null && ViewCompat.isAttachedToWindow(playerToolView)) {
+            container.removeView(playerToolView);
         }
         if (getContainer() == container) {
             mContainer = null;
@@ -130,14 +132,26 @@ public class PlayerToolFloatUtils {
     }
 
     public void initFpsLayout() {
-        if (fpsToolView != null) {
-            fpsToolView.initFpsLayout();
+        if (playerToolView != null) {
+            playerToolView.initFpsLayout();
         }
     }
 
-    public void loadPic() {
-        if (fpsToolView != null) {
-            fpsToolView.loadPic();
+    public void loadPic(Object pic) {
+        if (playerToolView != null) {
+            playerToolView.loadPic(pic);
+        }
+    }
+
+    public void startAnimation(boolean b) {
+        if (playerToolView != null) {
+            playerToolView.rotateAnimation(b);
+        }
+    }
+
+    public void setOnClickListener(View.OnClickListener listener){
+        if (playerToolView != null) {
+            playerToolView.setFloatClick(listener);
         }
     }
 }

@@ -1,7 +1,10 @@
 package com.musichive.common.ui.player.activity;
 
 import com.kunminx.architecture.ui.page.DataBindingConfig;
+import com.musichive.common.BR;
+import com.musichive.common.R;
 import com.musichive.common.app.BaseStatusBarActivity;
+import com.musichive.common.ui.player.viewmodel.PlayerViewModel;
 
 /**
  * @Author Jun
@@ -10,13 +13,15 @@ import com.musichive.common.app.BaseStatusBarActivity;
  */
 public class PlayerActivity extends BaseStatusBarActivity {
 
+    private PlayerViewModel playerViewModel;
+
     @Override
     protected void initViewModel() {
-
+        playerViewModel = getActivityScopeViewModel(PlayerViewModel.class);
     }
 
     @Override
     protected DataBindingConfig getDataBindingConfig() {
-        return null;
+        return new DataBindingConfig(R.layout.common_activity_player, BR.viewModel, playerViewModel);
     }
 }
