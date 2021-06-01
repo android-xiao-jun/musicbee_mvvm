@@ -4,11 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.animation.LinearInterpolator;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,9 +12,9 @@ import androidx.annotation.Nullable;
 import com.kunminx.player.bean.dto.ChangeMusic;
 import com.musichive.base.glide.GlideUtils;
 import com.musichive.common.R;
+import com.musichive.common.databinding.ViewLayoutFloatBottomBinding;
 import com.musichive.common.player.PlayerManager;
 import com.musichive.common.utils.HandlerUtils;
-import com.musichive.common.weight.CircleImageView;
 
 /**
  * @Author Jun
@@ -27,11 +23,8 @@ import com.musichive.common.weight.CircleImageView;
  */
 public class PlayerToolTwoView extends PlayerToolViewDataListener {
 
-    private CircleImageView icon;
-    private TextView tv_name;
-    private ImageView iv_play;
+    private ViewLayoutFloatBottomBinding bottomBinding;
     private ValueAnimator rotateAnimation;
-    private View view_tempo_float;
 
     public PlayerToolTwoView(@NonNull Context context) {
         this(context, null);
@@ -43,21 +36,17 @@ public class PlayerToolTwoView extends PlayerToolViewDataListener {
 
     public PlayerToolTwoView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        LayoutInflater.from(context).inflate(R.layout.view_layout_float_bottom, this);
-        view_tempo_float = findViewById(R.id.view_tempo_float);
-        icon = findViewById(R.id.icon);
-        tv_name = findViewById(R.id.tv_name);
-        iv_play = findViewById(R.id.iv_play);
-        iv_play.setOnClickListener(v -> {
+        bottomBinding = ViewLayoutFloatBottomBinding.inflate(LayoutInflater.from(context), this, true);
+        bottomBinding.ivPlay.setOnClickListener(v -> {
             HandlerUtils.getInstance().postWork(() -> {
-                if ( PlayerManager.getInstance().isPlaying()){
+                if (PlayerManager.getInstance().isPlaying()) {
                     PlayerManager.getInstance().pauseAudio();
-                }else {
+                } else {
                     PlayerManager.getInstance().playAudio();
                 }
             });
         });
-        findViewById(R.id.iv_play_next).setOnClickListener(v -> {
+        bottomBinding.ivPlayNext.setOnClickListener(v -> {
             HandlerUtils.getInstance().postWork(() -> {
                 PlayerManager.getInstance().playNext();
             });
@@ -67,16 +56,16 @@ public class PlayerToolTwoView extends PlayerToolViewDataListener {
     @Override
     public void upData(ChangeMusic changeMusic) {
         super.upData(changeMusic);
-        tv_name.setText(changeMusic.getTitle());
+        bottomBinding.tvName.setText(changeMusic.getTitle());
     }
 
     @Override
     public void upPlayStatus(boolean isPlay) {
         super.upPlayStatus(isPlay);
         if (isPlay) {
-            iv_play.setImageResource(R.drawable.ic_action_pause);
+            bottomBinding.ivPlay.setImageResource(R.drawable.ic_action_pause);
         } else {
-            iv_play.setImageResource(R.drawable.ic_action_play);
+            bottomBinding.ivPlay.setImageResource(R.drawable.ic_action_play);
         }
     }
 
@@ -87,7 +76,7 @@ public class PlayerToolTwoView extends PlayerToolViewDataListener {
 
     @Override
     public void setFloatClick(OnClickListener listener) {
-        view_tempo_float.setOnClickListener(listener);
+        bottomBinding.viewTempoFloat.setOnClickListener(listener);
     }
 
     @Override
@@ -95,10 +84,10 @@ public class PlayerToolTwoView extends PlayerToolViewDataListener {
         if (getVisibility() != VISIBLE) {
             setVisibility(VISIBLE);
         }
-        if (icon != null && icon.getVisibility() != VISIBLE) {
-            icon.setVisibility(VISIBLE);
+        if (bottomBinding != null && bottomBinding.icon.getVisibility() != VISIBLE) {
+            bottomBinding.icon.setVisibility(VISIBLE);
         }
-        GlideUtils.loadPicToImageViewAsBitmap(getContext(), pic, icon);
+        GlideUtils.loadPicToImageViewAsBitmap(getContext(), pic, bottomBinding.icon);
     }
 
     @Override
@@ -112,8 +101,8 @@ public class PlayerToolTwoView extends PlayerToolViewDataListener {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     Float value = (Float) animation.getAnimatedValue();
-                    if (icon != null) {
-                        icon.setRotation(value);
+                    if (bottomBinding != null) {
+                        bottomBinding.icon.setRotation(value);
                     }
                 }
             });

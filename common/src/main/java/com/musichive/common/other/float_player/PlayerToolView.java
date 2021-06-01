@@ -11,8 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.musichive.base.glide.GlideUtils;
-import com.musichive.common.R;
-import com.musichive.common.weight.CircleImageView;
+import com.musichive.common.databinding.ViewLayoutFloatImpBinding;
 
 /**
  * @Author Jun
@@ -21,9 +20,8 @@ import com.musichive.common.weight.CircleImageView;
  */
 public class PlayerToolView extends PlayerToolViewDataListener {
 
-    private CircleImageView icon;
     private ValueAnimator rotateAnimation;
-    private View view_tempo_float;
+    private ViewLayoutFloatImpBinding impBinding;
 
     public PlayerToolView(@NonNull Context context) {
         this(context, null);
@@ -35,9 +33,7 @@ public class PlayerToolView extends PlayerToolViewDataListener {
 
     public PlayerToolView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        LayoutInflater.from(context).inflate(R.layout.view_layout_float_imp, this);
-        view_tempo_float = findViewById(R.id.view_tempo_float);
-        icon = findViewById(R.id.icon);
+        impBinding = ViewLayoutFloatImpBinding.inflate(LayoutInflater.from(context), this, true);
     }
 
     @Override
@@ -47,7 +43,7 @@ public class PlayerToolView extends PlayerToolViewDataListener {
 
     @Override
     public void setFloatClick(View.OnClickListener listener) {
-        view_tempo_float.setOnClickListener(listener);
+        impBinding.viewTempoFloat.setOnClickListener(listener);
     }
 
     @Override
@@ -55,10 +51,10 @@ public class PlayerToolView extends PlayerToolViewDataListener {
         if (getVisibility() != VISIBLE) {
             setVisibility(VISIBLE);
         }
-        if (icon != null && icon.getVisibility() != VISIBLE) {
-            icon.setVisibility(VISIBLE);
+        if (impBinding != null && impBinding.icon.getVisibility() != VISIBLE) {
+            impBinding.icon.setVisibility(VISIBLE);
         }
-        GlideUtils.loadPicToImageViewAsBitmap(getContext(), pic, icon);
+        GlideUtils.loadPicToImageViewAsBitmap(getContext(), pic, impBinding.icon);
     }
 
     @Override
@@ -72,8 +68,8 @@ public class PlayerToolView extends PlayerToolViewDataListener {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     Float value = (Float) animation.getAnimatedValue();
-                    if (icon != null) {
-                        icon.setRotation(value);
+                    if (impBinding != null) {
+                        impBinding.icon.setRotation(value);
                     }
                 }
             });

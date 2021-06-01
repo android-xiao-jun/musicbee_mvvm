@@ -18,7 +18,7 @@ import com.musichive.common.player.PlayerManager;
 /**
  * @Author Jun
  * Date 2021年5月31日15:25:14
- * Description 悬浮播放view
+ * Description 悬浮播放view 包装（子view需要和悬浮顶部view边距问题统一处理）
  */
 public class PlayerToolHelperView extends FrameLayout {
 
