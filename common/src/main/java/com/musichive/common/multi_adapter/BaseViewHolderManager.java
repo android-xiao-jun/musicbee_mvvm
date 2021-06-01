@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
  */
 public abstract class BaseViewHolderManager<T> extends ViewHolderManager<T, BaseViewHolder> {
     @Override
-    public abstract void onBindViewHolder(BaseViewHolder holder, T t);
+    public abstract void onBindViewHolder(BaseViewHolder holder, T t,int position);
 
     @NonNull
     @Override

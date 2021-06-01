@@ -31,4 +31,9 @@ public class SmartRefreshLayoutBindingAdapter {
     public static void closeRefresh(SmartRefreshLayout smartRefreshLayout, Boolean closeRefresh) {
         smartRefreshLayout.finishRefresh(closeRefresh);
     }
+
+    @BindingAdapter(value = {"setNoMoreData"}, requireAll = false)
+    public static void setNoMoreData(SmartRefreshLayout smartRefreshLayout, Boolean noMoreData) {
+        smartRefreshLayout.setNoMoreData(noMoreData);
+    }
 }

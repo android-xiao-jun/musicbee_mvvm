@@ -45,6 +45,7 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
         PlayerManager.getInstance().getPlayingMusicLiveData().observeForever(playingMusic);
         PlayerManager.getInstance().getPauseLiveData().observeForever(aBoolean);
         PlayerManager.getInstance().getPlayModeLiveData().observeForever(anEnum);
+        PlayerManager.getInstance().getClearPlayListLiveData().observeForever(clear);
     }
 
     public void stop() {
@@ -54,6 +55,8 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
         PlayerManager.getInstance().getPlayingMusicLiveData().removeObserver(playingMusic);
         PlayerManager.getInstance().getPauseLiveData().removeObserver(aBoolean);
         PlayerManager.getInstance().getPlayModeLiveData().removeObserver(anEnum);
+        PlayerManager.getInstance().getClearPlayListLiveData().removeObserver(clear);
+        setOnClickListener(null);
         application.unregisterActivityLifecycleCallbacks(null);
         application = null;
     }
@@ -81,6 +84,16 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
 
         }
     };
+    private Observer<Boolean> clear = new Observer<Boolean>() {
+        @Override
+        public void onChanged(Boolean aBoolean) {
+            if (aBoolean){
+                // 清空列表监听
+                PlayerToolFloatUtils.get().startAnimation(false);
+                PlayerToolFloatUtils.get().loadPic("");
+            }
+        }
+    };
 
     private Observer<Enum> anEnum = new Observer<Enum>() {
         @Override
@@ -89,7 +102,10 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
         }
     };
 
+    private View.OnClickListener listener;
+
     public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
         PlayerToolFloatUtils.get().setOnClickListener(listener);
     }
 

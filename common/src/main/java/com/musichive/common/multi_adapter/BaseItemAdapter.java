@@ -200,7 +200,7 @@ public class BaseItemAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         Object item = getItem(position);
         ViewHolderManager manager = holder.viewHolderManager;
-        manager.onBindViewHolder(holder, item);
+        manager.onBindViewHolder(holder, item,position);
         //赋值 方便以后使用
         holder.itemData = item;
     }

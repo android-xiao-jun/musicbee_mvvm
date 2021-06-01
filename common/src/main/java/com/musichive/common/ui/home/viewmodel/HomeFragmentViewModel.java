@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.kunminx.architecture.data.response.DataResult;
+import com.musichive.common.app.BaseViewModel;
 import com.musichive.common.bean.home.HomeBannerModel;
 import com.musichive.common.bean.home.HomeDynamicInfo;
 import com.musichive.common.bean.home.HomeEmptyBean;
@@ -25,7 +26,7 @@ import java.util.List;
  * Date 2021 年 05月 27 日 18:50
  * Description 音乐蜜蜂-mvvm版本
  */
-public class HomeFragmentViewModel extends ViewModel implements Observable {
+public class HomeFragmentViewModel extends BaseViewModel {
 
     public final ObservableBoolean initTop = new ObservableBoolean();
     public final ObservableBoolean resetY = new ObservableBoolean();
@@ -34,6 +35,8 @@ public class HomeFragmentViewModel extends ViewModel implements Observable {
     public final ObservableBoolean closeRefresh = new ObservableBoolean();
 
     public final ObservableBoolean closeLoad = new ObservableBoolean();
+
+    public final ObservableBoolean notMoreList = new ObservableBoolean();
 
     {
         initTop.set(true);
@@ -74,7 +77,7 @@ public class HomeFragmentViewModel extends ViewModel implements Observable {
         homeDataRepository.getHomePageDynamicInfo(page, pageSize, dataResult -> {
             List<Object> value1 = getHomeList();
             HomeDynamicInfo result = dataResult.getResult();
-            if (result != null && result.list != null) {
+            if (result != null && result.list != null&&!result.list.isEmpty()) {
                 for (HomeDynamicInfo.ListBean listBean : result.list) {
                     if (listBean.type == 3 || listBean.type == 5) {
                         value1.add(new MusicStateMusic(listBean));
@@ -82,7 +85,11 @@ public class HomeFragmentViewModel extends ViewModel implements Observable {
                         value1.add(new MusicStateText(listBean));
                     }
                 }
+                notMoreList.set(false);
+            }else {
+                notMoreList.set(true);
             }
+            notMoreList.notifyChange();
             if (value1.size() == 2) {
                 value1.add(new HomeEmptyBean());
             }
@@ -118,35 +125,5 @@ public class HomeFragmentViewModel extends ViewModel implements Observable {
         requestLoadMore(page, pageSize);
     }
 
-    private PropertyChangeRegistry callbacks = new PropertyChangeRegistry();
 
-    @Override
-    public void addOnPropertyChangedCallback(
-            Observable.OnPropertyChangedCallback callback) {
-        callbacks.add(callback);
-    }
-
-    @Override
-    public void removeOnPropertyChangedCallback(
-            Observable.OnPropertyChangedCallback callback) {
-        callbacks.remove(callback);
-    }
-
-    /**
-     * Notifies observers that all properties of this instance have changed.
-     */
-    public void notifyChange() {
-        callbacks.notifyCallbacks(this, 0, null);
-    }
-
-    /**
-     * Notifies observers that a specific property has changed. The getter for the
-     * property that changes should be marked with the @Bindable annotation to
-     * generate a field in the BR class to be used as the fieldId parameter.
-     *
-     * @param fieldId The generated BR id for the Bindable field.
-     */
-    public void notifyPropertyChanged(int fieldId) {
-        callbacks.notifyCallbacks(this, fieldId, null);
-    }
 }

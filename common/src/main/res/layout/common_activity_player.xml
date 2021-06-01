@@ -2,14 +2,43 @@
 <layout>
 
     <data>
+
+        <variable
+            name="clickProxy"
+            type="com.musichive.common.ui.player.activity.PlayerActivity.ClickProxy" />
+
         <variable
             name="viewModel"
             type="com.musichive.common.ui.player.viewmodel.PlayerViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->clickProxy.playPrevious()}"
+            android:text="上一曲" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->clickProxy.play()}"
+            android:text="@{viewModel.getPlayString()}" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->clickProxy.playNext()}"
+            android:text="下一曲" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->clickProxy.playClear()}"
+            android:text="清空播放列表" />
+    </LinearLayout>
 </layout>

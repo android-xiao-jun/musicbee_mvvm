@@ -21,7 +21,7 @@ public class DataBindViewHolderManager<T,D extends ViewDataBinding> extends Bind
      * @param bindVariableId 需要绑定一个VariableId时使用本构造函数
      */
     public DataBindViewHolderManager(@LayoutRes int itemLayoutId, int bindVariableId) {
-        this(itemLayoutId, (dataBinding, data) -> dataBinding.setVariable(bindVariableId, data));
+        this(itemLayoutId, (dataBinding, data,position) -> dataBinding.setVariable(bindVariableId, data));
     }
 
     /**
@@ -40,8 +40,8 @@ public class DataBindViewHolderManager<T,D extends ViewDataBinding> extends Bind
      * @param data        数据源
      */
     @Override
-    protected void onBindViewHolder(D dataBinding, T data) {
-        itemBindView.onBindViewHolder(dataBinding, data);
+    protected void onBindViewHolder(D dataBinding, T data,int position) {
+        itemBindView.onBindViewHolder(dataBinding, data,position);
     }
 
     @Override
@@ -54,6 +54,6 @@ public class DataBindViewHolderManager<T,D extends ViewDataBinding> extends Bind
      * item数据绑定回调接口，在回调方法中自定义绑定逻辑
      */
     public interface ItemBindView<T,D extends ViewDataBinding> {
-        void onBindViewHolder(D dataBinding, T data);
+        void onBindViewHolder(D dataBinding, T data,int position);
     }
 }

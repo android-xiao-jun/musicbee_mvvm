@@ -12,6 +12,14 @@ android {
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         consumerProguardFiles 'consumer-rules.pro'
         multiDexEnabled true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"]
+            }
+        }
     }
 
     compileOptions {
@@ -61,4 +69,10 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
 
     implementation 'io.github.youth5201314:banner:2.2.2'
+
+    def room_version = "2.3.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    // optional - RxJava2 support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
 }

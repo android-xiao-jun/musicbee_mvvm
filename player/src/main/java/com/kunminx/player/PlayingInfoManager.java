@@ -133,4 +133,12 @@ public class PlayingInfoManager<B extends BaseAlbumItem, M extends BaseMusicItem
         mAlbumIndex = albumIndex;
         mPlayIndex = getPlayingList().indexOf(mOriginPlayingList.get(mAlbumIndex));
     }
+
+    void clearList() {
+        mAlbumIndex = 0;
+        mPlayIndex = 0;
+        mShufflePlayingList.clear();
+        mOriginPlayingList.clear();
+        mMusicAlbum = null;
+    }
 }

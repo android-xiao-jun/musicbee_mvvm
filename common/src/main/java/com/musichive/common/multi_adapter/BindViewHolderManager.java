@@ -15,9 +15,9 @@ public abstract class BindViewHolderManager<T,D extends ViewDataBinding> extends
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, T data) {
+    public void onBindViewHolder(BaseViewHolder holder, T data,int position) {
         D dataBinding = DataBindingUtil.getBinding(holder.itemView);
-        onBindViewHolder(dataBinding, data);
+        onBindViewHolder(dataBinding, data,position);
         dataBinding.executePendingBindings();
     }
 
@@ -27,7 +27,7 @@ public abstract class BindViewHolderManager<T,D extends ViewDataBinding> extends
      * @param dataBinding item视图对应dataBinding类
      * @param data        数据源
      */
-    protected abstract void onBindViewHolder(D dataBinding, T data);
+    protected abstract void onBindViewHolder(D dataBinding, T data,int position);
 
     @Override
     protected abstract int getItemLayoutId();

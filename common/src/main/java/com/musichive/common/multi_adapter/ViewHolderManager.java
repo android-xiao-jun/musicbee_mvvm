@@ -34,7 +34,7 @@ public abstract class ViewHolderManager<T, V extends BaseViewHolder> {
      *
      * @param t 数据源
      */
-    public abstract void onBindViewHolder(V holder, T t);
+    public abstract void onBindViewHolder(V holder, T t,int position);
 
 
     public final int getPosition(@NonNull final RecyclerView.ViewHolder holder) {

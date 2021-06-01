@@ -48,6 +48,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
     private final MutableLiveData<PlayingMusic> playingMusicLiveData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> pauseLiveData = new MutableLiveData<>();
     private final MutableLiveData<Enum> playModeLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> clearPlayListLiveData = new MutableLiveData<>();
 
     private IServiceNotifier mIServiceNotifier;
 
@@ -81,6 +82,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
     private void setAlbum(B musicAlbum, int albumIndex) {
         mPlayingInfoManager.setMusicAlbum(musicAlbum);
         mPlayingInfoManager.setAlbumIndex(albumIndex);
+        clearPlayListLiveData.postValue(false);
         setChangingPlayingMusic(true);
     }
 
@@ -261,6 +263,10 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
         if (mIServiceNotifier != null) {
             mIServiceNotifier.notifyService(false);
         }
+        if (mPlayingInfoManager!=null){
+            mPlayingInfoManager.clearList();
+        }
+        clearPlayListLiveData.postValue(true);
     }
 
     public void resetIsChangingPlayingChapter() {
@@ -326,5 +332,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
         return mPlayingInfoManager.getCurrentPlayingMusic();
     }
 
-
+    public MutableLiveData<Boolean> getClearPlayListLiveData() {
+        return clearPlayListLiveData;
+    }
 }

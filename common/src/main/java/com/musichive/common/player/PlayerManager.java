@@ -185,6 +185,10 @@ public class PlayerManager implements IPlayController<TestAlbum, TestAlbum.TestM
         return mController.getPauseLiveData();
     }
 
+    public LiveData<Boolean> getClearPlayListLiveData() {
+        return mController.getClearPlayListLiveData();
+    }
+
     @Override
     public LiveData<Enum> getPlayModeLiveData() {
         return mController.getPlayModeLiveData();

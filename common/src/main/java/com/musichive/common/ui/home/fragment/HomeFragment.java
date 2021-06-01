@@ -28,7 +28,6 @@ import com.musichive.common.databinding.ItemMusicianStateMusicBinding;
 import com.musichive.common.databinding.ItemMusicianStatePictextBinding;
 import com.musichive.common.multi_adapter.BaseItemAdapter;
 import com.musichive.common.multi_adapter.DataBindViewHolderManager;
-import com.musichive.common.player.PlayerManager;
 import com.musichive.common.player.helper.PlayerDataTransformUtils;
 import com.musichive.common.ui.home.repository.HomeDataRepository;
 import com.musichive.common.ui.home.weight.HomeTopView;
@@ -60,7 +59,7 @@ public class HomeFragment extends BaseStatusBarFragment {
 
     @Override
     protected DataBindingConfig getDataBindingConfig() {
-        homeAdapter = new BaseItemAdapter(){
+        homeAdapter = new BaseItemAdapter() {
             @Override
             public int getPageDefault() {
                 return 0;
@@ -68,27 +67,27 @@ public class HomeFragment extends BaseStatusBarFragment {
         };
         topStatusListener = new TopStatusListener(this);
         homeAdapter.register(HomeBannerModel.class, new DataBindViewHolderManager<>(R.layout.common_item_home_banner,
-                (DataBindViewHolderManager.ItemBindView<HomeBannerModel, CommonItemHomeBannerBinding>) (dataBinding, data) -> {
+                (DataBindViewHolderManager.ItemBindView<HomeBannerModel, CommonItemHomeBannerBinding>) (dataBinding, data, position) -> {
                     dataBinding.setBannerData(data);
                     dataBinding.setClickProxy(new ClickProxy());
                     dataBinding.setOwner(getViewLifecycleOwner());
                 }));
         homeAdapter.register(HomeServiceBean.class, new DataBindViewHolderManager<>(R.layout.home_item_layout_type_service,
-                (DataBindViewHolderManager.ItemBindView<HomeServiceBean, HomeItemLayoutTypeServiceBinding>) (dataBinding, data) -> {
+                (DataBindViewHolderManager.ItemBindView<HomeServiceBean, HomeItemLayoutTypeServiceBinding>) (dataBinding, data, position) -> {
                     dataBinding.setClickProxy(new ClickProxy());
                 }));
         homeAdapter.register(MusicStateText.class, new DataBindViewHolderManager<>(R.layout.item_musician_state_pictext,
-                (DataBindViewHolderManager.ItemBindView<MusicStateText, ItemMusicianStatePictextBinding>) (dataBinding, data) -> {
+                (DataBindViewHolderManager.ItemBindView<MusicStateText, ItemMusicianStatePictextBinding>) (dataBinding, data, position) -> {
                     dataBinding.setData(data);
                     dataBinding.setClickProxy(new ClickProxy());
                 }));
         homeAdapter.register(MusicStateMusic.class, new DataBindViewHolderManager<>(R.layout.item_musician_state_music,
-                (DataBindViewHolderManager.ItemBindView<MusicStateMusic, ItemMusicianStateMusicBinding>) (dataBinding, data) -> {
+                (DataBindViewHolderManager.ItemBindView<MusicStateMusic, ItemMusicianStateMusicBinding>) (dataBinding, data, position) -> {
                     dataBinding.setData(data);
                     dataBinding.setClickProxy(new ClickProxy());
                 }));
         homeAdapter.register(HomeEmptyBean.class, new DataBindViewHolderManager<>(R.layout.common_no_data,
-                (DataBindViewHolderManager.ItemBindView<HomeEmptyBean, CommonNoDataBinding>) (dataBinding, data) -> {
+                (DataBindViewHolderManager.ItemBindView<HomeEmptyBean, CommonNoDataBinding>) (dataBinding, data, position) -> {
                     dataBinding.setDataEmpty(data);
                     dataBinding.setClick(new ClickProxy());
                 })
@@ -105,7 +104,6 @@ public class HomeFragment extends BaseStatusBarFragment {
         homeFragmentViewModel.homeList.observe(getViewLifecycleOwner(), o -> {
             if (o != null) {
                 homeAdapter.setDataItems(o);
-//                homeAdapter.addDataItems(o);
                 homeAdapter.notifyDataSetChanged();
             }
             homeFragmentViewModel.closeLoad.set(true);
@@ -120,7 +118,7 @@ public class HomeFragment extends BaseStatusBarFragment {
 
         @Override
         public void onLoadMore(@NonNull @NotNull RefreshLayout refreshLayout) {
-            homeAdapter.setPage(homeAdapter.getPage()+1);
+            homeAdapter.setPage(homeAdapter.getPage() + 1);
             homeFragmentViewModel.requestLoadMore(homeAdapter.getPage(), homeAdapter.getPageSize());
         }
 
@@ -134,6 +132,9 @@ public class HomeFragment extends BaseStatusBarFragment {
     }
 
     public class ClickProxy {
+        public ClickProxy() {
+        }
+
         public void homeServiceClick(int index) {
             ToastUtils.showShort("开发中" + index);
         }
@@ -152,9 +153,9 @@ public class HomeFragment extends BaseStatusBarFragment {
         }
 
         @SingleClick
-        public void homeDynamicClickMusic(HomeDynamicInfo.ListBean musicStateMusic) {
+        public void homeDynamicClickMusic(HomeDynamicInfo.ListBean listBean) {
             HandlerUtils.getInstance().postWork(() -> {
-                PlayerDataTransformUtils.transformHomeMusic(musicStateMusic);
+                PlayerDataTransformUtils.homeMusicAddPlayList(homeAdapter.getDataList(), listBean);
             });
         }
     }
