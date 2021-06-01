@@ -61,7 +61,7 @@ public  class ListBean {
     }
 
     public String getCoverUrlLink(){
-        return AppConfig.URLPREFIX + getCoverUrl();
+        return AppConfig.URLPREFIX + getAppCover();
     }
 
     public void setCoverUrl(String coverUrl) {
