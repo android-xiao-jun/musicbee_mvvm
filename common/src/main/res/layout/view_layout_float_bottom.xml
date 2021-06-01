@@ -39,6 +39,7 @@
         android:layout_marginStart="10dp"
         android:gravity="center_vertical"
         android:text="111111"
+        android:textColor="#fff"
         app:layout_constraintLeft_toRightOf="@+id/iv_temp"
         app:layout_constraintRight_toLeftOf="@+id/iv_play" />
 
