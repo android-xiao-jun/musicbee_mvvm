@@ -149,7 +149,7 @@ public class PlayerDataTransformUtils {
             for (HomeNFTBean item : list) {
                 MusicEntity musicEntity = new MusicEntity();
                 musicEntity.musicId = String.valueOf(item.nftPostsId);
-                musicEntity.url = item.externalUrl;
+                musicEntity.url = item.musicEncodeUrl;
                 musicEntity.coverImg = item.getCoverLink();
                 musicEntity.title = item.getNftName();
                 musicEntity.name = item.getCreaterName();

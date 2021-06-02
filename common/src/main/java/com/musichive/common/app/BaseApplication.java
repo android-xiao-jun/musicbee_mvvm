@@ -85,6 +85,7 @@ public class BaseApplication extends com.kunminx.architecture.BaseApplication {
             initFPS(this);
             //(必须Utils.init之后)
             initPlayerFloat(this);
+            initPlayerData(this);
             //======================== 可以延迟加载(上面) ========================
         }
     }
@@ -135,11 +136,14 @@ public class BaseApplication extends com.kunminx.architecture.BaseApplication {
             Intent intent = new Intent(ActivityUtils.getTopActivity(), PlayerActivity.class);
             ActivityUtils.getTopActivity().startActivity(intent);
         });
+    }
+
+    private void initPlayerData(Application application) {
         //从数据库中恢复数据
         HandlerUtils.getInstance().postWork(() -> {
             MusicDao musicDao = MusicDatabase.getInstance(application).musicDao();
             List<MusicEntity> studentList = musicDao.getMusicList();
-            if (studentList!=null&&!studentList.isEmpty()){
+            if (studentList != null && !studentList.isEmpty()) {
                 PlayerDataTransformUtils.transformHomeMusic(studentList);
             }
         });

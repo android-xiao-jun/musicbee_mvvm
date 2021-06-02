@@ -39,7 +39,7 @@ import java.util.List;
 public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> {
 
     private PlayingInfoManager<B, M> mPlayingInfoManager = new PlayingInfoManager<>();
-    private boolean mIsPaused;
+    private boolean mIsPaused=true;
     private boolean mIsChangingPlayingMusic;
 
     private HttpProxyCacheServer proxy;
