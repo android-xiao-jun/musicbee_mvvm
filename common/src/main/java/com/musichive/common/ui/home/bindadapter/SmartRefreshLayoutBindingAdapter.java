@@ -3,6 +3,7 @@ package com.musichive.common.ui.home.bindadapter;
 import androidx.databinding.BindingAdapter;
 
 import com.musichive.common.ui.home.fragment.HomeFragment;
+import com.musichive.common.ui.home.fragment.NFTFragment;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 /**
@@ -14,6 +15,11 @@ public class SmartRefreshLayoutBindingAdapter {
 
     @BindingAdapter(value = {"setOnRefreshLoadMoreListener"}, requireAll = false)
     public static void setOnRefreshLoadMoreListener(SmartRefreshLayout smartRefreshLayout, HomeFragment.RefreshEvent refreshEvent) {
+        smartRefreshLayout.setOnRefreshLoadMoreListener(refreshEvent);
+    }
+
+    @BindingAdapter(value = {"setOnRefreshLoadMoreListener"}, requireAll = false)
+    public static void setOnRefreshLoadMoreListener(SmartRefreshLayout smartRefreshLayout, NFTFragment.RefreshEvent refreshEvent) {
         smartRefreshLayout.setOnRefreshLoadMoreListener(refreshEvent);
     }
 

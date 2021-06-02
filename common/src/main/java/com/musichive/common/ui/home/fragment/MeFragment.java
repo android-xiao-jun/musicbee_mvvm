@@ -4,7 +4,7 @@ import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.musichive.common.BR;
 import com.musichive.common.R;
 import com.musichive.common.app.BaseStatusBarFragment;
-import com.musichive.common.ui.home.viewmodel.NFTFragmentViewModel;
+import com.musichive.common.ui.home.viewmodel.TempFragmentViewModel;
 
 /**
  * @Author Jun
@@ -13,11 +13,11 @@ import com.musichive.common.ui.home.viewmodel.NFTFragmentViewModel;
  */
 public class MeFragment extends BaseStatusBarFragment {
 
-    private NFTFragmentViewModel homeFragmentViewModel;
+    private TempFragmentViewModel homeFragmentViewModel;
 
     @Override
     protected void initViewModel() {
-        homeFragmentViewModel = getFragmentScopeViewModel(NFTFragmentViewModel.class);
+        homeFragmentViewModel = getFragmentScopeViewModel(TempFragmentViewModel.class);
         homeFragmentViewModel.indexStr.set("me");
     }
 

@@ -1,9 +1,11 @@
 package com.musichive.common.api;
 
 import com.musichive.common.bean.BaseResponseBean;
+import com.musichive.common.bean.PageInfo;
 import com.musichive.common.bean.home.HomeDynamicInfo;
 import com.musichive.common.bean.home.HomeMusicDataBean;
 import com.musichive.common.bean.home.ListBean;
+import com.musichive.common.bean.nft.HomeNFTBean;
 
 import java.util.List;
 
@@ -41,4 +43,8 @@ public interface HomeService {
     //获取首页音乐人动态
     @GET("api/data/getHomePageDynamicInfo")
     Observable<BaseResponseBean<HomeDynamicInfo>> getHomePageDynamicInfo(@Query("page") int page, @Query("pageSize") int pageSize);
+
+    //获取所有nft作品列表
+    @GET("api/nft/getNftPostsAll")
+    Observable<BaseResponseBean<PageInfo<HomeNFTBean>>> getNftPostsAll(@Query("page") int page, @Query("pageSize") int pageSize);
 }

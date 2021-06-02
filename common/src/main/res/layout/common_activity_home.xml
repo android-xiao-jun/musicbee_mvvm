@@ -22,6 +22,7 @@
             android:layout_height="match_parent"
             android:layout_above="@id/container_player"
             app:setAdapter="@{adapter}"
+            app:setOffscreenPageLimit="@{adapter.mList.size()}"
             android:layout_marginBottom="-50dp"/>
 
         <FrameLayout

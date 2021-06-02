@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="videoBean"
+            type="com.musichive.common.bean.nft.HomeNFTVideoBean" />
+
+        <variable
+            name="lifecycleOwner"
+            type="androidx.lifecycle.LifecycleOwner" />
+
+        <variable
+            name="stateChangeListener"
+            type="xyz.doikki.videoplayer.player.VideoView.OnStateChangeListener" />
+
+        <variable
+            name="viewModel"
+            type="com.musichive.common.ui.home.viewmodel.NFTFragmentViewModel" />
+
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rl_video_bg"
+        android:layout_width="match_parent"
+        android:layout_height="667dp">
+
+        <com.musichive.common.weight.VideoViewNew
+            android:id="@+id/player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:addOnStateChangeListener="@{stateChangeListener}"
+            app:bindLifecycleOwner="@{lifecycleOwner}"
+            app:bindVideoData="@{videoBean}"
+            app:enableAudioFocus="false"
+            app:looping="true"
+            app:playerBackgroundColor="#0000" />
+
+        <ImageView
+            android:id="@+id/thumb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.showVideoLoadPic?View.VISIBLE:View.GONE}"
+            app:loadPic="@{videoBean.getPic1()}" />
+
+        <ImageView
+            android:id="@+id/iv_temp_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:scaleType="centerCrop"
+            android:src="@drawable/nft_home_bg_zz" />
+
+        <ImageView
+            android:id="@+id/iv_temp_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/player"
+            android:layout_marginBottom="130dp"
+            android:src="@drawable/nft_home_bg_top" />
+
+        <!-- 这里的偏移量，java代码中纠正-->
+        <ImageView
+            android:id="@+id/iv_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/iv_temp_2"
+            android:layout_marginStart="186dp"
+            android:layout_marginTop="-10dp"
+            android:src="@drawable/nft_home_bg_sq" />
+    </RelativeLayout>
+
+</layout>

@@ -29,6 +29,8 @@ public class MusicEntity {
 
     @ColumnInfo(name = "title", typeAffinity = ColumnInfo.TEXT)
     public String title;//demo 歌曲 名称
+    @ColumnInfo(name = "type", typeAffinity = ColumnInfo.INTEGER)
+    public int type = -1; //0 乐库 1 市集 2 nft播放
 
     public MusicEntity() {
     }

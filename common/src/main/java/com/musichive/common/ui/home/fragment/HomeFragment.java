@@ -29,6 +29,7 @@ import com.musichive.common.databinding.ItemMusicianStatePictextBinding;
 import com.musichive.common.multi_adapter.BaseItemAdapter;
 import com.musichive.common.multi_adapter.DataBindViewHolderManager;
 import com.musichive.common.player.helper.PlayerDataTransformUtils;
+import com.musichive.common.ui.home.repository.FACTORY;
 import com.musichive.common.ui.home.repository.HomeDataRepository;
 import com.musichive.common.ui.home.weight.HomeTopView;
 import com.musichive.common.utils.HandlerUtils;
@@ -157,23 +158,6 @@ public class HomeFragment extends BaseStatusBarFragment {
             HandlerUtils.getInstance().postWork(() -> {
                 PlayerDataTransformUtils.homeMusicAddPlayList(homeAdapter.getDataList(), listBean);
             });
-        }
-    }
-
-    public static class FACTORY implements ViewModelProvider.Factory {
-
-        public FACTORY(HomeDataRepository homeDataRepository) {
-            this.homeDataRepository = homeDataRepository;
-        }
-
-        private HomeDataRepository homeDataRepository;
-
-        @NonNull
-        @Override
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            HomeFragmentViewModel homeFragmentViewModel = new HomeFragmentViewModel(homeDataRepository);
-            return (T) homeFragmentViewModel;
-
         }
     }
 

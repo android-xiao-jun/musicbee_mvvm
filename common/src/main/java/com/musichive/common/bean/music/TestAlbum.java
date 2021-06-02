@@ -50,6 +50,16 @@ public class TestAlbum extends BaseAlbumItem<TestAlbum.TestMusic, TestAlbum.Test
      */
     public static class TestMusic extends BaseMusicItem<TestArtist> {
 
+        //0 乐库 1 市集 2 nft播放
+        private int type = -1;
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public int getType() {
+            return type;
+        }
 
         public TestMusic() {
 

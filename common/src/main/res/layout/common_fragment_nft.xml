@@ -4,23 +4,79 @@
     <data>
 
         <variable
+            name="clickProxy"
+            type="com.musichive.common.ui.home.fragment.NFTFragment.ClickProxy" />
+
+        <variable
+            name="refreshEvent"
+            type="com.musichive.common.ui.home.fragment.NFTFragment.RefreshEvent" />
+
+        <variable
+            name="adapter"
+            type="com.musichive.common.multi_adapter.BaseItemAdapter" />
+
+        <variable
             name="viewModel"
             type="com.musichive.common.ui.home.viewmodel.NFTFragmentViewModel" />
+        <variable
+            name="itemDecoration"
+            type="androidx.recyclerview.widget.RecyclerView.ItemDecoration" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fl_bg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="-60dp"
+        android:background="#ff0f0440">
 
-        <TextView
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/smartRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:autoRefresh="@{viewModel.autoRefresh}"
+            app:closeLoad="@{viewModel.closeRefresh}"
+            app:closeRefresh="@{viewModel.closeLoad}"
+            app:setNoMoreData="@{viewModel.notMoreList}"
+            app:setOnRefreshLoadMoreListener="@{refreshEvent}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                app:setAdapter="@{adapter}"
+                app:addItemDecoration="@{itemDecoration}"
+                tools:listitem="@layout/item_nft_list" />
+
+
+            <com.scwang.smart.refresh.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srlAccentColor="#CCFFFFFF" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        <com.musichive.common.other.float_player.PlayerToolHelperView
+            android:id="@+id/view_bg"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.indexStr}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="?actionBarSize"
+            android:layout_gravity="end">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/iv2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="5dp"
+                android:onClick="@{()->clickProxy.nftClickMore()}"
+                android:padding="5dp"
+                android:src="@drawable/nft_home_more" />
+        </com.musichive.common.other.float_player.PlayerToolHelperView>
+
+    </FrameLayout>
+
 </layout>

@@ -67,6 +67,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
+    //# 必选，内部默认使用系统mediaplayer进行解码
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.1'
+
+    // 可选，如需要缓存或者抖音预加载功能请引入此库
+    implementation 'xyz.doikki.android.dkplayer:videocache:3.3.1'
 
     implementation 'io.github.youth5201314:banner:2.2.2'
 

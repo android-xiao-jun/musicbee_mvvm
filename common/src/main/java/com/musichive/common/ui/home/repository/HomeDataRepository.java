@@ -5,9 +5,11 @@ import com.kunminx.architecture.data.response.ResponseStatus;
 import com.musichive.common.api.HomeService;
 import com.musichive.common.api.RetrofitApi;
 import com.musichive.common.bean.ModelSubscriber;
+import com.musichive.common.bean.PageInfo;
 import com.musichive.common.bean.home.HomeDynamicInfo;
 import com.musichive.common.bean.home.HomeMusicDataBean;
 import com.musichive.common.bean.home.ListBean;
+import com.musichive.common.bean.nft.HomeNFTBean;
 import com.musichive.common.config.AppConfig;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ public class HomeDataRepository {
     private static final HomeDataRepository S_REQUEST_MANAGER = new HomeDataRepository();
     private HomeService service1;
 
-    private  HomeDataRepository() {
+    private HomeDataRepository() {
         service1 = RetrofitApi.getInstance().getService(AppConfig.NetWork.BASE_URL, HomeService.class);
 
     }
@@ -52,7 +54,7 @@ public class HomeDataRepository {
                 });
     }
 
-    public void getHomePageDynamicInfo(int page,int pageSize,DataResult.Result<HomeDynamicInfo> result) {
+    public void getHomePageDynamicInfo(int page, int pageSize, DataResult.Result<HomeDynamicInfo> result) {
         RetrofitApi.addSubscribe(service1.getHomePageDynamicInfo(page, pageSize))
                 .subscribe(new ModelSubscriber<HomeDynamicInfo>() {
 
@@ -102,6 +104,27 @@ public class HomeDataRepository {
 
                     @Override
                     public void onFailure(String errorCode) {
+                    }
+                });
+    }
+
+    public void getNftPostsAll(int page, int pageSize, DataResult.Result<List<HomeNFTBean>> result) {
+        RetrofitApi.addSubscribe(service1.getNftPostsAll(page, pageSize))
+                .subscribe(new ModelSubscriber<PageInfo<HomeNFTBean>>() {
+
+                    @Override
+                    public void onSuccess(PageInfo<HomeNFTBean> data) {
+                        result.onResult(new DataResult<>(data.getList(), new ResponseStatus()));
+                    }
+
+                    @Override
+                    public void onFailure(String errorCode) {
+                        result.onResult(new DataResult<>(null, new ResponseStatus(errorCode, false)));
+                    }
+
+                    @Override
+                    protected void resultMsg(String msg) {
+                        super.resultMsg(msg);
                     }
                 });
     }

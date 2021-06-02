@@ -1,5 +1,7 @@
 package com.musichive.common.ui.home.bindadapter;
 
+import android.widget.ImageView;
+
 import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,16 +11,20 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.musichive.base.glide.GlideUtils;
 import com.musichive.base.wight.NoScrollViewPager;
 import com.musichive.common.bean.home.ListBean;
+import com.musichive.common.bean.nft.HomeNFTVideoBean;
 import com.musichive.common.multi_adapter.BaseItemAdapter;
 import com.musichive.common.ui.home.weight.HomeTopView;
 import com.musichive.common.weight.AvatarImageTagView;
 import com.musichive.common.weight.HomeBottomNav;
 import com.musichive.common.weight.RoundCornerImageView;
+import com.musichive.common.weight.VideoViewNew;
 import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 
 import java.util.List;
+
+import xyz.doikki.videoplayer.player.VideoView;
 
 /**
  * @Author Jun
@@ -26,9 +32,10 @@ import java.util.List;
  * Description 音乐蜜蜂-mvvm版本
  */
 public class HomeBindingAdapter {
-    @BindingAdapter(value = {"setAdapter"}, requireAll = true)
-    public static void setAdapter(NoScrollViewPager viewPager, PagerAdapter adapter) {
+    @BindingAdapter(value = {"setAdapter","setOffscreenPageLimit"}, requireAll = false)
+    public static void setAdapter(NoScrollViewPager viewPager, PagerAdapter adapter, int limit) {
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(limit);
     }
 
     @BindingAdapter(value = {"setAdapter"}, requireAll = false)
@@ -76,5 +83,20 @@ public class HomeBindingAdapter {
     @BindingAdapter(value = {"addBannerLifecycleObserver"}, requireAll = false)
     public static void addBannerLifecycleObserver(Banner banner, LifecycleOwner owner) {
         banner.addBannerLifecycleObserver(owner);
+    }
+
+    @BindingAdapter(value = {"loadPic"}, requireAll = false)
+    public static void loadPic(ImageView imageView, Object pic) {
+        GlideUtils.loadPicToImageView(imageView.getContext(), pic, imageView);
+    }
+
+    @BindingAdapter(value = {"bindVideoData","bindLifecycleOwner"}, requireAll = false)
+    public static void bindVideoData(VideoViewNew videoViewNew, HomeNFTVideoBean bindVideoData, LifecycleOwner owner) {
+        videoViewNew.bindData(bindVideoData,owner);
+    }
+
+    @BindingAdapter(value = {"addOnStateChangeListener"}, requireAll = false)
+    public static void addOnStateChangeListener(VideoViewNew videoViewNew, VideoView.OnStateChangeListener stateChangeListener) {
+        videoViewNew.addOnStateChangeListener(stateChangeListener);
     }
 }
