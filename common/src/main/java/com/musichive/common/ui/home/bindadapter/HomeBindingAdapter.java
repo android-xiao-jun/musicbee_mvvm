@@ -1,5 +1,6 @@
 package com.musichive.common.ui.home.bindadapter;
 
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
@@ -11,16 +12,24 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.musichive.base.glide.GlideUtils;
 import com.musichive.base.wight.NoScrollViewPager;
 import com.musichive.common.bean.home.ListBean;
+import com.musichive.common.bean.music.TestAlbum;
 import com.musichive.common.bean.nft.HomeNFTVideoBean;
 import com.musichive.common.multi_adapter.BaseItemAdapter;
+import com.musichive.common.other.BannerPlayerZoomPageTransformer;
+import com.musichive.common.player.PlayerManager;
 import com.musichive.common.ui.home.weight.HomeTopView;
+import com.musichive.common.ui.player.adapter.PlayerBannerAdapter;
+import com.musichive.common.utils.LogUtils;
 import com.musichive.common.weight.AvatarImageTagView;
 import com.musichive.common.weight.HomeBottomNav;
 import com.musichive.common.weight.RoundCornerImageView;
 import com.musichive.common.weight.VideoViewNew;
+import com.musichive.common.weight.lyrics.LrcView;
 import com.youth.banner.Banner;
+import com.youth.banner.adapter.BannerAdapter;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
+import com.youth.banner.listener.OnPageChangeListener;
 
 import java.util.List;
 
@@ -32,7 +41,7 @@ import xyz.doikki.videoplayer.player.VideoView;
  * Description 音乐蜜蜂-mvvm版本
  */
 public class HomeBindingAdapter {
-    @BindingAdapter(value = {"setAdapter","setOffscreenPageLimit"}, requireAll = false)
+    @BindingAdapter(value = {"setAdapter", "setOffscreenPageLimit"}, requireAll = false)
     public static void setAdapter(NoScrollViewPager viewPager, PagerAdapter adapter, int limit) {
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(limit);
@@ -54,6 +63,7 @@ public class HomeBindingAdapter {
     public static void initTop(HomeTopView homeTopView, boolean initTop) {
         homeTopView.initTop();
     }
+
     @BindingAdapter(value = {"resetY"}, requireAll = false)
     public static void resetY(HomeTopView homeTopView, boolean resetY) {
         homeTopView.resetY();
@@ -90,13 +100,45 @@ public class HomeBindingAdapter {
         GlideUtils.loadPicToImageView(imageView.getContext(), pic, imageView);
     }
 
-    @BindingAdapter(value = {"bindVideoData","bindLifecycleOwner"}, requireAll = false)
+    @BindingAdapter(value = {"bindVideoData", "bindLifecycleOwner"}, requireAll = false)
     public static void bindVideoData(VideoViewNew videoViewNew, HomeNFTVideoBean bindVideoData, LifecycleOwner owner) {
-        videoViewNew.bindData(bindVideoData,owner);
+        videoViewNew.bindData(bindVideoData, owner);
     }
 
     @BindingAdapter(value = {"addOnStateChangeListener"}, requireAll = false)
     public static void addOnStateChangeListener(VideoViewNew videoViewNew, VideoView.OnStateChangeListener stateChangeListener) {
         videoViewNew.addOnStateChangeListener(stateChangeListener);
     }
+
+    @BindingAdapter(value = {"bindDrawable"}, requireAll = false)
+    public static void bindDrawable(ImageButton imageButton, int srcId) {
+        imageButton.setImageResource(srcId);
+    }
+
+    @BindingAdapter(value = {"bindLrcData"}, requireAll = false)
+    public static void bindLrcData(LrcView lrcView, String str) {
+        lrcView.initLyricString(str);
+    }
+
+    @BindingAdapter(value = {"bindBannerDataPlayer"}, requireAll = false)
+    public static void bindBannerDataPlayer(Banner banner, PlayerBannerAdapter adapter) {
+        LogUtils.e("bindBannerDataPlayer");
+        banner.setAdapter(adapter);
+        banner.setPageTransformer(new BannerPlayerZoomPageTransformer());
+        banner.getViewPager2().setOffscreenPageLimit(adapter.datas.size());
+        banner.setDatas(adapter.datas);
+    }
+//
+//    @BindingAdapter(value = {"setCurrentItem","smoothScroll"}, requireAll = false)
+//    public static void setCurrentItem(Banner banner, int playIndex, boolean smoothScroll) {
+//        LogUtils.e("setCurrentItem "+playIndex);
+//        banner.setCurrentItem(playIndex+banner.getStartPosition(),smoothScroll);
+//    }
+
+    @BindingAdapter(value = {"addOnPageChangeListener"}, requireAll = false)
+    public static void addOnPageChangeListener(Banner banner, OnPageChangeListener listener) {
+        banner.addOnPageChangeListener(listener);
+    }
+
+
 }

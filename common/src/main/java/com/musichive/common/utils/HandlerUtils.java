@@ -51,6 +51,10 @@ public class HandlerUtils {
         workHandler.post(r);
     }
 
+    public void removeCallbacks(Runnable r) {
+        workHandler.removeCallbacks(r);
+    }
+
 
     public void clearMainTask(){
         handler.removeCallbacksAndMessages(null);

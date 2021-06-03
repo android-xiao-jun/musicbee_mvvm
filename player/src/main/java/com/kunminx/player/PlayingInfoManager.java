@@ -35,7 +35,7 @@ public class PlayingInfoManager<B extends BaseAlbumItem, M extends BaseMusicItem
     private int mAlbumIndex = 0;
 
     //循环模式
-    private Enum mRepeatMode;
+    private Enum mRepeatMode=RepeatMode.LIST_CYCLE;
 
     public enum RepeatMode {
         SINGLE_CYCLE,

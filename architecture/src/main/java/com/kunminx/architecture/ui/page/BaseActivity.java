@@ -19,6 +19,7 @@ package com.kunminx.architecture.ui.page;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
@@ -94,6 +95,9 @@ public abstract class BaseActivity extends DataBindingActivity {
         } else {
             return AdaptScreenUtils.adaptHeight(super.getResources(), 640);
         }
+    }
+    public boolean isDebug() {
+        return false;
     }
 
     protected void toggleSoftInput() {

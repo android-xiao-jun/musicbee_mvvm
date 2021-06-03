@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="com.musichive.common.bean.music.TestAlbum.TestMusic" />
 
         <variable
             name="clickProxy"
@@ -10,35 +13,414 @@
         <variable
             name="viewModel"
             type="com.musichive.common.ui.player.viewmodel.PlayerViewModel" />
+
+        <variable
+            name="event"
+            type="com.musichive.common.ui.player.activity.PlayerActivity.SeekBarChangeHandler" />
+
+        <variable
+            name="listener"
+            type="com.youth.banner.listener.OnPageChangeListener" />
+
+        <variable
+            name="adapterBanner"
+            type="com.musichive.common.ui.player.adapter.PlayerBannerAdapter" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#fafafa"
         android:orientation="vertical">
 
-        <Button
+        <LinearLayout
+            android:id="@+id/ll_title_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="@{()->clickProxy.playPrevious()}"
-            android:text="上一曲" />
+            android:layout_height="?actionBarSize"
+            android:gravity="center"
+            android:orientation="horizontal"
+            tools:layout_height="50dp">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="@{()->clickProxy.play()}"
-            android:text="@{viewModel.getPlayString()}" />
+            <ImageButton
+                android:id="@+id/ib_back"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:padding="20dp"
+                app:srcCompat="@drawable/icon_xiala_player" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="@{()->clickProxy.playNext()}"
-            android:text="下一曲" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:visibility="invisible" />
 
-        <Button
+            <ImageButton
+                android:id="@+id/ib_option"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:padding="20dp"
+                app:srcCompat="@drawable/action_bar_black_more_icon" />
+        </LinearLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{()->clickProxy.playClear()}"
-            android:text="清空播放列表" />
+            android:layout_weight="1">
+
+            <com.youth.banner.Banner
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                app:addOnPageChangeListener="@{listener}"
+                app:banner_auto_loop="false"
+                app:bindBannerDataPlayer="@{adapterBanner}"
+                />
+            <com.musichive.common.weight.lyrics.LrcView
+                android:id="@+id/lrcVIew"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                app:bindLrcData="@{viewModel.lrcText}"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_white_top_20"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/player_tv_musicname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:singleLine="true"
+                android:text="@{viewModel.songName}"
+                android:textColor="#ff1e1e1e"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                tools:text="歌曲名称" />
+
+            <TextView
+                android:id="@+id/player_tv_musicfrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
+                android:text="@{viewModel.authorName}"
+                android:textColor="#ff999999"
+                android:textSize="12sp"
+                tools:text="作者" />
+
+            <com.musichive.common.ui.player.weight.MarketTypeInfoView
+                android:id="@+id/market_type_info1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:visibility="gone"
+                tools:layout_height="14dp"
+                tools:visibility="visible" />
+
+
+            <LinearLayout
+                android:id="@+id/ll_shop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/iv_shop_shoucang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/shop_player_add" />
+
+                <ImageView
+                    android:id="@+id/iv_shop_mai"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/shop_player_buy" />
+
+                <ImageView
+                    android:id="@+id/iv_shop_fenxaing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/shop_player_share" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_zzp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/ll_favcount"
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ib_favcount"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/like_fsc_button" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ll_like"
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ib_like"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/like_zan_button" />
+
+                    <TextView
+                        android:id="@+id/tv_like"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/ib_like"
+                        android:background="@null"
+                        android:text="0"
+                        android:textColor="#1e1e1e"
+                        android:textSize="9sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/llcommentcount"
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ib_quotecount"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_commet_mid" />
+
+                    <TextView
+                        android:id="@+id/tv_quotecount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/ib_quotecount"
+                        android:background="@null"
+                        android:text="0"
+                        android:textColor="#1e1e1e"
+                        android:textSize="9sp" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/ll_cunzheng"
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="1"
+                    android:descendantFocusability="blocksDescendants"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/ic_cunzheng" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ll_sharecount"
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="1"
+                    android:descendantFocusability="blocksDescendants"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/ic_send_mid" />
+
+                    <TextView
+                        android:id="@+id/tv_sharedcount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:text="1.0万"
+                        android:textColor="#CCFFFFFF"
+                        android:textSize="10sp"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <SeekBar
+                android:id="@+id/pb_progressBar"
+                style="@style/Widget.AppCompat.SeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:max="@{viewModel.maxSeekDuration}"
+                android:minHeight="15dp"
+                android:progress="@{viewModel.currentSeekPosition}"
+                android:progressDrawable="@drawable/customprogressbar"
+                android:thumb="@drawable/custom_seek_thumb"
+                app:onSeekBarChangeListener="@{event}" />
+
+            <RelativeLayout
+                android:id="@+id/progress_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="26dp"
+                android:layout_marginRight="26dp">
+
+                <TextView
+                    android:id="@+id/tv_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:text="@{viewModel.currentStr}"
+                    android:textColor="#B5B5B5"
+                    android:textSize="10sp"
+                    tools:text="00:00" />
+
+                <TextView
+                    android:id="@+id/tv_progress_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@null"
+                    android:text="@{viewModel.maxStr}"
+                    android:textColor="#B5B5B5"
+                    android:textSize="10sp"
+                    tools:text="00:00" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/play_ll"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <ImageButton
+                    android:id="@+id/ib_playmode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:onClick="@{()->clickProxy.changeMode()}"
+                    android:scaleType="centerInside"
+                    app:bindDrawable="@{viewModel.modeSrc}"
+                    tools:src="@drawable/ic_listrecycle_mid" />
+
+                <ImageButton
+                    android:id="@+id/ib_pre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:onClick="@{()->clickProxy.playPrevious()}"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_prev_small" />
+
+                <ImageButton
+                    android:id="@+id/ib_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:background="@null"
+                    android:onClick="@{()->clickProxy.play()}"
+                    android:scaleType="centerInside"
+                    android:src="@{viewModel.isPlaying?@drawable/ic_pause_mid:@drawable/ic_play_mid}"
+                    tools:src="@drawable/ic_play_mid" />
+
+                <ImageButton
+                    android:id="@+id/ib_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:onClick="@{()->clickProxy.playNext()}"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_next_small" />
+
+                <ImageButton
+                    android:id="@+id/ib_playlist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:onClick="@{()->clickProxy.playList()}"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_list_mid" />
+
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </layout>
