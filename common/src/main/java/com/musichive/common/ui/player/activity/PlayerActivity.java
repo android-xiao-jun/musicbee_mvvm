@@ -15,6 +15,7 @@ import com.musichive.common.R;
 import com.musichive.common.app.BaseApplication;
 import com.musichive.common.app.BaseStatusBarActivity;
 import com.musichive.common.player.PlayerManager;
+import com.musichive.common.player.helper.PlayerHttpHelper;
 import com.musichive.common.room.MusicDatabase;
 import com.musichive.common.ui.player.adapter.PlayerBannerAdapter;
 import com.musichive.common.ui.player.viewmodel.PlayerViewModel;
@@ -70,10 +71,13 @@ public class PlayerActivity extends BaseStatusBarActivity {
         PlayerManager.getInstance().getChangeMusicLiveData().observe(this, new Observer<ChangeMusic>() {
             @Override
             public void onChanged(ChangeMusic changeMusic) {
-                //请求当前网络请求
                 playerViewModel.songName.set(changeMusic.getTitle());
                 playerViewModel.authorName.set(changeMusic.getSummary());
                 playerViewModel.lrcText.set("");
+                //请求当前网络请求--请求额外字段
+                PlayerHttpHelper.playRequest(() -> {
+                    //去更新数据
+                });
             }
         });
         PlayerManager.getInstance().getPlayingMusicLiveData().observe(this, playingMusic -> {
@@ -204,7 +208,7 @@ public class PlayerActivity extends BaseStatusBarActivity {
             }
             int currentItem = banner.getCurrentItem();
             int next = playerViewModel.playNextAndPrevious(isNext, currentItem, count);
-            banner.setCurrentItem(next,Math.abs(next-currentItem)==1);//随机播放就不给动画了
+            banner.setCurrentItem(next, Math.abs(next - currentItem) == 1);//随机播放就不给动画了
         }
 
     }

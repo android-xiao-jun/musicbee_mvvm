@@ -53,8 +53,28 @@ public class TestAlbum extends BaseAlbumItem<TestAlbum.TestMusic, TestAlbum.Test
         //0 乐库 1 市集 2 nft播放
         private int type = -1;
 
+        private int workType = 0;
+
+        private String expand = "{}";
+
+        public int getWorkType() {
+            return workType;
+        }
+
+        public void setWorkType(int workType) {
+            this.workType = workType;
+        }
+
         public void setType(int type) {
             this.type = type;
+        }
+
+        public String getExpand() {
+            return expand;
+        }
+
+        public void setExpand(String expand) {
+            this.expand = expand;
         }
 
         public int getType() {

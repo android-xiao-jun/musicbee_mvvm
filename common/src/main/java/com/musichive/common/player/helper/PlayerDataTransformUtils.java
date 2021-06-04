@@ -57,9 +57,22 @@ public class PlayerDataTransformUtils {
         List<TestAlbum.TestMusic> musics = new ArrayList<>();
         for (HomeDynamicInfo.ListBean item : list) {
             TestAlbum.TestArtist testArtist = new TestAlbum.TestArtist();
-            testArtist.setName(item.name);
-            TestAlbum.TestMusic testMusic = new TestAlbum.TestMusic(item.demoInfoVO.goodsId, item.getCoverLink(), item.demoInfoVO.musicEncodeUrl, item.getDemoName(), testArtist);
-            testMusic.setType(1);
+            TestAlbum.TestMusic testMusic;
+            if (item.type == 5) {
+                //乐库
+                testArtist.setName(item.demoInfoVO.account);
+                testMusic = new TestAlbum.TestMusic(item.demoInfoVO.permlink, item.getCoverLink()
+                        , item.demoInfoVO.musicEncodeUrl, item.getDemoName(), testArtist);
+                testMusic.setWorkType(item.demoInfoVO.worksType);
+                testMusic.setType(0);
+            } else {
+                //市集
+                testArtist.setName(item.account);
+                testMusic = new TestAlbum.TestMusic(item.demoInfoVO.goodsId, item.getCoverLink()
+                        , item.demoInfoVO.musicEncodeUrl, item.getDemoName(), testArtist);
+                testMusic.setType(0);
+            }
+
             musics.add(testMusic);
         }
         TestAlbum testAlbum = new TestAlbum("", "", "", null, null, musics);
@@ -83,6 +96,7 @@ public class PlayerDataTransformUtils {
                 musicEntity.coverImg = item.getCoverLink();
                 musicEntity.title = item.getDemoName();
                 musicEntity.name = item.name;
+                musicEntity.account = item.account;
                 musicEntity.type = 1;
                 musicEntities.add(musicEntity);
             }
@@ -99,15 +113,35 @@ public class PlayerDataTransformUtils {
     public static TestAlbum transformHomeMusic(List<MusicEntity> list) {
         List<TestAlbum.TestMusic> musics = new ArrayList<>();
         for (MusicEntity item : list) {
-            TestAlbum.TestArtist testArtist = new TestAlbum.TestArtist();
-            testArtist.setName(item.name);
-            TestAlbum.TestMusic testMusic = new TestAlbum.TestMusic(item.musicId, item.coverImg, item.url, item.title, testArtist);
-            testMusic.setType(item.type);
-            musics.add(testMusic);
+            musics.add(transformHomeMusic(item));
         }
         TestAlbum testAlbum = new TestAlbum("", "", "", null, null, musics);
         PlayerManager.getInstance().loadAlbum(testAlbum);
         return testAlbum;
+    }
+
+    /**
+     * 从数据库实体类读取到播放列表
+     */
+    public static TestAlbum.TestMusic transformHomeMusic(MusicEntity item) {
+        TestAlbum.TestArtist testArtist = new TestAlbum.TestArtist();
+        testArtist.setName(item.name);
+        testArtist.setAccount(item.account);
+        TestAlbum.TestMusic testMusic = new TestAlbum.TestMusic(item.musicId, item.coverImg, item.url, item.title, testArtist);
+        testMusic.setType(item.type);
+        return testMusic;
+    }
+
+    public static MusicEntity transformHomeMusic(TestAlbum.TestMusic item) {
+        MusicEntity musicEntity = new MusicEntity();
+        musicEntity.musicId = item.getMusicId();
+        musicEntity.url = item.getUrl();
+        musicEntity.coverImg = item.getCoverImg();
+        musicEntity.title = item.getTitle();
+        musicEntity.name = item.getTitle();
+        musicEntity.account = item.getArtist().getAccount();
+        musicEntity.type = 1;
+        return musicEntity;
     }
 
 
@@ -153,6 +187,7 @@ public class PlayerDataTransformUtils {
                 musicEntity.coverImg = item.getCoverLink();
                 musicEntity.title = item.getNftName();
                 musicEntity.name = item.getCreaterName();
+                musicEntity.account = "";//这个可以为空
                 musicEntity.type = 2;
                 musicEntities.add(musicEntity);
             }
@@ -172,6 +207,7 @@ public class PlayerDataTransformUtils {
         for (HomeNFTBean item : list) {
             TestAlbum.TestArtist testArtist = new TestAlbum.TestArtist();
             testArtist.setName(item.getCreaterName());
+            testArtist.setAccount("");//这个可以为空
             TestAlbum.TestMusic testMusic = new TestAlbum.TestMusic(String.valueOf(item.nftPostsId), item.getCoverLink(), item.musicEncodeUrl, item.getNftName(), testArtist);
             testMusic.setType(2);
             musics.add(testMusic);
