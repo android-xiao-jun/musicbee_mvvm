@@ -22,6 +22,7 @@ import android.content.Intent;
 import androidx.lifecycle.LiveData;
 
 import com.kunminx.player.PlayerController;
+import com.kunminx.player.PlayingInfoManager;
 import com.kunminx.player.bean.dto.ChangeMusic;
 import com.kunminx.player.bean.dto.PlayingMusic;
 import com.kunminx.player.contract.IPlayController;
@@ -207,5 +208,9 @@ public class PlayerManager implements IPlayController<TestAlbum, TestAlbum.TestM
     @Override
     public TestAlbum.TestMusic getCurrentPlayingMusic() {
         return mController.getCurrentPlayingMusic();
+    }
+
+    public boolean isRandom(){
+        return mController.getRepeatMode()== PlayingInfoManager.RepeatMode.RANDOM;
     }
 }

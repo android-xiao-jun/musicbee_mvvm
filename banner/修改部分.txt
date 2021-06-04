@@ -1,0 +1,5 @@
+开源库地址 https://github.com/youth5201314/banner
+  线上版本 implementation 'io.github.youth5201314:banner:2.2.2'
+
+1、OnPageChangeListener 接口中添加了这个方法 void onPageSelectedAnyTme(int position);
+2、BaseIndicator 中实现了     onPageSelectedAnyTme 这个方法

@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import androidx.lifecycle.Observer;
-import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.kunminx.player.PlayingInfoManager;
@@ -23,9 +23,6 @@ import com.musichive.common.utils.ProgressTimeUtils;
 import com.musichive.common.utils.ToastUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnPageChangeListener;
-import com.youth.banner.util.BannerUtils;
-
-import java.util.Random;
 
 /**
  * @Author Jun
@@ -95,6 +92,9 @@ public class PlayerActivity extends BaseStatusBarActivity {
         });
     }
 
+    //防止点击下一曲过快，动画闪烁问题
+    private boolean isScrolled;
+
     private OnPageChangeListener listener = new OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -103,6 +103,15 @@ public class PlayerActivity extends BaseStatusBarActivity {
 
         @Override
         public void onPageSelected(int position) {
+
+        }
+
+        @Override
+        public void onPageSelectedAnyTme(int position) {
+            int index = PlayerManager.getInstance().getAlbumIndex();
+            if (position == index) {
+                return;
+            }
             HandlerUtils.getInstance().getWorkHander().removeCallbacks(runnable);
             runnable.position = position;
             HandlerUtils.getInstance().getWorkHander().post(runnable);
@@ -110,8 +119,14 @@ public class PlayerActivity extends BaseStatusBarActivity {
 
         @Override
         public void onPageScrollStateChanged(int state) {
-
+            if (state == ViewPager2.SCROLL_STATE_DRAGGING || state == ViewPager2.SCROLL_STATE_SETTLING) {
+                isScrolled = true;
+            } else {
+                //滑动闲置或滑动结束
+                isScrolled = false;
+            }
         }
+
     };
 
     private PositionRunnable runnable = new PositionRunnable();
@@ -153,8 +168,7 @@ public class PlayerActivity extends BaseStatusBarActivity {
         }
 
         public void playPrevious() {
-            HandlerUtils.getInstance().removeCallbacks(runnablePlayPrevious);
-            HandlerUtils.getInstance().postWork(runnablePlayPrevious);
+            playNextAndPrevious(false);
         }
 
         public void play() {
@@ -166,8 +180,7 @@ public class PlayerActivity extends BaseStatusBarActivity {
         }
 
         public void playNext() {
-            HandlerUtils.getInstance().removeCallbacks(runnablePlayNext);
-            HandlerUtils.getInstance().postWork(runnablePlayNext);
+            playNextAndPrevious(true);
         }
 
         public void playClear() {
@@ -181,19 +194,18 @@ public class PlayerActivity extends BaseStatusBarActivity {
             ToastUtils.showShort("播放列表点击");
         }
 
-        Runnable runnablePlayNext = new Runnable() {
-
-            @Override
-            public void run() {
-                PlayerManager.getInstance().playNext();
+        public void playNextAndPrevious(boolean isNext) {
+            if (isScrolled) {
+                return;
             }
-        };
-        Runnable runnablePlayPrevious = new Runnable() {
-
-            @Override
-            public void run() {
-                PlayerManager.getInstance().playPrevious();
+            int count = banner.getItemCount();
+            if (count == 0) {
+                return;
             }
-        };
+            int currentItem = banner.getCurrentItem();
+            int next = playerViewModel.playNextAndPrevious(isNext, currentItem, count);
+            banner.setCurrentItem(next,Math.abs(next-currentItem)==1);//随机播放就不给动画了
+        }
+
     }
 }

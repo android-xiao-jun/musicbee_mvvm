@@ -14,6 +14,7 @@ import com.musichive.common.player.PlayerManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @Author Jun
@@ -66,6 +67,37 @@ public class PlayerViewModel extends ViewModel {
             modeSrc.set(R.drawable.ic_listrecycle_mid);
         }
         modeLiveData.postValue(mode);
+    }
+
+    public int playNextAndPrevious(boolean isNext, int currentItem, int count) {
+        boolean random = PlayerManager.getInstance().isRandom();
+        int next = 0;
+        if (random) {
+            next = getBannerRandom(currentItem, count);
+        } else if (isNext) {
+            next = (currentItem + 1) % count;
+        } else {
+            next = (currentItem - 1) % count;
+        }
+        return next;
+    }
+
+    /**
+     * 注意（这个 banner的显示位置 和 实际的播放列表 不一致 ）
+     *
+     * @param currentItem // banner的显示位置
+     * @param count       //banner总数 不是播放列表总数
+     * @return 返回下次随机播放位置的 index
+     */
+    private int getBannerRandom(int currentItem, int count) {
+        //随机一个 [ 1 , size ] 的数 去播放
+        int size = PlayerManager.getInstance().getAlbumMusics().size();
+        int random = new Random().nextInt(size) + 1;
+        int next = (currentItem + random) % count;
+        if (next == currentItem) {
+            next = (next + 1) % count;//防止随机到同一首歌曲
+        }
+        return next;
     }
 
 }
