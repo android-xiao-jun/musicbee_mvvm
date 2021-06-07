@@ -163,7 +163,7 @@ public class LrcView extends View {
         if (type == 0x02) {
             mTextPaint.setTextAlign(Paint.Align.LEFT);
         } else {
-            mTextPaint.setTextAlign(Paint.Align.CENTER);
+            mTextPaint.setTextAlign(Paint.Align.LEFT);
         }
         for (int i = 0; i < getLrcCount(); i++) {
             if (i > 0) {
@@ -187,15 +187,21 @@ public class LrcView extends View {
 
     private void drawLrc(Canvas canvas, float x, float y, int i) {
         String text = mLrcData.get(i).getLyric();
+        Layout.Alignment temp;
+        if (type == 0x02) {
+            temp = Layout.Alignment.ALIGN_NORMAL;
+        } else {
+            temp = Layout.Alignment.ALIGN_CENTER;
+        }
         StaticLayout staticLayout;
         if (mCurrentLine == i) {
-            staticLayout = new StaticLayout(text, mTextPaint,
-                    getLrcWidth(), Layout.Alignment.ALIGN_NORMAL, 1f, 0f, false);
+            staticLayout = new StaticLayout(text, mTextPaint, getLrcWidth(),
+                    temp, 1f, 0f, false);
         } else if (mLrcMap.get(text) != null) {
             staticLayout = mLrcMap.get(text);
         } else {
             staticLayout = new StaticLayout(text, mTextPaint, getLrcWidth(),
-                    Layout.Alignment.ALIGN_NORMAL, 1f, 0f, false);
+                    temp, 1f, 0f, false);
             mLrcMap.put(text, staticLayout);
         }
         canvas.save();
@@ -481,7 +487,7 @@ public class LrcView extends View {
         }
     }
 
-    public void updateLyrics(int currentPosition, int duration) {
+    public void updateLyrics(int currentPosition) {
         updateTime(currentPosition);
         invalidateView();
     }

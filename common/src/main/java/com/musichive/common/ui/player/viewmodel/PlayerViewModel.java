@@ -7,10 +7,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.kunminx.player.PlayingInfoManager;
+import com.kunminx.player.bean.dto.PlayingMusic;
 import com.musichive.common.R;
 import com.musichive.common.app.BaseViewModel;
 import com.musichive.common.bean.music.TestAlbum;
 import com.musichive.common.player.PlayerManager;
+import com.musichive.common.utils.ProgressTimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,12 @@ public class PlayerViewModel extends ViewModel {
     public ObservableField<String> authorName = new ObservableField<>();
     public ObservableField<String> lrcText = new ObservableField<>();
 
+    public final ObservableBoolean showInfoTypeView = new ObservableBoolean();
+    public ObservableBoolean showBannerAndLrcView = new ObservableBoolean();
+    public ObservableField<String> showInfoTypeViewTime = new ObservableField();
+    public ObservableField<String> showInfoTypeViewYear = new ObservableField();
+    public ObservableField<String> musicGenreName = new ObservableField();
+
     public final ObservableInt maxSeekDuration = new ObservableInt();
     public final ObservableInt currentSeekPosition = new ObservableInt();
     public final ObservableBoolean smoothScroll = new ObservableBoolean();
@@ -43,6 +51,8 @@ public class PlayerViewModel extends ViewModel {
     public PlayerViewModel() {
         playList.set(PlayerManager.getInstance().getAlbumMusics());
         smoothScroll.set(false);
+        showInfoTypeView.set(false);
+        showBannerAndLrcView.set(true);
         setModeSrc((PlayingInfoManager.RepeatMode) PlayerManager.getInstance().getRepeatMode());
         maxStr.set("00:00");
         currentStr.set("00:00");

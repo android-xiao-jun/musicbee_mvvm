@@ -1,5 +1,6 @@
 package com.musichive.common.room;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -25,7 +26,8 @@ public class MusicEntity {
 
     @PrimaryKey
     @ColumnInfo(name = "musicId", typeAffinity = ColumnInfo.TEXT)
-    public String musicId;//音乐id（goodsId 或者 permlink 或者 nftid）
+    public @NonNull
+    String musicId="";//音乐id（goodsId 或者 permlink 或者 nftid）
 
     @ColumnInfo(name = "coverImg", typeAffinity = ColumnInfo.TEXT)
     public String coverImg;//封面图

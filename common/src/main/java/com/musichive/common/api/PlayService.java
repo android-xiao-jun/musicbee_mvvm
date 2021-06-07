@@ -1,6 +1,9 @@
 package com.musichive.common.api;
 
 import com.musichive.common.bean.BaseResponseBean;
+import com.musichive.common.bean.music.GoodsPlayerBean;
+import com.musichive.common.bean.music.MusicLibPlayerBean;
+import com.musichive.common.bean.music.NFTPlayerBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -16,7 +19,7 @@ import retrofit2.http.Query;
 public interface PlayService {
     //根据商品id获取播放器播放所需数据
     @GET("api/seller/getMusicPlayByGoodsId")
-    Observable<BaseResponseBean<Object>> getMusicPlayByGoodsId(@Query("goodsId") String goodsId);
+    Observable<BaseResponseBean<GoodsPlayerBean>> getMusicPlayByGoodsId(@Query("goodsId") String goodsId);
 
 //    //根据music_id获取播放器播放所需数据==出售中播放
 //    @GET("api/seller/getOnSellDemoByMusicId")
@@ -25,11 +28,11 @@ public interface PlayService {
 
     @GET("api/posts/{author}/{permlink}")
     @Headers("api-version: 0")
-    Observable<BaseResponseBean<Object>> obtainDiscoverHotspot(@Path("author") String author
+    Observable<BaseResponseBean<MusicLibPlayerBean>> obtainDiscoverHotspot(@Path("author") String author
             , @Path("permlink") String permlink
             , @Query("version") int version);
 
     //获取播放器所需数据
     @GET("api/nft/getMusicPlayInfo")
-    Observable<BaseResponseBean<Object>> getMusicPlayInfo(@Query("nftPostsId") String nftPostsId);
+    Observable<BaseResponseBean<NFTPlayerBean>> getMusicPlayInfo(@Query("nftPostsId") String nftPostsId);
 }

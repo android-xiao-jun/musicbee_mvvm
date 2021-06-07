@@ -72,7 +72,7 @@ dependencies {
 
     // 可选，如需要缓存或者抖音预加载功能请引入此库
     implementation 'xyz.doikki.android.dkplayer:videocache:3.3.1'
-
+    implementation 'com.hyman:flowlayout-lib:1.1.2'//标签
 //    implementation 'io.github.youth5201314:banner:2.2.2'
     implementation project(':banner')
 

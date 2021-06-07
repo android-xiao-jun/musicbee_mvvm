@@ -13,6 +13,8 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.kunminx.player.bean.dto.ChangeMusic;
 import com.kunminx.player.bean.dto.PlayingMusic;
 import com.musichive.common.player.PlayerManager;
+import com.musichive.common.player.helper.PlayerHttpHelper;
+import com.musichive.common.utils.LogUtils;
 
 
 /**
@@ -69,6 +71,8 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
             // 切歌时，音乐的标题、作者、封面 状态的改变
             PlayerToolFloatUtils.get().loadPic(changeMusic.getImg());
             PlayerToolFloatUtils.get().upData(changeMusic);
+            //请求当前网络请求--请求额外字段
+            PlayerHttpHelper.playRequest(null);
         }
     };
 

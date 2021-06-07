@@ -6,6 +6,9 @@ import com.musichive.common.api.HomeService;
 import com.musichive.common.api.PlayService;
 import com.musichive.common.api.RetrofitApi;
 import com.musichive.common.bean.ModelSubscriber;
+import com.musichive.common.bean.music.GoodsPlayerBean;
+import com.musichive.common.bean.music.MusicLibPlayerBean;
+import com.musichive.common.bean.music.NFTPlayerBean;
 import com.musichive.common.config.AppConfig;
 import com.musichive.common.ui.home.repository.HomeDataRepository;
 
@@ -34,10 +37,10 @@ public class PlayDataRepository {
 
     public void obtainDiscoverHotspot(String author, String permlink, DataResult.Result<Object> result) {
         RetrofitApi.addSubscribe(service1.obtainDiscoverHotspot(author, permlink, 2))
-                .subscribe(new ModelSubscriber<Object>() {
+                .subscribe(new ModelSubscriber<MusicLibPlayerBean>() {
 
                     @Override
-                    public void onSuccess(Object data) {
+                    public void onSuccess(MusicLibPlayerBean data) {
                         result.onResult(new DataResult<>(data, new ResponseStatus()));
                     }
 
@@ -55,10 +58,10 @@ public class PlayDataRepository {
 
     public void getMusicPlayByGoodsId(String goodsId, DataResult.Result<Object> result) {
         RetrofitApi.addSubscribe(service2.getMusicPlayByGoodsId(goodsId))
-                .subscribe(new ModelSubscriber<Object>() {
+                .subscribe(new ModelSubscriber<GoodsPlayerBean>() {
 
                     @Override
-                    public void onSuccess(Object data) {
+                    public void onSuccess(GoodsPlayerBean data) {
                         result.onResult(new DataResult<>(data, new ResponseStatus()));
                     }
 
@@ -76,10 +79,10 @@ public class PlayDataRepository {
 
     public void getMusicPlayInfo(String nftId, DataResult.Result<Object> result) {
         RetrofitApi.addSubscribe(service1.getMusicPlayInfo(nftId))
-                .subscribe(new ModelSubscriber<Object>() {
+                .subscribe(new ModelSubscriber<NFTPlayerBean>() {
 
                     @Override
-                    public void onSuccess(Object data) {
+                    public void onSuccess(NFTPlayerBean data) {
                         result.onResult(new DataResult<>(data, new ResponseStatus()));
                     }
 

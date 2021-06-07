@@ -56,14 +56,13 @@ public class MarketTypeInfoView extends LinearLayout {
         tv2 = (TextView) findViewById(R.id.tv_2);
     }
 
-    public void setMarketInfo(String certificationType,String time,String year){
+    public void setMarketInfo(String time,String year){
         tv1.setVisibility(VISIBLE);
         iv_vv.setVisibility(VISIBLE);
         tv_time.setVisibility(VISIBLE);
         line_time.setVisibility(VISIBLE);
         iv_vv.setImageResource(R.drawable.new_yv);
         tv1.setText(year);
-        tv_time.setText(time);
         tv_time.setText(time);
         tv2.setVisibility(GONE);
         line1.setVisibility(GONE);

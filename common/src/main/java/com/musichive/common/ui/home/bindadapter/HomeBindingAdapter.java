@@ -1,7 +1,11 @@
 package com.musichive.common.ui.home.bindadapter;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.LifecycleOwner;
@@ -11,6 +15,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.musichive.base.glide.GlideUtils;
 import com.musichive.base.wight.NoScrollViewPager;
+import com.musichive.common.R;
 import com.musichive.common.bean.home.ListBean;
 import com.musichive.common.bean.music.TestAlbum;
 import com.musichive.common.bean.nft.HomeNFTVideoBean;
@@ -19,7 +24,9 @@ import com.musichive.common.other.BannerPlayerZoomPageTransformer;
 import com.musichive.common.player.PlayerManager;
 import com.musichive.common.ui.home.weight.HomeTopView;
 import com.musichive.common.ui.player.adapter.PlayerBannerAdapter;
+import com.musichive.common.ui.player.weight.MarketTypeInfoView;
 import com.musichive.common.utils.LogUtils;
+import com.musichive.common.utils.ViewMapUtils;
 import com.musichive.common.weight.AvatarImageTagView;
 import com.musichive.common.weight.HomeBottomNav;
 import com.musichive.common.weight.RoundCornerImageView;
@@ -29,7 +36,9 @@ import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerAdapter;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.listener.OnPageChangeListener;
+import com.zhy.view.flowlayout.FlowLayout;
 
 import java.util.List;
 
@@ -120,13 +129,20 @@ public class HomeBindingAdapter {
         lrcView.initLyricString(str);
     }
 
-    @BindingAdapter(value = {"bindBannerDataPlayer"}, requireAll = false)
-    public static void bindBannerDataPlayer(Banner banner, PlayerBannerAdapter adapter) {
+    @BindingAdapter(value = {"updateLyrics"}, requireAll = false)
+    public static void updateLyrics(LrcView lrcView, int updateLyricsCurrentPosition) {
+        lrcView.updateLyrics(updateLyricsCurrentPosition);
+    }
+
+    @BindingAdapter(value = {"bindBannerDataPlayer","setOnBannerListener"}, requireAll = false)
+    public static void bindBannerDataPlayer(Banner banner, PlayerBannerAdapter adapter,OnBannerListener listener) {
         LogUtils.e("bindBannerDataPlayer");
         banner.setAdapter(adapter);
         banner.setPageTransformer(new BannerPlayerZoomPageTransformer());
         banner.getViewPager2().setOffscreenPageLimit(adapter.datas.size());
         banner.setDatas(adapter.datas);
+        banner.setOnBannerListener(listener);
+        banner.setCurrentItem(PlayerManager.getInstance().getAlbumIndex() + 1, false);
     }
 //
 //    @BindingAdapter(value = {"setCurrentItem","smoothScroll"}, requireAll = false)
@@ -140,5 +156,23 @@ public class HomeBindingAdapter {
         banner.addOnPageChangeListener(listener);
     }
 
+    @BindingAdapter(value = {"time", "year"}, requireAll = false)
+    public static void setMarketTypeInfoView(MarketTypeInfoView marketTypeInfoView, String time, String year) {
+        marketTypeInfoView.setMarketInfo(time, year);
+    }
+
+    @BindingAdapter(value = {"bindMusicGenreName"}, requireAll = false)
+    public static void bindMusicGenreName(FlowLayout flowLayout, String names) {
+        flowLayout.removeAllViews();
+        if (names != null && names.trim().length() > 0) {
+            String[] genreNames = names.split(",");
+            for (int i = 0; i < genreNames.length; i++) {
+                View cacheView = ViewMapUtils.getCacheView(flowLayout.getContext(), genreNames[i]);
+                TextView tv = cacheView.findViewById(R.id.player_music_type_tv);
+                tv.setText(genreNames[i]);
+                flowLayout.addView(cacheView);
+            }
+        }
+    }
 
 }

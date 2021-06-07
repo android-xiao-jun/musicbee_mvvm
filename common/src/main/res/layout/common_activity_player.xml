@@ -6,6 +6,8 @@
 
         <import type="com.musichive.common.bean.music.TestAlbum.TestMusic" />
 
+        <import type="android.view.View" />
+
         <variable
             name="clickProxy"
             type="com.musichive.common.ui.player.activity.PlayerActivity.ClickProxy" />
@@ -21,6 +23,10 @@
         <variable
             name="listener"
             type="com.youth.banner.listener.OnPageChangeListener" />
+
+        <variable
+            name="listenerClick"
+            type="com.youth.banner.listener.OnBannerListener" />
 
         <variable
             name="adapterBanner"
@@ -70,22 +76,27 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
+            <com.musichive.common.weight.lyrics.LrcView
+                android:id="@+id/lrcVIew"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="@{()->clickProxy.clickLrcView()}"
+                android:visibility="@{viewModel.showBannerAndLrcView?View.GONE:View.VISIBLE}"
+                app:bindLrcData="@{viewModel.lrcText}"
+                app:updateLyrics="@{viewModel.currentSeekPosition}"
+                tools:visibility="visible" />
+
             <com.youth.banner.Banner
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_gravity="center"
+                android:visibility="@{viewModel.showBannerAndLrcView?View.VISIBLE:View.GONE}"
                 app:addOnPageChangeListener="@{listener}"
+                app:setOnBannerListener="@{listenerClick}"
                 app:banner_auto_loop="false"
-                app:bindBannerDataPlayer="@{adapterBanner}"
-                />
-            <com.musichive.common.weight.lyrics.LrcView
-                android:id="@+id/lrcVIew"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="invisible"
-                app:bindLrcData="@{viewModel.lrcText}"
-                tools:visibility="visible" />
+                app:bindBannerDataPlayer="@{adapterBanner}" />
+
 
         </FrameLayout>
 
@@ -130,10 +141,22 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
-                android:visibility="gone"
+                android:visibility="@{viewModel.showInfoTypeView?View.VISIBLE:View.GONE}"
+                app:time="@{viewModel.showInfoTypeViewTime}"
+                app:year="@{viewModel.showInfoTypeViewYear}"
                 tools:layout_height="14dp"
                 tools:visibility="visible" />
 
+            <com.zhy.view.flowlayout.FlowLayout
+                android:id="@+id/fl_section"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="26dp"
+                android:gravity="center_horizontal"
+                app:bindMusicGenreName="@{viewModel.musicGenreName}"
+                app:tag_gravity="center" />
 
             <LinearLayout
                 android:id="@+id/ll_shop"
@@ -143,7 +166,7 @@
                 android:layout_marginBottom="30dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:visibility="gone"
+                android:visibility="@{viewModel.showInfoTypeView?View.VISIBLE:View.GONE}"
                 tools:visibility="visible">
 
                 <ImageView
@@ -177,7 +200,8 @@
                 android:layout_marginTop="80dp"
                 android:layout_marginBottom="30dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="@{viewModel.showInfoTypeView?View.GONE:View.VISIBLE}">
 
                 <RelativeLayout
                     android:id="@+id/ll_favcount"

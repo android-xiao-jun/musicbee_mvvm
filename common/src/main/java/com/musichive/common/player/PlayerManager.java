@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.kunminx.player.PlayerController;
 import com.kunminx.player.PlayingInfoManager;
@@ -28,6 +29,7 @@ import com.kunminx.player.bean.dto.PlayingMusic;
 import com.kunminx.player.contract.IPlayController;
 import com.kunminx.player.contract.IServiceNotifier;
 import com.musichive.common.bean.music.TestAlbum;
+import com.musichive.common.player.helper.PlayerHttpHelper;
 import com.musichive.common.player.notification.PlayerService;
 
 import java.util.List;
@@ -38,6 +40,9 @@ import java.util.List;
 public class PlayerManager implements IPlayController<TestAlbum, TestAlbum.TestMusic> {
 
     private static PlayerManager sManager = new PlayerManager();
+
+    //播放数据获取到之后回调
+    private final MutableLiveData<Object> playDataLiveData = new MutableLiveData<>();
 
     private PlayerController<TestAlbum, TestAlbum.TestMusic> mController;
 
@@ -116,6 +121,7 @@ public class PlayerManager implements IPlayController<TestAlbum, TestAlbum.TestM
 
     @Override
     public void clear() {
+        getPlayDataLiveData().postValue(null);
         mController.clear();
     }
 
@@ -210,7 +216,22 @@ public class PlayerManager implements IPlayController<TestAlbum, TestAlbum.TestM
         return mController.getCurrentPlayingMusic();
     }
 
-    public boolean isRandom(){
-        return mController.getRepeatMode()== PlayingInfoManager.RepeatMode.RANDOM;
+    public void playAudio(TestAlbum.TestMusic item) {
+        mController.playAudio(mController.getAlbumMusics().indexOf(item));
+    }
+
+    public MutableLiveData<Object> getPlayDataLiveData() {
+        if (this.playDataLiveData.getValue() == null) {
+            Object playDataLiveData = PlayerHttpHelper.getPlayDataLiveData();
+            if (playDataLiveData == null) {
+                return this.playDataLiveData;
+            }
+            this.playDataLiveData.postValue(playDataLiveData);
+        }
+        return this.playDataLiveData;
+    }
+
+    public boolean isRandom() {
+        return mController.getRepeatMode() == PlayingInfoManager.RepeatMode.RANDOM;
     }
 }

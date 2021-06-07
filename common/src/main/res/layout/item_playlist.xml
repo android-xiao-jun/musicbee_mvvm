@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/ll_allitme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="center_vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/tv_songname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:background="@null"
+                android:gravity="center"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:text="SongName"
+                android:textColor="#333333"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_horline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:gravity="center"
+                android:text="—"
+                android:textColor="#B2B2B2"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_nikename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:gravity="center"
+                android:maxWidth="75dip"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="nikename"
+                android:textColor="#666666"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/iv_currentplaying"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:gravity="center"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_currentplay_large" />
+
+
+        </LinearLayout>
+
+
+        <ImageButton
+            android:id="@+id/ib_singleremove"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:gravity="center"
+            android:scaleType="centerInside"
+            android:layout_gravity="right"
+
+            app:srcCompat="@drawable/ic_singleremove_large" />
+    </LinearLayout>
+</layout>

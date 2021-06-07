@@ -11,7 +11,7 @@ import androidx.room.RoomDatabase;
  * Date 2021 年 06月 01 日 12:20
  * Description 播放列表数据库
  */
-@Database(entities = {MusicEntity.class}, version = 4)
+@Database(entities = {MusicEntity.class}, version = 5)
 public abstract class MusicDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "music_db";
 

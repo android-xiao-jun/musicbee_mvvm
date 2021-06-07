@@ -12,17 +12,21 @@ import com.kunminx.player.PlayingInfoManager;
 import com.kunminx.player.bean.dto.ChangeMusic;
 import com.musichive.common.BR;
 import com.musichive.common.R;
-import com.musichive.common.app.BaseApplication;
 import com.musichive.common.app.BaseStatusBarActivity;
+import com.musichive.common.bean.music.GoodsPlayerBean;
+import com.musichive.common.bean.music.MusicLibPlayerBean;
+import com.musichive.common.bean.music.NFTPlayerBean;
+import com.musichive.common.bean.music.TestAlbum;
 import com.musichive.common.player.PlayerManager;
-import com.musichive.common.player.helper.PlayerHttpHelper;
-import com.musichive.common.room.MusicDatabase;
 import com.musichive.common.ui.player.adapter.PlayerBannerAdapter;
 import com.musichive.common.ui.player.viewmodel.PlayerViewModel;
+import com.musichive.common.ui.player.weight.PlayerListView;
 import com.musichive.common.utils.HandlerUtils;
+import com.musichive.common.utils.LogUtils;
 import com.musichive.common.utils.ProgressTimeUtils;
-import com.musichive.common.utils.ToastUtils;
+import com.musichive.common.utils.ViewMapUtils;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.listener.OnPageChangeListener;
 
 /**
@@ -35,6 +39,7 @@ public class PlayerActivity extends BaseStatusBarActivity {
     private PlayerViewModel playerViewModel;
     private PlayerBannerAdapter playerBannerAdapter;
     private Banner banner;
+    private PlayerListView playerListView;
 
     @Override
     protected void initViewModel() {
@@ -47,6 +52,7 @@ public class PlayerActivity extends BaseStatusBarActivity {
         return new DataBindingConfig(R.layout.common_activity_player, BR.viewModel, playerViewModel)
                 .addBindingParam(BR.clickProxy, new ClickProxy())
                 .addBindingParam(BR.listener, listener)
+                .addBindingParam(BR.listenerClick, listenerClick)
                 .addBindingParam(BR.adapterBanner, playerBannerAdapter);
     }
 
@@ -56,28 +62,74 @@ public class PlayerActivity extends BaseStatusBarActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        ViewMapUtils.clearCacheView();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         banner = findViewById(R.id.banner);
         PlayerManager.getInstance().getPauseLiveData().observe(this, aBoolean -> {
             playerViewModel.isPlaying.set(!aBoolean);
             playerBannerAdapter.playAnim(!aBoolean);
+            if (playerListView != null) {
+                playerListView.playerListAdapter.notifyDataSetChanged();
+            }
         });
         PlayerManager.getInstance().getClearPlayListLiveData().observe(this, aBoolean -> {
             if (aBoolean) {
                 finish();
             }
         });
+        PlayerManager.getInstance().getPlayDataLiveData().observe(this, new Observer<Object>() {
+            @Override
+            public void onChanged(Object result) {
+                //播放时请求接口获取到数据回调
+                LogUtils.e("网络访问结束-去更新数据" + result);
+                if (result instanceof GoodsPlayerBean) {
+                    GoodsPlayerBean goodsPlayerBean = (GoodsPlayerBean) result;
+                    playerViewModel.lrcText.set(goodsPlayerBean.getLyric());
+                    playerViewModel.authorName.set("");
+                    playerViewModel.showInfoTypeViewYear.set(goodsPlayerBean.getSellFormStr());
+                    playerViewModel.showInfoTypeViewTime.set(goodsPlayerBean.getConfTypeIdStr());
+                    playerViewModel.musicGenreName.set(goodsPlayerBean.getGenreStr());
+                    playerViewModel.showInfoTypeView.set(true);
+                } else if (result instanceof MusicLibPlayerBean) {
+                    MusicLibPlayerBean musicLibPlayerBean = (MusicLibPlayerBean) result;
+                    playerViewModel.lrcText.set(musicLibPlayerBean.getLyric_url());
+                    playerViewModel.authorName.set("");
+                    playerViewModel.songName.set("");
+                    playerViewModel.showInfoTypeViewYear.set("");
+                    playerViewModel.showInfoTypeViewTime.set("");
+                    playerViewModel.musicGenreName.set("");
+                    playerViewModel.showInfoTypeView.set(false);
+                } else if (result instanceof NFTPlayerBean) {
+                    NFTPlayerBean nftPlayerBean = (NFTPlayerBean) result;
+                    playerViewModel.lrcText.set(nftPlayerBean.getLyric());
+                    playerViewModel.authorName.set(nftPlayerBean.getCreaterName());
+                    playerViewModel.songName.set(nftPlayerBean.getNftName());
+                    playerViewModel.musicGenreName.set("");
+                    playerViewModel.showInfoTypeViewYear.set("");
+                    playerViewModel.showInfoTypeViewTime.set("");
+                    playerViewModel.showInfoTypeView.set(false);
+                }
+            }
+        });
         PlayerManager.getInstance().getChangeMusicLiveData().observe(this, new Observer<ChangeMusic>() {
             @Override
             public void onChanged(ChangeMusic changeMusic) {
                 playerViewModel.songName.set(changeMusic.getTitle());
-                playerViewModel.authorName.set(changeMusic.getSummary());
+                playerViewModel.authorName.set("");
                 playerViewModel.lrcText.set("");
-                //请求当前网络请求--请求额外字段
-                PlayerHttpHelper.playRequest(() -> {
-                    //去更新数据
-                });
+                if (playerListView != null) {
+                    playerListView.updateInfo();
+                }
+                if (runnable.position != -1 && runnable.position != PlayerManager.getInstance().getAlbumIndex()) {
+                    isScrolledSetting=true;
+                    banner.setCurrentItem(PlayerManager.getInstance().getAlbumIndex() + 1, false);
+                }
             }
         });
         PlayerManager.getInstance().getPlayingMusicLiveData().observe(this, playingMusic -> {
@@ -92,12 +144,24 @@ public class PlayerActivity extends BaseStatusBarActivity {
             public void onChanged(Enum anEnum) {
                 PlayingInfoManager.RepeatMode mode = (PlayingInfoManager.RepeatMode) anEnum;
                 playerViewModel.setModeSrc(mode);
+                if (playerListView != null) {
+                    playerListView.updateInfo();
+                }
             }
         });
     }
 
+    private OnBannerListener listenerClick = new OnBannerListener<TestAlbum.TestMusic>() {
+
+        @Override
+        public void OnBannerClick(TestAlbum.TestMusic data, int position) {
+            playerViewModel.showBannerAndLrcView.set(false);
+        }
+    };
+
     //防止点击下一曲过快，动画闪烁问题
     private boolean isScrolled;
+    private boolean isScrolledSetting=false;
 
     private OnPageChangeListener listener = new OnPageChangeListener() {
         @Override
@@ -107,18 +171,22 @@ public class PlayerActivity extends BaseStatusBarActivity {
 
         @Override
         public void onPageSelected(int position) {
-
-        }
-
-        @Override
-        public void onPageSelectedAnyTme(int position) {
             int index = PlayerManager.getInstance().getAlbumIndex();
-            if (position == index) {
+            if (position == index || index == -1 || position == -1) {
                 return;
             }
             HandlerUtils.getInstance().getWorkHander().removeCallbacks(runnable);
             runnable.position = position;
             HandlerUtils.getInstance().getWorkHander().post(runnable);
+        }
+
+        @Override
+        public void onPageSelectedAnyTme(int position) {
+            if (isScrolledSetting){
+                onPageSelected(position);
+            }
+            isScrolledSetting=false;
+
         }
 
         @Override
@@ -136,7 +204,7 @@ public class PlayerActivity extends BaseStatusBarActivity {
     private PositionRunnable runnable = new PositionRunnable();
 
     private static class PositionRunnable implements Runnable {
-        public int position;
+        public int position = -1;
 
         public PositionRunnable() {
         }
@@ -187,15 +255,15 @@ public class PlayerActivity extends BaseStatusBarActivity {
             playNextAndPrevious(true);
         }
 
-        public void playClear() {
-            HandlerUtils.getInstance().postWork(() -> {
-                PlayerManager.getInstance().clear();
-                MusicDatabase.getInstance(BaseApplication.mInstance).musicDao().deleteMusicAll();
-            });
+        public void playList() {
+            if (playerListView == null) {
+                playerListView = new PlayerListView(PlayerActivity.this);
+            }
+            playerListView.showAtLocation();
         }
 
-        public void playList() {
-            ToastUtils.showShort("播放列表点击");
+        public void clickLrcView() {
+            playerViewModel.showBannerAndLrcView.set(true);
         }
 
         public void playNextAndPrevious(boolean isNext) {
@@ -208,6 +276,7 @@ public class PlayerActivity extends BaseStatusBarActivity {
             }
             int currentItem = banner.getCurrentItem();
             int next = playerViewModel.playNextAndPrevious(isNext, currentItem, count);
+            isScrolledSetting=true;
             banner.setCurrentItem(next, Math.abs(next - currentItem) == 1);//随机播放就不给动画了
         }
 

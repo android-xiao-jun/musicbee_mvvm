@@ -70,7 +70,7 @@ public class PlayerDataTransformUtils {
                 testArtist.setName(item.account);
                 testMusic = new TestAlbum.TestMusic(item.demoInfoVO.goodsId, item.getCoverLink()
                         , item.demoInfoVO.musicEncodeUrl, item.getDemoName(), testArtist);
-                testMusic.setType(0);
+                testMusic.setType(1);
             }
 
             musics.add(testMusic);
@@ -140,7 +140,8 @@ public class PlayerDataTransformUtils {
         musicEntity.title = item.getTitle();
         musicEntity.name = item.getTitle();
         musicEntity.account = item.getArtist().getAccount();
-        musicEntity.type = 1;
+        musicEntity.type =  item.getType();
+        musicEntity.expand = item.getExpand();
         return musicEntity;
     }
 

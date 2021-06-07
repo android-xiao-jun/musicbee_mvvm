@@ -27,6 +27,9 @@ public interface MusicDao {
     @Update
     void updateMusic(MusicEntity musicEntity);
 
+    @Query("DELETE FROM music_table WHERE musicId = :musicId")
+    void deleteMusic(String musicId);
+
     @Query("DELETE FROM music_table")
     void deleteMusicAll();
 
