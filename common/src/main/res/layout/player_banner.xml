@@ -12,12 +12,14 @@
         android:layout_centerInParent="true" />
 
     <ImageView
+        android:layout_marginBottom="-10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/player_big_avatar"
         android:src="@drawable/shadow2" />
 
     <ImageView
+        android:layout_marginBottom="-10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/player_big_avatar"
