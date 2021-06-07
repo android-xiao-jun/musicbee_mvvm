@@ -160,11 +160,7 @@ public class LrcView extends View {
         }
         float y = topOffset;
         float x = getPaddingLeft();
-        if (type == 0x02) {
-            mTextPaint.setTextAlign(Paint.Align.LEFT);
-        } else {
-            mTextPaint.setTextAlign(Paint.Align.LEFT);
-        }
+        mTextPaint.setTextAlign(Paint.Align.LEFT);
         for (int i = 0; i < getLrcCount(); i++) {
             if (i > 0) {
                 y += (getTextHeight(i - 1) + getTextHeight(i)) / 2f + mLrcLineSpaceHeight;
@@ -307,14 +303,20 @@ public class LrcView extends View {
         }
         String text = mLrcData.get(linePosition).getLyric();
         StaticLayout staticLayout;
+        Layout.Alignment temp;
+        if (type == 0x02) {
+            temp = Layout.Alignment.ALIGN_NORMAL;
+        } else {
+            temp = Layout.Alignment.ALIGN_CENTER;
+        }
         if (mCurrentLine == linePosition) {
             staticLayout = new StaticLayout(text, mTextPaint,
-                    getLrcWidth(), Layout.Alignment.ALIGN_NORMAL, 1f, 0f, false);
+                    getLrcWidth(), temp, 1f, 0f, false);
         } else if (mStaticLayoutHashMap.get(text) != null) {
             staticLayout = mStaticLayoutHashMap.get(text);
         } else {
             staticLayout = new StaticLayout(text, mTextPaint,
-                    getLrcWidth(), Layout.Alignment.ALIGN_NORMAL, 1f, 0f, false);
+                    getLrcWidth(), temp, 1f, 0f, false);
             mStaticLayoutHashMap.put(text, staticLayout);
         }
         return staticLayout.getHeight();

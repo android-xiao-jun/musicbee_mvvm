@@ -51,6 +51,7 @@ public class PlayerActivity extends BaseStatusBarActivity {
         playerBannerAdapter = new PlayerBannerAdapter(this, playerViewModel.playList.get());
         return new DataBindingConfig(R.layout.common_activity_player, BR.viewModel, playerViewModel)
                 .addBindingParam(BR.clickProxy, new ClickProxy())
+                .addBindingParam(BR.event, new SeekBarChangeHandler())
                 .addBindingParam(BR.listener, listener)
                 .addBindingParam(BR.listenerClick, listenerClick)
                 .addBindingParam(BR.adapterBanner, playerBannerAdapter);
@@ -100,7 +101,6 @@ public class PlayerActivity extends BaseStatusBarActivity {
                     MusicLibPlayerBean musicLibPlayerBean = (MusicLibPlayerBean) result;
                     playerViewModel.lrcText.set(musicLibPlayerBean.getLyric_url());
                     playerViewModel.authorName.set("");
-                    playerViewModel.songName.set("");
                     playerViewModel.showInfoTypeViewYear.set("");
                     playerViewModel.showInfoTypeViewTime.set("");
                     playerViewModel.musicGenreName.set("");
@@ -109,7 +109,6 @@ public class PlayerActivity extends BaseStatusBarActivity {
                     NFTPlayerBean nftPlayerBean = (NFTPlayerBean) result;
                     playerViewModel.lrcText.set(nftPlayerBean.getLyric());
                     playerViewModel.authorName.set(nftPlayerBean.getCreaterName());
-                    playerViewModel.songName.set(nftPlayerBean.getNftName());
                     playerViewModel.musicGenreName.set("");
                     playerViewModel.showInfoTypeViewYear.set("");
                     playerViewModel.showInfoTypeViewTime.set("");
@@ -121,8 +120,6 @@ public class PlayerActivity extends BaseStatusBarActivity {
             @Override
             public void onChanged(ChangeMusic changeMusic) {
                 playerViewModel.songName.set(changeMusic.getTitle());
-                playerViewModel.authorName.set("");
-                playerViewModel.lrcText.set("");
                 if (playerListView != null) {
                     playerListView.updateInfo();
                 }
