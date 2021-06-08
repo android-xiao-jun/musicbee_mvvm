@@ -34,6 +34,9 @@ public class BannerPlayerZoomPageTransformer implements ViewPager2.PageTransform
             } else {
                 view.setTranslationX(-horzMargin + vertMargin / 2);
             }
+            if (scaleFactor>1f){
+                scaleFactor=1f;
+            }
             //设置动画原点
             view.setPivotX(0);
             view.setPivotY(0);

@@ -24,6 +24,7 @@ import com.musichive.common.ui.player.weight.PlayerListView;
 import com.musichive.common.utils.HandlerUtils;
 import com.musichive.common.utils.LogUtils;
 import com.musichive.common.utils.ProgressTimeUtils;
+import com.musichive.common.utils.ToastUtils;
 import com.musichive.common.utils.ViewMapUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
@@ -75,9 +76,6 @@ public class PlayerActivity extends BaseStatusBarActivity {
         PlayerManager.getInstance().getPauseLiveData().observe(this, aBoolean -> {
             playerViewModel.isPlaying.set(!aBoolean);
             playerBannerAdapter.playAnim(!aBoolean);
-            if (playerListView != null) {
-                playerListView.playerListAdapter.notifyDataSetChanged();
-            }
         });
         PlayerManager.getInstance().getClearPlayListLiveData().observe(this, aBoolean -> {
             if (aBoolean) {
@@ -120,12 +118,16 @@ public class PlayerActivity extends BaseStatusBarActivity {
             @Override
             public void onChanged(ChangeMusic changeMusic) {
                 playerViewModel.songName.set(changeMusic.getTitle());
-                if (playerListView != null) {
-                    playerListView.updateInfo();
-                }
                 if (runnable.position != -1 && runnable.position != PlayerManager.getInstance().getAlbumIndex()) {
-                    isScrolledSetting=true;
+                    isScrolledSetting = true;
                     banner.setCurrentItem(PlayerManager.getInstance().getAlbumIndex() + 1, false);
+                    playerBannerAdapter.notifyDataSetChanged();
+                }
+                if (playerListView != null) {
+                    playerListView.updateInfoList();
+                }
+                if (playerListView != null) {
+                    playerListView.updateInfoIndex();
                 }
             }
         });
@@ -142,7 +144,7 @@ public class PlayerActivity extends BaseStatusBarActivity {
                 PlayingInfoManager.RepeatMode mode = (PlayingInfoManager.RepeatMode) anEnum;
                 playerViewModel.setModeSrc(mode);
                 if (playerListView != null) {
-                    playerListView.updateInfo();
+                    playerListView.updateInfoMode();
                 }
             }
         });
@@ -158,7 +160,7 @@ public class PlayerActivity extends BaseStatusBarActivity {
 
     //防止点击下一曲过快，动画闪烁问题
     private boolean isScrolled;
-    private boolean isScrolledSetting=false;
+    private boolean isScrolledSetting = false;
 
     private OnPageChangeListener listener = new OnPageChangeListener() {
         @Override
@@ -179,10 +181,11 @@ public class PlayerActivity extends BaseStatusBarActivity {
 
         @Override
         public void onPageSelectedAnyTme(int position) {
-            if (isScrolledSetting){
+            if (isScrolledSetting) {
                 onPageSelected(position);
             }
-            isScrolledSetting=false;
+            runnable.position = position;
+            isScrolledSetting = false;
 
         }
 
@@ -232,6 +235,14 @@ public class PlayerActivity extends BaseStatusBarActivity {
 
     public class ClickProxy {
 
+        public void showMore() {
+            ToastUtils.showShort("更多");
+        }
+
+        public void close() {
+            finish();
+        }
+
         public void changeMode() {
             PlayerManager.getInstance().changeMode();
         }
@@ -273,7 +284,7 @@ public class PlayerActivity extends BaseStatusBarActivity {
             }
             int currentItem = banner.getCurrentItem();
             int next = playerViewModel.playNextAndPrevious(isNext, currentItem, count);
-            isScrolledSetting=true;
+            isScrolledSetting = true;
             banner.setCurrentItem(next, Math.abs(next - currentItem) == 1);//随机播放就不给动画了
         }
 

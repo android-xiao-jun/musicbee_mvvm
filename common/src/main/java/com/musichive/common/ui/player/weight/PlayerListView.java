@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -14,10 +13,8 @@ import android.widget.PopupWindow;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.kunminx.binding_recyclerview.adapter.BaseDataBindingAdapter;
 import com.kunminx.player.PlayingInfoManager;
 import com.musichive.common.R;
-import com.musichive.common.aop.SingleClick;
 import com.musichive.common.app.BaseApplication;
 import com.musichive.common.bean.music.TestAlbum;
 import com.musichive.common.databinding.FragmentFragmentPlayListBinding;
@@ -86,16 +83,25 @@ public class PlayerListView {
         }
     }
 
-    public void updateInfo() {
+    public void updateInfoMode() {
         playListBinding.tvRecyclemode.setText(setModeSrc((PlayingInfoManager.RepeatMode) PlayerManager.getInstance().getRepeatMode()));
+    }
+
+    public void updateInfoList() {
         playerListAdapter.submitList(PlayerManager.getInstance().getAlbumMusics());
+    }
+    public void updateInfoIndex() {
+        playerListAdapter.playIndex = PlayerManager.getInstance().getAlbumIndex();
+        playerListAdapter.notifyDataSetChanged();
     }
 
     public void showAtLocation() {
         if (playlistWindow == null) {
             return;
         }
-        updateInfo();
+        updateInfoMode();
+        updateInfoList();
+        updateInfoIndex();
         setBackgroundAlpha(0.5f);
         playlistWindow.showAtLocation(playListBinding.getRoot(), Gravity.BOTTOM, 0, 0);
     }
@@ -109,6 +115,9 @@ public class PlayerListView {
 
     public static void removeListItem(TestAlbum.TestMusic item) {
         TestAlbum album = PlayerManager.getInstance().getAlbum();
+        if (album==null){
+            return;
+        }
         List<TestAlbum.TestMusic> musics = album.getMusics();
         int temp = -1;
         for (int i = 0; i < musics.size(); i++) {

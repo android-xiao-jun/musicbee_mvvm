@@ -129,6 +129,7 @@ public class PlayerDataTransformUtils {
         testArtist.setAccount(item.account);
         TestAlbum.TestMusic testMusic = new TestAlbum.TestMusic(item.musicId, item.coverImg, item.url, item.title, testArtist);
         testMusic.setType(item.type);
+        testMusic.setExpand(item.expand);
         return testMusic;
     }
 

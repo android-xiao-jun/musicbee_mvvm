@@ -14,6 +14,7 @@ import com.musichive.common.aop.SingleClick;
 import com.musichive.common.bean.music.TestAlbum;
 import com.musichive.common.databinding.ItemPlaylistBinding;
 import com.musichive.common.player.PlayerManager;
+import com.musichive.common.ui.player.activity.PlayerActivity;
 import com.musichive.common.ui.player.weight.PlayerListView;
 import com.musichive.common.utils.HandlerUtils;
 
@@ -26,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class PlayerListAdapter extends BaseDataBindingAdapter<TestAlbum.TestMusic, ItemPlaylistBinding> {
 
+    public int playIndex = -1;
 
     public PlayerListAdapter(Context context) {
         super(context, new DiffUtil.ItemCallback<TestAlbum.TestMusic>() {
@@ -39,6 +41,7 @@ public class PlayerListAdapter extends BaseDataBindingAdapter<TestAlbum.TestMusi
                 return oldItem.getTitle().equals(newItem.getTitle()) && oldItem.getMusicId().equals(newItem.getMusicId());
             }
         });
+        playIndex = PlayerManager.getInstance().getAlbumIndex();
     }
 
     @Override
@@ -54,6 +57,10 @@ public class PlayerListAdapter extends BaseDataBindingAdapter<TestAlbum.TestMusi
             public void onClick(View v) {
                 HandlerUtils.getInstance().postWork(() -> {
                     PlayerListView.removeListItem(item);
+                    HandlerUtils.getInstance().postMain(()->{
+                        playIndex = PlayerManager.getInstance().getAlbumIndex();
+                        notifyDataSetChanged();
+                    });
                 });
             }
         });
@@ -61,14 +68,19 @@ public class PlayerListAdapter extends BaseDataBindingAdapter<TestAlbum.TestMusi
             @SingleClick
             @Override
             public void onClick(View v) {
-                HandlerUtils.getInstance().postWork(() -> {
-                    PlayerManager.getInstance().playAudio(item);
-                });
+                if (holder.getBindingAdapterPosition() == playIndex) {
+                    return;
+                } else {
+                    playIndex = holder.getBindingAdapterPosition();
+                    notifyDataSetChanged();
+                }
+                HandlerUtils.getInstance().removeCallbacks(runnable);
+                HandlerUtils.getInstance().getWorkHander().postDelayed(runnable,100);
             }
         });
         binding.tvSongname.setText(item.getTitle());
         binding.tvNikename.setText(item.getArtist().getName());
-        if (holder.getBindingAdapterPosition() == PlayerManager.getInstance().getAlbumIndex()) {
+        if (holder.getBindingAdapterPosition() == playIndex) {
             binding.tvSongname.setTextColor(Color.parseColor("#FF4F48"));
             binding.tvNikename.setTextColor(Color.parseColor("#FF4F48"));
             binding.tvHorline.setTextColor(Color.parseColor("#FF4F48"));
@@ -87,4 +99,10 @@ public class PlayerListAdapter extends BaseDataBindingAdapter<TestAlbum.TestMusi
             binding.tvNikename.setVisibility(View.VISIBLE);
         }
     }
+    private Runnable runnable = new Runnable(){
+        @Override
+        public void run() {
+            PlayerManager.getInstance().playAudio(playIndex);
+        }
+    };
 }

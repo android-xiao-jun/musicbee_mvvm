@@ -53,6 +53,7 @@
                 android:layout_height="50dp"
                 android:background="@null"
                 android:padding="20dp"
+                android:onClick="@{()->clickProxy.close()}"
                 app:srcCompat="@drawable/icon_xiala_player" />
 
             <View
@@ -68,12 +69,13 @@
                 android:layout_height="50dp"
                 android:background="@null"
                 android:padding="20dp"
+                android:onClick="@{()->clickProxy.showMore()}"
                 app:srcCompat="@drawable/action_bar_black_more_icon" />
         </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1">
 
             <com.musichive.common.weight.lyrics.LrcView
@@ -90,6 +92,7 @@
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:clipChildren="false"
                 android:layout_gravity="center"
                 android:visibility="@{viewModel.showBannerAndLrcView?View.VISIBLE:View.GONE}"
                 app:addOnPageChangeListener="@{listener}"
@@ -162,7 +165,7 @@
                 android:id="@+id/ll_shop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
                 android:gravity="center"
                 android:orientation="horizontal"
