@@ -16,6 +16,7 @@ import com.musichive.common.ui.home.adapter.HomeFragmentPageAdapter;
 import com.musichive.common.ui.home.fragment.HomeFragment;
 import com.musichive.common.ui.home.fragment.MarketFragment;
 import com.musichive.common.ui.home.fragment.MeFragment;
+import com.musichive.common.ui.home.fragment.MusicLibFragment;
 import com.musichive.common.ui.home.fragment.NFTFragment;
 import com.musichive.common.ui.home.fragment.WorksFragment;
 import com.musichive.common.ui.home.repository.HomeDataRepository;
@@ -45,7 +46,8 @@ public class HomeActivity extends BaseStatusBarActivity implements PlayerToolSho
         mList.add(new HomeFragment());
         mList.add(new NFTFragment());
         mList.add(new MarketFragment());
-        mList.add(new WorksFragment());
+//        mList.add(new WorksFragment());
+        mList.add(new MusicLibFragment());//显示乐库得了
         mList.add(new MeFragment());
         homeFragmentPageAdapter = new HomeFragmentPageAdapter(getSupportFragmentManager(), mList);
         return new DataBindingConfig(R.layout.common_activity_home, BR.viewModel, homeViewModel)

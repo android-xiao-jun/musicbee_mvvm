@@ -75,6 +75,7 @@ dependencies {
     implementation 'com.hyman:flowlayout-lib:1.1.2'//标签
 //    implementation 'io.github.youth5201314:banner:2.2.2'
     implementation project(':banner')
+    implementation 'com.androidkun:XTabLayout:1.1.5'
 
     def room_version = "2.3.0"
     api "androidx.room:room-runtime:$room_version"
