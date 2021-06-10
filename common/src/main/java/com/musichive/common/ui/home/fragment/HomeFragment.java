@@ -100,8 +100,8 @@ public class HomeFragment extends BaseStatusBarFragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void lazyLoadData() {
+        super.lazyLoadData();
         homeFragmentViewModel.homeList.observe(getViewLifecycleOwner(), o -> {
             if (o != null) {
                 homeAdapter.setDataItems(o);
@@ -113,6 +113,12 @@ public class HomeFragment extends BaseStatusBarFragment {
             homeFragmentViewModel.closeRefresh.notifyChange();
         });
         homeFragmentViewModel.requestRefresh(homeAdapter.getPage(), homeAdapter.getPageSize());
+    }
+
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
     }
 
     public class RefreshEvent implements OnRefreshLoadMoreListener {

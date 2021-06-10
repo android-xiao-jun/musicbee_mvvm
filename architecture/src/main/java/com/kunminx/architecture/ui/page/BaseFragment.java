@@ -157,4 +157,9 @@ public abstract class BaseFragment extends DataBindingFragment {
         // 默认不拦截按键事件，回传给 Activity
         return false;
     }
+
+    @Override
+    public boolean isDebug() {
+        return false;
+    }
 }

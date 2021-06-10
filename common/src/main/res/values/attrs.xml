@@ -43,4 +43,9 @@
         <item name="backgroundColor">#80000000</item>
     </style>
 
+    <declare-styleable name="AppMultiStateView">
+        <attr name="emptyStr" format="string" />
+        <attr name="emptySrc" format="reference|color" />
+    </declare-styleable>
+
 </resources>

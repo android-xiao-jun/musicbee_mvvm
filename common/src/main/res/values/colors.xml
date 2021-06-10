@@ -9,4 +9,5 @@
     <color name="light_gray">#999</color>
     <color name="transparent">#00000000</color>
     <color name="color_home_bottom">#f5f6f9</color>
+    <color name="color_999999">#999999</color>
 </resources>

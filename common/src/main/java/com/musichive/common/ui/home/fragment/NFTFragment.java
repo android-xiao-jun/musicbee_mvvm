@@ -82,8 +82,8 @@ public class NFTFragment extends BaseStatusBarFragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void lazyLoadData() {
+        super.lazyLoadData();
         nftFragmentViewModel.nftList.observe(getViewLifecycleOwner(), o -> {
             if (o != null) {
                 nftAdapter.setDataItems(o);
@@ -95,6 +95,11 @@ public class NFTFragment extends BaseStatusBarFragment {
             nftFragmentViewModel.closeRefresh.notifyChange();
         });
         nftFragmentViewModel.requestRefresh(nftAdapter.getPage(), nftAdapter.getPageSize());
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

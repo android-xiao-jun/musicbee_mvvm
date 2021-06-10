@@ -6,13 +6,14 @@ import androidx.annotation.NonNull;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.kunminx.architecture.ui.page.BaseFragment;
+import com.kunminx.architecture.ui.page.LazyFragment;
 
 /**
  * @Author Jun
  * Date 2021 年 05月 27 日 17:20
  * Description 状态栏沉浸Fragment
  */
-public abstract class BaseStatusBarFragment extends BaseFragment {
+public abstract class BaseStatusBarFragment extends LazyFragment {
 
     private ImmersionBar mImmersionBar;
     /**

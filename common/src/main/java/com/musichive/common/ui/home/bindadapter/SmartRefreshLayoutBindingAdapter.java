@@ -4,6 +4,7 @@ import androidx.databinding.BindingAdapter;
 
 import com.musichive.common.ui.home.fragment.HomeFragment;
 import com.musichive.common.ui.home.fragment.NFTFragment;
+import com.musichive.common.ui.home.fragment.NewestNewFragment;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 /**
@@ -23,6 +24,11 @@ public class SmartRefreshLayoutBindingAdapter {
         smartRefreshLayout.setOnRefreshLoadMoreListener(refreshEvent);
     }
 
+    @BindingAdapter(value = {"setOnRefreshLoadMoreListener"}, requireAll = false)
+    public static void setOnRefreshLoadMoreListener(SmartRefreshLayout smartRefreshLayout, NewestNewFragment.RefreshEvent refreshEvent) {
+        smartRefreshLayout.setOnRefreshLoadMoreListener(refreshEvent);
+    }
+
     @BindingAdapter(value = {"autoRefresh"}, requireAll = false)
     public static void autoRefresh(SmartRefreshLayout smartRefreshLayout, Boolean autoRefresh) {
         smartRefreshLayout.autoRefresh();
@@ -30,12 +36,12 @@ public class SmartRefreshLayoutBindingAdapter {
 
     @BindingAdapter(value = {"closeLoad"}, requireAll = false)
     public static void closeLoad(SmartRefreshLayout smartRefreshLayout, Boolean closeLoad) {
-        smartRefreshLayout.finishLoadMore(closeLoad);
+        smartRefreshLayout.finishLoadMore();
     }
 
     @BindingAdapter(value = {"closeRefresh"}, requireAll = false)
     public static void closeRefresh(SmartRefreshLayout smartRefreshLayout, Boolean closeRefresh) {
-        smartRefreshLayout.finishRefresh(closeRefresh);
+        smartRefreshLayout.finishRefresh();
     }
 
     @BindingAdapter(value = {"setNoMoreData"}, requireAll = false)

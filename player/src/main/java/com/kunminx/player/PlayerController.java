@@ -87,6 +87,11 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
         setChangingPlayingMusic(true);
     }
 
+    public void addMusicAlbumItem(M item){
+        mPlayingInfoManager.addMusicAlbumItem(item);
+        clearPlayListLiveData.postValue(false);
+    }
+
     public void loadAlbum(B musicAlbum, int albumIndex) {
         setAlbum(musicAlbum, albumIndex);
         playAudio();

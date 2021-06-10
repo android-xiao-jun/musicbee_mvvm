@@ -220,6 +220,15 @@ public class PlayerManager implements IPlayController<TestAlbum, TestAlbum.TestM
         mController.playAudio(mController.getAlbumMusics().indexOf(item));
     }
 
+    public void addPlayItem(TestAlbum.TestMusic item) {
+        mController.addMusicAlbumItem(item);
+    }
+
+    public void addPlayItemAndPlay(TestAlbum.TestMusic item) {
+        addPlayItem(item);
+        playAudio(mController.getAlbumMusics().size() - 1);
+    }
+
     public MutableLiveData<Object> getPlayDataLiveData() {
         if (this.playDataLiveData.getValue() == null) {
             Object playDataLiveData = PlayerHttpHelper.getPlayDataLiveData();

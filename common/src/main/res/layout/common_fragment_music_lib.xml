@@ -4,6 +4,38 @@
     <data>
 
         <variable
+            name="adapterType"
+            type="androidx.recyclerview.widget.RecyclerView.Adapter" />
+
+        <variable
+            name="layoutManagerType"
+            type="androidx.recyclerview.widget.RecyclerView.LayoutManager" />
+
+        <variable
+            name="layoutManagerStyle"
+            type="androidx.recyclerview.widget.RecyclerView.LayoutManager" />
+
+        <variable
+            name="adapterStyle"
+            type="androidx.recyclerview.widget.RecyclerView.Adapter" />
+
+        <variable
+            name="viewpagerAdapter"
+            type="androidx.viewpager.widget.PagerAdapter" />
+
+        <variable
+            name="viewpagerChangeListener"
+            type="androidx.viewpager.widget.ViewPager.OnPageChangeListener" />
+
+        <variable
+            name="tabLayoutBindViewPager"
+            type="androidx.viewpager.widget.ViewPager" />
+
+        <variable
+            name="switchChangeListener"
+            type="android.widget.CompoundButton.OnCheckedChangeListener" />
+
+        <variable
             name="viewModel"
             type="com.musichive.common.ui.home.viewmodel.MusicLibFragmentViewModel" />
     </data>
@@ -11,11 +43,11 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".ui.activity.MusicLibraryActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fafafa"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".ui.activity.MusicLibraryActivity">
 
         <com.musichive.common.other.float_player.PlayerToolHelperView
             android:id="@+id/ll_title"
@@ -23,16 +55,17 @@
             android:layout_height="?attr/actionBarSize"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            app:viewRight="20dp"
             tools:layout_height="50dp">
 
             <TextView
-                android:layout_gravity="center_vertical"
                 android:id="@+id/event_search_enter"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
+                android:layout_marginEnd="5dp"
                 android:background="@drawable/home_discover_search_bg_new"
                 android:drawableStart="@drawable/home_discover_search"
                 android:drawablePadding="2dp"
@@ -68,6 +101,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                app:setAdapter="@{adapterType}"
+                app:setLayoutManager="@{layoutManagerType}"
                 tools:layout_height="50dp" />
 
         </LinearLayout>
@@ -89,9 +124,11 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_style"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                app:setAdapter="@{adapterStyle}"
+                app:setLayoutManager="@{layoutManagerStyle}"
                 tools:layout_height="50dp" />
         </LinearLayout>
 
@@ -110,12 +147,16 @@
                     android:id="@+id/tab_indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="6dp"
-                    android:background="@drawable/tab_indicator_color" />
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/tab_indicator_color"
+                    app:setMarginLeft="@{viewModel.tabLeftMargin}"
+                    app:setViewWidth="@{viewModel.tabWidth}" />
 
                 <com.androidkun.xtablayout.XTabLayout
                     android:id="@+id/groups_post_tablayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:setupWithViewPager="@{tabLayoutBindViewPager}"
                     app:xTabDividerWidthWidthText="true"
                     app:xTabIndicatorColor="@color/colormusicbee"
                     app:xTabIndicatorHeight="0dp"
@@ -133,10 +174,11 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="5dp"
                     android:layout_toStartOf="@+id/group_switch_text"
-                    android:checked="true"
+                    android:checked="@{viewModel.check}"
                     android:textColor="#1e1e1e"
                     android:textSize="14sp"
                     android:thumb="@drawable/switch_yueku_selector"
+                    app:setOnCheckedChangeListener="@{switchChangeListener}"
                     app:track="@drawable/switch_track_yueku_selector" />
 
                 <TextView
@@ -156,7 +198,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp" />
+                android:paddingRight="15dp"
+                app:addOnPageChangeListener="@{viewpagerChangeListener}"
+                app:setOffscreenPageLimit="@{viewModel.heatList.size()}"
+                app:setViewPagerAdapter="@{viewpagerAdapter}" />
 
         </LinearLayout>
 

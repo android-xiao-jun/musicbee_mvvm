@@ -36,6 +36,16 @@ public class PlayerHttpHelper {
             }
             return;
         }
+
+        //先取之前 保存的旧值
+        Object oldData = getPlayDataLiveData();
+        if (oldData != null) {
+            PlayerManager.getInstance().getPlayDataLiveData().postValue(oldData);
+            if (listener != null) {
+                listener.upData();
+            }
+        }
+
         int type = playingMusic.getType();//0 乐库 1 市集 2 nft播放
         if (type == 0) {
             obtainDiscoverHotspot(playingMusic.getArtist().getAccount(), playingMusic.getMusicId(), listener);

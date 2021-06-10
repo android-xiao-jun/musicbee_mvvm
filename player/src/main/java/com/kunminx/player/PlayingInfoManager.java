@@ -84,6 +84,11 @@ public class PlayingInfoManager<B extends BaseAlbumItem, M extends BaseMusicItem
         fitShuffle();
     }
 
+    void addMusicAlbumItem(M item){
+        mOriginPlayingList.add(item);
+        fitShuffle();
+    }
+
     List<M> getPlayingList() {
         if (mRepeatMode == RepeatMode.RANDOM) {
             return mShufflePlayingList;

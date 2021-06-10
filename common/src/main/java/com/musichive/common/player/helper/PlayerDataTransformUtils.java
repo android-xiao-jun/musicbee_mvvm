@@ -1,8 +1,11 @@
 package com.musichive.common.player.helper;
 
+import com.alibaba.fastjson.JSON;
 import com.musichive.common.app.BaseApplication;
 import com.musichive.common.bean.home.HomeDynamicInfo;
+import com.musichive.common.bean.home.MusicLibBean;
 import com.musichive.common.bean.home.MusicStateMusic;
+import com.musichive.common.bean.music.MusicLibPlayerBean;
 import com.musichive.common.bean.music.TestAlbum;
 import com.musichive.common.bean.nft.HomeNFTBean;
 import com.musichive.common.player.PlayerManager;
@@ -141,7 +144,7 @@ public class PlayerDataTransformUtils {
         musicEntity.title = item.getTitle();
         musicEntity.name = item.getTitle();
         musicEntity.account = item.getArtist().getAccount();
-        musicEntity.type =  item.getType();
+        musicEntity.type = item.getType();
         musicEntity.expand = item.getExpand();
         return musicEntity;
     }
@@ -217,5 +220,70 @@ public class PlayerDataTransformUtils {
         TestAlbum testAlbum = new TestAlbum("", "", "", null, null, musics);
         PlayerManager.getInstance().loadAlbum(testAlbum, playIndex);
         return testAlbum;
+    }
+
+    /**
+     * 乐库 和 播放列表转化
+     *
+     * @param item
+     * @return
+     */
+    public static TestAlbum.TestMusic transformMusicLib(MusicLibPlayerBean item) {
+        TestAlbum.TestArtist testArtist = new TestAlbum.TestArtist();
+        testArtist.setName(item.getNickName());
+        testArtist.setAccount(item.getAuthor());
+        TestAlbum.TestMusic testMusic = new TestAlbum.TestMusic(item.getPermlink(), item.getCoverurl(), item.getMusic_encode_url(), item.getTitle(), testArtist);
+        testMusic.setType(0);
+        testMusic.setWorkType(item.getPostsType());
+        testMusic.setExpand(JSON.toJSONString(item));
+        return testMusic;
+    }
+
+    /**
+     * 添加乐库歌曲 到播放器 并播放
+     *
+     * @param item
+     */
+    public static void addMusicLibAndPlay(MusicLibPlayerBean item) {
+        List<TestAlbum.TestMusic> albumMusics = PlayerManager.getInstance().getAlbumMusics();
+        if (albumMusics == null) {
+            return;
+        }
+        TestAlbum.TestMusic testMusic = transformMusicLib(item);
+
+        int oldIndex = -1;
+        for (int i = 0; i < albumMusics.size(); i++) {
+            if (testMusic.getMusicId().equals(albumMusics.get(i).getMusicId())) {
+                oldIndex = i;
+                break;
+            }
+        }
+        if (oldIndex == -1) {
+            MusicDatabase.getInstance(BaseApplication.mInstance).musicDao().insertMusic(transformHomeMusic(testMusic));
+            PlayerManager.getInstance().addPlayItemAndPlay(testMusic);
+        } else {
+            PlayerManager.getInstance().playAudio(oldIndex);
+        }
+    }
+
+    /**
+     * 乐库播放列表 添加 到播放器和数据库
+     *
+     * @param items
+     * @param playIndex
+     */
+    public static void addMusicLibAndPlays(List<MusicLibPlayerBean> items, int playIndex) {
+        List<TestAlbum.TestMusic> musics = new ArrayList<>();
+        List<MusicEntity> musicEntities = new ArrayList<>();
+        for (MusicLibPlayerBean item : items) {
+            TestAlbum.TestMusic testMusic = transformMusicLib(item);
+            MusicEntity musicEntity = transformHomeMusic(testMusic);
+            musics.add(testMusic);
+            musicEntities.add(musicEntity);
+        }
+        TestAlbum testAlbum = new TestAlbum("", "", "", null, null, musics);
+        PlayerManager.getInstance().loadAlbum(testAlbum, playIndex);
+        MusicDatabase.getInstance(BaseApplication.mInstance).musicDao().deleteMusicAll();
+        MusicDatabase.getInstance(BaseApplication.mInstance).musicDao().insertMusics(musicEntities);
     }
 }

@@ -5,6 +5,8 @@ import com.musichive.common.bean.PageInfo;
 import com.musichive.common.bean.home.HomeDynamicInfo;
 import com.musichive.common.bean.home.HomeMusicDataBean;
 import com.musichive.common.bean.home.ListBean;
+import com.musichive.common.bean.home.MusicLabelResponseBean;
+import com.musichive.common.bean.home.MusicLibBean;
 import com.musichive.common.bean.nft.HomeNFTBean;
 
 import java.util.List;
@@ -47,4 +49,17 @@ public interface HomeService {
     //获取所有nft作品列表
     @GET("api/nft/getNftPostsAll")
     Observable<BaseResponseBean<PageInfo<HomeNFTBean>>> getNftPostsAll(@Query("page") int page, @Query("pageSize") int pageSize);
+
+
+    @POST("api/musicLabel/musicLabelList")
+    Observable<MusicLabelResponseBean> getMusicLabel(@Query("page") String page, @Query("rows") int rows);
+
+    @GET("api/search/post-by-tile")
+    Observable<BaseResponseBean<MusicLibBean>> postByTitle(@Query("colligate") boolean colligate,
+                                                           @Query("conf_type_id") int conf_type_id,
+                                                           @Query("genreList") String genreList,
+                                                           @Query("isShare") int isShare,
+                                                           @Query("orderType") int orderType,
+                                                           @Query("page") int page,
+                                                           @Query("pageSize") int pageSize);
 }
