@@ -86,6 +86,7 @@ public class BaseApplication extends com.kunminx.architecture.BaseApplication {
             //(必须Utils.init之后)
             initPlayerFloat(this);
             initPlayerData(this);
+            AppSaveUtils.getInstance().init(this);
             //======================== 可以延迟加载(上面) ========================
         }
     }

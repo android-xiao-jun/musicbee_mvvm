@@ -33,6 +33,10 @@ public class GlideUtils {
         Glide.with(context).asBitmap().load(url).apply(requestOptions).into(imageView);
     }
 
+    public static void preload(Context context, Object url) {
+        Glide.with(context).asBitmap().load(url).preload();
+    }
+
     public static <T extends View> void loadPicToBackgroundView(Context context, String url, T view) {
         Glide.with(context).asDrawable().load(url).apply(requestOptions).into(new CustomTarget<Drawable>() {
             @Override

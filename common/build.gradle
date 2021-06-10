@@ -61,12 +61,12 @@ dependencies {
 
     implementation "com.kunminx.archi:binding-recyclerview:3.8.3-beta1"
     implementation 'io.github.rockerhieu:emojicon:1.4.2'
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
+    api 'com.squareup.retrofit2:retrofit:2.4.0'
+    api 'com.squareup.retrofit2:converter-gson:2.4.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    api 'com.squareup.okhttp3:okhttp:3.12.0'
+    api 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    api 'io.reactivex.rxjava2:rxjava:2.1.12'
     //# 必选，内部默认使用系统mediaplayer进行解码
     implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.1'
 
@@ -82,4 +82,6 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     // optional - RxJava2 support for Room
     api "androidx.room:room-rxjava2:$room_version"
+
+    api 'com.tencent:mmkv-static:1.2.9'
 }

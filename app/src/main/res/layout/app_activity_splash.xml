@@ -3,9 +3,15 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.musichive.musicbee.viewmodel.SplashViewModel" />
+
+        <variable
+            name="skipClick"
+            type="View.OnClickListener" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,6 +19,7 @@
         android:id="@+id/splash_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/shanpin"
         android:orientation="vertical">
 
         <FrameLayout
@@ -22,52 +29,38 @@
 
             <ImageView
                 android:id="@+id/splash_advertisement_view"
+                loadPic="@{viewModel.adList}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:visibility="@{viewModel.skipShow?View.VISIBLE:View.INVISIBLE}" />
 
             <TextView
                 android:id="@+id/skip_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="right"
                 android:layout_marginTop="24dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/splash_skip_btn_bg"
+                android:gravity="center"
                 android:minHeight="24dp"
+                android:onClick="@{skipClick}"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@{viewModel.skipSecond}"
                 android:textAllCaps="false"
                 android:textColor="#f0f0f0"
-                android:visibility="gone"
+                android:visibility="@{viewModel.skipShow?View.VISIBLE:View.INVISIBLE}"
                 tools:text="跳过 5s" />
         </FrameLayout>
 
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="10dp"
             android:layout_weight="0.18"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="invisible">
-
-            <ImageView
-                android:id="@+id/logo_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/splash_logo"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:id="@+id/splash_bottom_copy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#a0a0a0"
-                android:textSize="14sp"
-                android:visibility="gone" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
+            android:visibility="invisible" />
 
     </LinearLayout>
 </layout>
