@@ -84,7 +84,10 @@ public class PlayingInfoManager<B extends BaseAlbumItem, M extends BaseMusicItem
         fitShuffle();
     }
 
-    void addMusicAlbumItem(M item){
+    void addMusicAlbumItem(M item) {
+        if (this.mMusicAlbum == null) {
+            this.mMusicAlbum = (B) new BaseAlbumItem();
+        }
         mOriginPlayingList.add(item);
         fitShuffle();
     }

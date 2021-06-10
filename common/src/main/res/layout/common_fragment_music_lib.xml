@@ -53,19 +53,20 @@
             android:id="@+id/ll_title"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:layout_marginStart="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:layout_marginStart="20dp"
             app:viewRight="20dp"
-            tools:layout_height="50dp">
+            tools:layout_height="50dp"
+            tools:layout_marginEnd="20dp">
 
             <TextView
                 android:id="@+id/event_search_enter"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"
                 android:layout_marginEnd="5dp"
+                android:layout_weight="1"
                 android:background="@drawable/home_discover_search_bg_new"
                 android:drawableStart="@drawable/home_discover_search"
                 android:drawablePadding="2dp"
