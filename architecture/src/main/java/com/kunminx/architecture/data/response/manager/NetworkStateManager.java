@@ -22,6 +22,7 @@ import android.net.ConnectivityManager;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 
 import com.kunminx.architecture.utils.Utils;
 
@@ -32,12 +33,18 @@ public class NetworkStateManager implements DefaultLifecycleObserver {
 
     private static final NetworkStateManager S_MANAGER = new NetworkStateManager();
     private NetworkStateReceive mNetworkStateReceive;
+    
+    private final MutableLiveData<Boolean> netWorkStateLiveData=new MutableLiveData<>();
 
     private NetworkStateManager() {
     }
 
     public static NetworkStateManager getInstance() {
         return S_MANAGER;
+    }
+
+    public MutableLiveData<Boolean> getNetWorkStateLiveData() {
+        return netWorkStateLiveData;
     }
 
     @Override

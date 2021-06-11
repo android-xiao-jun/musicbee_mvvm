@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.gyf.immersionbar.ImmersionBar;
+import com.kunminx.architecture.data.response.manager.NetworkStateManager;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.musichive.common.BR;
 import com.musichive.common.R;
@@ -113,6 +114,12 @@ public class HomeFragment extends BaseStatusBarFragment {
             homeFragmentViewModel.closeRefresh.notifyChange();
         });
         homeFragmentViewModel.requestRefresh(homeAdapter.getPage(), homeAdapter.getPageSize());
+        NetworkStateManager.getInstance().getNetWorkStateLiveData().observe(this, aBoolean -> {
+            if (aBoolean && (homeAdapter.getDataList() != null && homeAdapter.getDataList().size() <= 3)) {
+                homeAdapter.setPage(homeAdapter.getPageDefault());
+                homeFragmentViewModel.requestRefresh(homeAdapter.getPage(), homeAdapter.getPageSize());
+            }
+        });
     }
 
     @Override

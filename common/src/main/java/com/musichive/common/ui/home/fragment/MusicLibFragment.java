@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.androidkun.xtablayout.XTabLayout;
+import com.kunminx.architecture.data.response.manager.NetworkStateManager;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.musichive.common.BR;
 import com.musichive.common.R;
@@ -91,6 +92,11 @@ public class MusicLibFragment extends BaseStatusBarFragment implements CompoundB
         });
         libFragmentViewModel.loadTypeAndStyle();
 
+        NetworkStateManager.getInstance().getNetWorkStateLiveData().observe(this, aBoolean -> {
+            if (aBoolean && fragments.isEmpty()) {
+                libFragmentViewModel.loadTypeAndStyle();
+            }
+        });
     }
 
     @Override

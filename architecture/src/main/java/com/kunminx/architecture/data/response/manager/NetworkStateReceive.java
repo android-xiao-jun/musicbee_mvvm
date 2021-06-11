@@ -32,11 +32,19 @@ import java.util.Objects;
  */
 public class NetworkStateReceive extends BroadcastReceiver {
 
+    public static boolean needReRequest = false;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Objects.equals(intent.getAction(), ConnectivityManager.CONNECTIVITY_ACTION)) {
+
+            NetworkStateManager.getInstance().getNetWorkStateLiveData().postValue(needReRequest && NetworkUtils.isConnected());
+
             if (!NetworkUtils.isConnected()) {
+                needReRequest = true;
                 Toast.makeText(context, context.getString(R.string.network_not_good), Toast.LENGTH_SHORT).show();
+            }else {
+                needReRequest = false;
             }
         }
     }

@@ -17,12 +17,14 @@ import com.musichive.musicbee.viewmodel.SplashViewModel;
 
 import java.util.List;
 
+import me.jessyan.autosize.internal.CancelAdapt;
+
 /**
  * @Author Jun
  * Date 2021 年 05月 27 日 15:42
  * Description 音乐蜜蜂-mvvm版本
  */
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity implements CancelAdapt {
 
     private SplashViewModel splashViewModel;
     private long skipCurrentTime = 5L;
@@ -59,7 +61,7 @@ public class SplashActivity extends BaseActivity {
             showAd(advertisements);
         });
         splashViewModel.requestSplashAd();
-        HandlerUtils.getInstance().getMainHander().postDelayed(skipHomeRunnable, 500);
+        HandlerUtils.getInstance().getMainHander().postDelayed(skipHomeRunnable, 200);
     }
 
     private void showAd(List<Advertisement> advertisements) {

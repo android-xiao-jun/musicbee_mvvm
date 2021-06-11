@@ -1,6 +1,7 @@
 package com.musichive.common.ui.home.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -63,7 +64,7 @@ public class HomeActivity extends BaseStatusBarActivity implements PlayerToolSho
     @Override
     protected void onResume() {
         super.onResume();
-        if (AppConfig.URLPREFIX == null) {
+        if (TextUtils.isEmpty(AppConfig.URLPREFIX)) {
             HomeDataRepository.getInstance().obtainImageUrlPrefix();
         }
     }

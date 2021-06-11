@@ -65,28 +65,34 @@ public class BaseApplication extends com.kunminx.architecture.BaseApplication {
             Utils.init(this);
             //日志(必须Utils.init之后)
             LogUtils.init(BuildConfig.DEBUG, "音乐蜜蜂-mvvm版本");
-            //======================== 可以延迟加载(下面) 之后优化加载 主线程 ========================
-            //吐司提示(必须Utils.init之后)
-            ToastUtils.init(this);
-            //预加载网络请求
-            RetrofitApi.getInstance().addClient(AppConfig.NetWork.BASE_URL, getOkHttpClient());
-            RetrofitApi.getInstance().addClient(AppConfig.NetWork.BASE_URL2, getOkHttpClient());
-            RetrofitApi.getInstance().getRetrofit(AppConfig.NetWork.BASE_URL);
-            RetrofitApi.getInstance().getRetrofit(AppConfig.NetWork.BASE_URL2);
-            HomeDataRepository.getInstance().obtainImageUrlPrefix();
-            //图片加载初始化
-            GlideUtils.init(new RequestOptions()
-                    .placeholder(R.drawable.default_pic)
-                    .error(R.drawable.default_pic)
-            );
-            //下拉上拉全局样式
-            SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> new RefreshLoadHeader(context));
-            SmartRefreshLayout.setDefaultRefreshFooterCreator((c, l) -> new ClassicsFooter(c));
-            initFPS(this);
-            //(必须Utils.init之后)
-            initPlayerFloat(this);
-            initPlayerData(this);
+            //保存数据 闪屏页有使用到
             AppSaveUtils.getInstance().init(this);
+            //吐司提示(必须Utils.init之后)-网络变化有使用到
+            ToastUtils.init(this);
+            //======================== 可以延迟加载(下面) 之后优化加载 主线程 ========================
+            HandlerUtils.getInstance().postWork(()->{
+                //预加载网络请求
+                RetrofitApi.getInstance().addClient(AppConfig.NetWork.BASE_URL, getOkHttpClient());
+                RetrofitApi.getInstance().addClient(AppConfig.NetWork.BASE_URL2, getOkHttpClient());
+                RetrofitApi.getInstance().getRetrofit(AppConfig.NetWork.BASE_URL);
+                RetrofitApi.getInstance().getRetrofit(AppConfig.NetWork.BASE_URL2);
+                HomeDataRepository.getInstance().obtainImageUrlPrefix();
+                //图片加载初始化
+                GlideUtils.init(new RequestOptions()
+                        .placeholder(R.drawable.default_pic)
+                        .error(R.drawable.default_pic)
+                );
+                //下拉上拉全局样式
+                SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> new RefreshLoadHeader(context));
+                SmartRefreshLayout.setDefaultRefreshFooterCreator((c, l) -> new ClassicsFooter(c));
+                initFPS(this);
+
+                initPlayerData(this);
+            });
+            HandlerUtils.getInstance().getMainHander().postDelayed(()->{
+                //(必须Utils.init之后)
+                initPlayerFloat(this);
+            },100);
             //======================== 可以延迟加载(上面) ========================
         }
     }

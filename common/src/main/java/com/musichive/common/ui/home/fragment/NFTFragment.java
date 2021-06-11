@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
+import com.kunminx.architecture.data.response.manager.NetworkStateManager;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
+import com.musichive.base.glide.GlideUtils;
 import com.musichive.common.BR;
 import com.musichive.common.R;
 import com.musichive.common.aop.SingleClick;
@@ -84,6 +86,20 @@ public class NFTFragment extends BaseStatusBarFragment {
     @Override
     public void lazyLoadData() {
         super.lazyLoadData();
+        nftFragmentViewModel.requestRefresh(nftAdapter.getPage(), nftAdapter.getPageSize());
+
+        NetworkStateManager.getInstance().getNetWorkStateLiveData().observe(this, aBoolean -> {
+            if (aBoolean && (nftAdapter.getDataList() != null && nftAdapter.getDataList().size() <= 1)) {
+                nftAdapter.setPage(nftAdapter.getPageDefault());
+                nftFragmentViewModel.requestRefresh(nftAdapter.getPage(), nftAdapter.getPageSize());
+            }
+        });
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        GlideUtils.preload(getContext(), nftFragmentViewModel.homeNFTVideoBean.nftPic);//预加载 视频占位图
         nftFragmentViewModel.nftList.observe(getViewLifecycleOwner(), o -> {
             if (o != null) {
                 nftAdapter.setDataItems(o);
@@ -94,12 +110,6 @@ public class NFTFragment extends BaseStatusBarFragment {
             nftFragmentViewModel.closeLoad.notifyChange();
             nftFragmentViewModel.closeRefresh.notifyChange();
         });
-        nftFragmentViewModel.requestRefresh(nftAdapter.getPage(), nftAdapter.getPageSize());
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
