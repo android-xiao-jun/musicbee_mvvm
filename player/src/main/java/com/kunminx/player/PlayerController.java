@@ -39,7 +39,7 @@ import java.util.List;
 public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> {
 
     private PlayingInfoManager<B, M> mPlayingInfoManager = new PlayingInfoManager<>();
-    private boolean mIsPaused=true;
+    private boolean mIsPaused = true;
     private boolean mIsChangingPlayingMusic;
 
     private HttpProxyCacheServer proxy;
@@ -87,7 +87,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
         setChangingPlayingMusic(true);
     }
 
-    public void addMusicAlbumItem(M item){
+    public void addMusicAlbumItem(M item) {
         mPlayingInfoManager.addMusicAlbumItem(item);
         clearPlayListLiveData.postValue(false);
     }
@@ -97,8 +97,15 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
         playAudio();
     }
 
+    private long lastTimeGetPlaying = 0;
+
     public boolean isPlaying() {
-        return MediaPlayerHelper.getInstance().getMediaPlayer().isPlaying();
+        if (lastTimeGetPlaying - System.currentTimeMillis() > 5000) {
+            lastTimeGetPlaying = System.currentTimeMillis();
+            boolean playing = MediaPlayerHelper.getInstance().getMediaPlayer().isPlaying();
+            mIsPaused = !playing;
+        }
+        return !mIsPaused;
     }
 
     public boolean isPaused() {
@@ -269,7 +276,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
         if (mIServiceNotifier != null) {
             mIServiceNotifier.notifyService(false);
         }
-        if (mPlayingInfoManager!=null){
+        if (mPlayingInfoManager != null) {
             mPlayingInfoManager.clearList();
         }
         clearPlayListLiveData.postValue(true);
