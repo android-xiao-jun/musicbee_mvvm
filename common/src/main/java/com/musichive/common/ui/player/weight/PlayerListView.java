@@ -90,6 +90,7 @@ public class PlayerListView {
     public void updateInfoList() {
         playerListAdapter.submitList(PlayerManager.getInstance().getAlbumMusics());
     }
+
     public void updateInfoIndex() {
         playerListAdapter.playIndex = PlayerManager.getInstance().getAlbumIndex();
         playerListAdapter.notifyDataSetChanged();
@@ -103,6 +104,7 @@ public class PlayerListView {
         updateInfoList();
         updateInfoIndex();
         setBackgroundAlpha(0.5f);
+        playListBinding.rvPlaylist.smoothScrollToPosition(playerListAdapter.playIndex);
         playlistWindow.showAtLocation(playListBinding.getRoot(), Gravity.BOTTOM, 0, 0);
     }
 
@@ -115,7 +117,7 @@ public class PlayerListView {
 
     public static void removeListItem(TestAlbum.TestMusic item) {
         TestAlbum album = PlayerManager.getInstance().getAlbum();
-        if (album==null){
+        if (album == null) {
             return;
         }
         List<TestAlbum.TestMusic> musics = album.getMusics();

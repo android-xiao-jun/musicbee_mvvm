@@ -14,8 +14,7 @@ import com.kunminx.player.bean.dto.ChangeMusic;
 import com.kunminx.player.bean.dto.PlayingMusic;
 import com.musichive.common.player.PlayerManager;
 import com.musichive.common.player.helper.PlayerHttpHelper;
-import com.musichive.common.utils.LogUtils;
-
+import com.musichive.common.utils.HandlerUtils;
 
 /**
  * @Author Jun
@@ -72,7 +71,9 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
             PlayerToolFloatUtils.get().loadPic(changeMusic.getImg());
             PlayerToolFloatUtils.get().upData(changeMusic);
             //请求当前网络请求--请求额外字段
-            PlayerHttpHelper.playRequest(null);
+            HandlerUtils.getInstance().postWork(()->{
+                PlayerHttpHelper.playRequest(null);
+            });
         }
     };
 

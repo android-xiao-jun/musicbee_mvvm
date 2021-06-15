@@ -1,5 +1,7 @@
 package com.musichive.common.ui.home.repository;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.kunminx.architecture.data.response.DataResult;
 import com.kunminx.architecture.data.response.ResponseStatus;
 import com.musichive.common.api.HomeService;
@@ -22,6 +24,8 @@ import java.util.List;
  */
 public class HomeDataRepository {
     private static final HomeDataRepository S_REQUEST_MANAGER = new HomeDataRepository();
+
+    public final MutableLiveData<String> urlPrefixLiveData=new MutableLiveData<>();
     private HomeService service1;
 
     private HomeDataRepository() {
@@ -100,10 +104,12 @@ public class HomeDataRepository {
                     @Override
                     public void onSuccess(String data) {
                         AppConfig.URLPREFIX = data;
+                        urlPrefixLiveData.postValue(data);
                     }
 
                     @Override
                     public void onFailure(String errorCode) {
+                        urlPrefixLiveData.postValue(null);
                     }
                 });
     }

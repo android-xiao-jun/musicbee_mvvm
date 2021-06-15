@@ -17,6 +17,8 @@
 package com.kunminx.player;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.text.TextUtils;
 
 import androidx.lifecycle.LiveData;
@@ -54,9 +56,12 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
 
     private PlayingMusic mCurrentPlay = new PlayingMusic("00:00", "00:00");
     private ChangeMusic mChangeMusic = new ChangeMusic();
+    private Handler asynHandler;
 
     public void init(Context context, List<String> extraFormatList, IServiceNotifier iServiceNotifier) {
-
+        HandlerThread handlerThread=new HandlerThread("PlayerController");
+        handlerThread.start();
+        asynHandler=new Handler(handlerThread.getLooper());
         proxy = new HttpProxyCacheServer.Builder(context.getApplicationContext())
                 .fileNameGenerator(new PlayerFileNameGenerator())
                 .maxCacheSize(2147483648L) // 2GB
@@ -100,7 +105,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
     private long lastTimeGetPlaying = 0;
 
     public boolean isPlaying() {
-        if (lastTimeGetPlaying - System.currentTimeMillis() > 5000) {
+        if (System.currentTimeMillis()-lastTimeGetPlaying > 5000) {
             lastTimeGetPlaying = System.currentTimeMillis();
             boolean playing = MediaPlayerHelper.getInstance().getMediaPlayer().isPlaying();
             mIsPaused = !playing;
@@ -185,15 +190,24 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
                         if (mCurrentPlay.getAllTime().equals(mCurrentPlay.getNowTime())
                                 //容许两秒内的误差，有的内容它就是会差那么 1 秒
                                 || duration / 1000 - position / 1000 < 2) {
-                            if (getRepeatMode() == PlayingInfoManager.RepeatMode.SINGLE_CYCLE) {
-                                playAgain();
-                            } else {
-                                playNext();
+                            if (asynHandler!=null){
+                                asynHandler.removeCallbacks(runnableMistake);
+                                asynHandler.post(runnableMistake);
+                            }else {
+                                runnableMistake.run();
                             }
                         }
                     }
                 });
     }
+
+    private Runnable runnableMistake=()->{
+        if (getRepeatMode() == PlayingInfoManager.RepeatMode.SINGLE_CYCLE) {
+            playAgain();
+        } else {
+            playNext();
+        }
+    };
 
     public void requestLastPlayingInfo() {
         playingMusicLiveData.postValue(mCurrentPlay);

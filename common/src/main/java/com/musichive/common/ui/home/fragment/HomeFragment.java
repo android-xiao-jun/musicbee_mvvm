@@ -6,6 +6,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -112,6 +113,15 @@ public class HomeFragment extends BaseStatusBarFragment {
             homeFragmentViewModel.closeRefresh.set(true);
             homeFragmentViewModel.closeLoad.notifyChange();
             homeFragmentViewModel.closeRefresh.notifyChange();
+        });
+        homeDataRepository.urlPrefixLiveData.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if (s != null && homeAdapter != null) {
+                    homeAdapter.notifyDataSetChanged();
+                    homeDataRepository.urlPrefixLiveData.removeObserver(this);
+                }
+            }
         });
         homeFragmentViewModel.requestRefresh(homeAdapter.getPage(), homeAdapter.getPageSize());
         NetworkStateManager.getInstance().getNetWorkStateLiveData().observe(this, aBoolean -> {
