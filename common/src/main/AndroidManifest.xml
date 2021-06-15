@@ -7,9 +7,9 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application>
-        <activity android:name=".ui.home.activity.HomeActivity" />
+        <activity android:name=".ui.home.activity.HomeActivity" android:launchMode="singleTask" />
 
-        <activity android:name=".ui.player.activity.PlayerActivity" />
+        <activity android:name=".ui.player.activity.PlayerActivity"  android:launchMode="singleTask"/>
 
         <service android:name=".player.notification.PlayerService" />
 

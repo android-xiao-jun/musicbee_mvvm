@@ -101,7 +101,7 @@ public class SplashActivity extends BaseActivity implements CancelAdapt {
         public void run() {
             skipCurrentTime = skipCurrentTime - 1;
             upStatusTextValue();
-            if (skipCurrentTime < 0) {
+            if (skipCurrentTime <= 0) {
                 HandlerUtils.getInstance().getMainHander().post(skipHomeRunnable);
             } else {
                 HandlerUtils.getInstance().getMainHander().postDelayed(skipSecond, 1000);
