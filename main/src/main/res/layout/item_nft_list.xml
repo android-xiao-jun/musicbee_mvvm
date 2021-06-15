@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.musichive.main.bean.nft.HomeNFTBean" />
+
+        <variable
+            name="itemDouble"
+            type="Boolean" />
+
+        <variable
+            name="clickProxy"
+            type="com.musichive.main.ui.home.fragment.NFTFragment.ClickProxy" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:onClick="@{()->clickProxy.nftClickMusic(item)}"
+        tools:background="#0A0440">
+
+        <ImageView
+            android:id="@+id/iv_item_bg_1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:scaleType="fitXY"
+            android:src="@{itemDouble?@drawable/nft_home_list_item_1:@drawable/nft_home_list_item_2}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_item_bg_2"
+            android:layout_width="256dp"
+            android:layout_height="256dp"
+            android:layout_marginTop="56dp"
+            android:src="@drawable/nft_home_list_item_pic"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_item_bg_1"
+            app:layout_constraintRight_toRightOf="@id/iv_item_bg_1"
+            app:layout_constraintTop_toTopOf="@+id/iv_item_bg_1" />
+
+        <com.musichive.main.weight.RoundCornerImageView
+            android:id="@+id/iv_icon_pic"
+            android:layout_width="256dp"
+            android:layout_height="256dp"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_pic"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_item_bg_2"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_item_bg_2"
+            app:layout_constraintRight_toRightOf="@+id/iv_item_bg_2"
+            app:layout_constraintTop_toTopOf="@+id/iv_item_bg_2"
+            app:loadPic="@{item.getCoverLink()}"
+            app:round_radius="2dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_item_bg_1"
+            app:layout_constraintLeft_toLeftOf="@id/iv_icon_pic"
+            app:layout_constraintRight_toRightOf="@+id/iv_icon_pic"
+            app:layout_constraintTop_toBottomOf="@+id/iv_icon_pic">
+
+            <TextView
+                android:id="@+id/tv_item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{item.getNftName()}"
+                android:textColor="#ffffffff"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                tools:text="1111" />
+
+            <TextView
+                android:id="@+id/tv_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_nft_bg_name"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:text="@{item.getItemName()}"
+                android:textColor="#CCFFFFFF"
+                android:textSize="12sp"
+                tools:text="1111" />
+
+            <TextView
+                android:id="@+id/tv_tag_and_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@{item.getItemTagShow()}"
+                android:textColor="#CCFFFFFF"
+                android:textSize="12sp"
+                tools:text="1111" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="10dp"
+                android:background="#1AFFFFFF" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/nft_detail_token" />
+
+                <TextView
+                    android:id="@+id/tv_token_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@{item.getItemTokenSHow()}"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="13sp"
+                    tools:text="1111" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/nft_detail_eth" />
+
+                <TextView
+                    android:id="@+id/tv_chain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@{item.getItemChainSHow}"
+                    android:textColor="#CCFFFFFF"
+                    android:textSize="13sp"
+                    tools:text="1111" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="35dp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

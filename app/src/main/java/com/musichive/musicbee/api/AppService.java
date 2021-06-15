@@ -1,6 +1,6 @@
 package com.musichive.musicbee.api;
 
-import com.musichive.common.bean.BaseResponseBean;
+import com.musichive.main.bean.BaseResponseBean;
 import com.musichive.musicbee.bean.AdvertisementBean;
 
 import io.reactivex.Observable;

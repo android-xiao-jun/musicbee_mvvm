@@ -1,6 +1,6 @@
 package com.musichive.musicbee;
 
-import com.musichive.common.app.BaseApplication;
+import com.musichive.main.app.BaseApplication;
 
 /**
  * @Author Jun

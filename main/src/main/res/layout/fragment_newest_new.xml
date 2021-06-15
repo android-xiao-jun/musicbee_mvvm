@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="refreshEvent"
+            type="com.musichive.main.ui.home.fragment.NewestNewFragment.RefreshEvent" />
+        <variable
+            name="viewModel"
+            type="com.musichive.main.ui.home.viewmodel.MusicLibFragmentChildViewModel" />
+        
+        <variable
+            name="adapter"
+            type="com.musichive.main.ui.home.adapter.NewestNewAdapter" />
+
+        <variable
+            name="layoutManager"
+            type="androidx.recyclerview.widget.RecyclerView.LayoutManager" />
+    </data>
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/smartRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:autoRefresh="@{viewModel.autoRefresh}"
+        app:closeLoad="@{viewModel.closeRefresh}"
+        app:closeRefresh="@{viewModel.closeLoad}"
+        app:setNoMoreData="@{viewModel.notMoreList}"
+        app:setOnRefreshLoadMoreListener="@{refreshEvent}">
+
+        <com.musichive.main.weight.AppMultiStateView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:emptySrc="@drawable/collection_no_content"
+            app:emptyStr="还没有任何作品"
+            app:bindState="@{viewModel.stateLiveData}"
+            app:msv_viewState="loading">
+
+            <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rv_lists"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                app:setAdapter="@{adapter}"
+                app:setLayoutManager="@{layoutManager}"/>
+        </com.musichive.main.weight.AppMultiStateView>
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+</layout>

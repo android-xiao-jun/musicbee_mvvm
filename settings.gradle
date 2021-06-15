@@ -3,5 +3,6 @@ rootProject.name = "音乐蜜蜂-mvvm版本"
 include ':architecture'
 include ':player'
 include ':base'
-include ':common'
+include ':main'
 include ':banner'
+include ':aop'

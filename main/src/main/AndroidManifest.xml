@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.musichive.main">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application>
+        <activity android:name="com.musichive.main.ui.home.activity.HomeActivity" android:launchMode="singleTask" />
+
+        <activity android:name="com.musichive.main.ui.player.activity.PlayerActivity"  android:launchMode="singleTask"/>
+
+        <service android:name="com.musichive.main.player.notification.PlayerService" />
+
+        <receiver
+            android:name="com.musichive.main.player.notification.PlayerReceiver">
+            <intent-filter>
+                <action android:name="pure_music.kunminx.close" />
+                <action android:name="pure_music.kunminx.pause" />
+                <action android:name="pure_music.kunminx.next" />
+                <action android:name="pure_music.kunminx.play" />
+                <action android:name="pure_music.kunminx.previous" />
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

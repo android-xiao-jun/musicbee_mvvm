@@ -8,10 +8,9 @@ import androidx.annotation.Nullable;
 
 import com.kunminx.architecture.ui.page.BaseActivity;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
-import com.musichive.common.ui.home.activity.HomeActivity;
-import com.musichive.common.utils.HandlerUtils;
-import com.musichive.common.utils.LogUtils;
-import com.musichive.musicbee.BR;
+import com.musichive.main.ui.home.activity.HomeActivity;
+import com.musichive.main.utils.HandlerUtils;
+import com.musichive.main.utils.LogUtils;
 import com.musichive.musicbee.bean.Advertisement;
 import com.musichive.musicbee.viewmodel.SplashViewModel;
 

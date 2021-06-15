@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.musichive.main.bean.home.MusicStateMusic" />
+
+        <variable
+            name="clickProxy"
+            type="com.musichive.main.ui.home.fragment.HomeFragment.ClickProxy" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickProxy.homeDynamicClick(data.id)}"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="20dp"
+        tools:background="@color/color_home_bottom">
+
+        <com.musichive.main.weight.AvatarImageTagView
+            android:id="@+id/iv_avatar_tag"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:loadPic="@{data.item.getHeadUrlLink}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/item_musician_state"
+                bind:showData="@{data.item}" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_music"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_fafafa_6"
+                android:onClick="@{()->clickProxy.homeDynamicClickMusic(data.item)}">
+
+                <com.musichive.main.weight.RoundCornerImageView
+                    android:id="@+id/music_iv_icon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/default_pic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:loadPic="@{data.item.getCoverLink()}"
+                    app:round_radius="6dp" />
+
+                <ImageView
+                    android:id="@+id/music_iv_play"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/bf_shop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/music_tv_music_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="@{data.item.getDemoName()}"
+                    android:textColor="#ff1e1e1e"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/music_iv_icon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="1111111111" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <include
+                layout="@layout/item_musician_state_bottom"
+                bind:showData="@{data.item}" />
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

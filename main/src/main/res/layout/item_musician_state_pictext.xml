@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="data"
+            type="com.musichive.main.bean.home.MusicStateText" />
+
+        <variable
+            name="clickProxy"
+            type="com.musichive.main.ui.home.fragment.HomeFragment.ClickProxy" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="20dp"
+        android:onClick="@{()->clickProxy.homeDynamicClick(data.id)}"
+        tools:background="@color/color_home_bottom">
+
+        <com.musichive.main.weight.AvatarImageTagView
+            android:id="@+id/iv_avatar_tag"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:setCurrTag="@{data.item.getVerifyType()}"
+            app:loadPic="@{data.item.getHeadUrlLink()}"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_musician_state"
+                bind:showData="@{data.item}"/>
+
+            <include layout="@layout/item_musician_state_bottom"
+                bind:showData="@{data.item}"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>
