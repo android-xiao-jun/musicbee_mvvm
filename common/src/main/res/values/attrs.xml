@@ -48,4 +48,28 @@
         <attr name="emptySrc" format="reference|color" />
     </declare-styleable>
 
+    <declare-styleable name="PlayerSeekBar">
+        <attr name="PlayerSeekBar_tickBarHeight" format="dimension"/>
+        <attr name="PlayerSeekBar_tickBarColor" format="color"/>
+        <attr name="PlayerSeekBar_circleButtonColor" format="color"/>
+        <attr name="PlayerSeekBar_circleButtonTextColor" format="color"/>
+        <attr name="PlayerSeekBar_circleButtonTextSize" format="dimension"/>
+        <attr name="PlayerSeekBar_circleButtonRadius" format="dimension"/>
+        <attr name="PlayerSeekBar_circleApertureWidth" format="dimension"/>
+        <attr name="PlayerSeekBar_circleApertureColor" format="color"/>
+        <attr name="PlayerSeekBar_progressHeight" format="dimension"/>
+        <attr name="PlayerSeekBar_progressColor" format="color"/>
+        <attr name="PlayerSeekBar_selectProgress" format="integer"/>
+        <attr name="PlayerSeekBar_startProgress" format="integer"/>
+        <attr name="PlayerSeekBar_maxProgress" format="integer"/>
+        <attr name="PlayerSeekBar_isShowButtonText" format="boolean"/>
+        <attr name="PlayerSeekBar_isShowButton" format="boolean"/>
+        <attr name="PlayerSeekBar_isRound" format="boolean"/>
+        <attr name="PlayerSeekBar_borderSize" format="dimension"/>
+        <attr name="PlayerSeekBar_borderColor" format="color"/>
+
+        <attr name="PlayerSeekBar_progressDrawable" format="reference"/>
+        <attr name="PlayerSeekBar_circleDrawable" format="reference"/>
+        <attr name="PlayerSeekBar_progressDefaultDrawable" format="reference"/>
+    </declare-styleable>
 </resources>

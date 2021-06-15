@@ -11,9 +11,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipChildren="false">
 
         <TextView
+            android:id="@+id/tv_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.indexStr}"
@@ -21,6 +23,34 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+<!--
+ app:PlayerSeekBar_tickBarColor="#ccc" => progressDefaultDrawable
+ app:PlayerSeekBar_progressColor="#f00" => player_seekbar
+ app:PlayerSeekBar_circleButtonColor="#000" => player_seekbar_center
+-->
+        <com.musichive.common.weight.PlayerSeekBar
+            android:id="@+id/player_seeker_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+
+            app:PlayerSeekBar_progressDrawable="@drawable/player_seekbar"
+            app:PlayerSeekBar_circleDrawable="@drawable/player_seekbar_center"
+            app:PlayerSeekBar_progressDefaultDrawable="@drawable/player_seekbar_default"
+
+            app:PlayerSeekBar_circleButtonRadius="8dp"
+            app:PlayerSeekBar_isRound="true"
+            app:PlayerSeekBar_isShowButton="true"
+            app:PlayerSeekBar_maxProgress="100"
+            app:PlayerSeekBar_progressHeight="6dp"
+            app:PlayerSeekBar_selectProgress="10"
+            app:PlayerSeekBar_startProgress="0"
+            app:PlayerSeekBar_tickBarHeight="6dp"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_temp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
