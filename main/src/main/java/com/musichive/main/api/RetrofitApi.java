@@ -2,9 +2,13 @@ package com.musichive.main.api;
 
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.musichive.main.api.converter.FastJsonConverterFactory;
 import com.musichive.main.config.AppConfig;
+import com.musichive.main.utils.LogUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -12,7 +16,11 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -68,7 +76,7 @@ public class RetrofitApi {
         clientMap.put(baseUrl, okHttpClient);
     }
 
-    private OkHttpClient getClient(String baseUrl) {
+    public OkHttpClient getClient(String baseUrl) {
         if (TextUtils.isEmpty(baseUrl)) {
             throw new IllegalStateException("baseUrl can not be null");
         }
@@ -104,4 +112,37 @@ public class RetrofitApi {
         getInstance().clientMap.clear();
     }
 
+    public static class OkHttpUtils {
+
+        public static void requestGetUrl(String url, CallBack callBack) {
+            Request request = new Request.Builder().get().url(url).build();
+            RetrofitApi
+                    .getInstance()
+                    .getClient(AppConfig.NetWork.BASE_URL)
+                    .newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    callBack.onFailure(-1, e.getMessage());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.code() == 200) {
+                        String string = response.body().string();
+                        LogUtils.d(string);
+                        callBack.onResponse(string);
+                        return;
+                    }
+                    callBack.onFailure(response.code(), "网络请求错误");
+                }
+            });
+        }
+    }
+
+    public interface CallBack {
+        default void onFailure(int code, String msg) {
+        }
+
+        void onResponse(String str);
+    }
 }

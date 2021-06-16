@@ -290,6 +290,7 @@
                     android:layout_width="0dp"
                     android:layout_height="24dp"
                     android:layout_weight="1"
+                    android:onClick="@{()->clickProxy.showCredentials()}"
                     android:descendantFocusability="blocksDescendants"
                     android:orientation="vertical">
 

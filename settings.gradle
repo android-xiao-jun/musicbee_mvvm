@@ -5,6 +5,9 @@ include ':main'
 include ':banner'
 include ':aop'
 
+//远程仓库问题无法拉取有时候，放本地 要快一些
+include ':photo_view'
+
 //来自  https://github.com/KunMinX/  （player中有所修改，其他没动，放到本地，方便扩展，，）
 // 第一次 放到本地 时间 2021年6月15日17:59:41 （修改注意时间版本顺序）
 include ':player'

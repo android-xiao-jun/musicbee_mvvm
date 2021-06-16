@@ -26,6 +26,8 @@ import com.musichive.main.utils.LogUtils;
 import com.musichive.main.utils.ProgressTimeUtils;
 import com.musichive.main.utils.ToastUtils;
 import com.musichive.main.utils.ViewMapUtils;
+import com.musichive.main.weight.dialog.PhotoViewDialog;
+import com.musichive.main.weight.dialog.UploadProgressDialog;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.listener.OnPageChangeListener;
@@ -238,6 +240,24 @@ public class PlayerActivity extends BaseStatusBarActivity {
     }
 
     public class ClickProxy {
+
+        public void showCredentials() {
+            UploadProgressDialog.showLoad(PlayerActivity.this);
+            playerViewModel.getPicUrl().observe(PlayerActivity.this, new Observer<String>() {
+                @Override
+                public void onChanged(String s) {
+                    UploadProgressDialog.hideLoad();
+                    if (playerViewModel != null) {
+                        playerViewModel.getPicUrl().removeObserver(this);
+                    }
+                    if (s == null) {
+                        return;
+                    }
+                    PhotoViewDialog photoViewDialog = new PhotoViewDialog(PlayerActivity.this, s);
+                    photoViewDialog.show();
+                }
+            });
+        }
 
         public void showMore() {
             ToastUtils.showShort("更多");
