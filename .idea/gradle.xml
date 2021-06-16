@@ -17,6 +17,14 @@
             <option value="$PROJECT_DIR$/base" />
             <option value="$PROJECT_DIR$/main" />
             <option value="$PROJECT_DIR$/player" />
+            <option value="$PROJECT_DIR$/scaffold" />
+            <option value="$PROJECT_DIR$/scaffold/data" />
+            <option value="$PROJECT_DIR$/scaffold/domain" />
+            <option value="$PROJECT_DIR$/strict_data_binding" />
+            <option value="$PROJECT_DIR$/strict_data_binding/binding_adapter" />
+            <option value="$PROJECT_DIR$/strict_data_binding/binding_recyclerview" />
+            <option value="$PROJECT_DIR$/strict_data_binding/strict_databinding" />
+            <option value="$PROJECT_DIR$/unpeeklivedata" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

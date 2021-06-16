@@ -1,8 +1,17 @@
 include ':app'
 rootProject.name = "音乐蜜蜂-mvvm版本"
-include ':architecture'
-include ':player'
 include ':base'
 include ':main'
 include ':banner'
 include ':aop'
+
+//来自  https://github.com/KunMinX/  （player中有所修改，其他没动，放到本地，方便扩展，，）
+// 第一次 放到本地 时间 2021年6月15日17:59:41 （修改注意时间版本顺序）
+include ':player'
+include ':architecture'
+include ':unpeeklivedata'
+include ':scaffold:data'
+include ':scaffold:domain'
+include ':strict_data_binding:binding_adapter'
+include ':strict_data_binding:binding_recyclerview'
+include ':strict_data_binding:strict_databinding'

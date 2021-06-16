@@ -26,6 +26,8 @@ public class PlayerViewModel extends ViewModel {
     public ObservableField<String> songName = new ObservableField<>();
     public ObservableField<String> authorName = new ObservableField<>();
     public ObservableField<String> lrcText = new ObservableField<>();
+    public ObservableField<String> likeNumText = new ObservableField<>();
+    public ObservableField<String> commentNumText = new ObservableField<>();
 
     public final ObservableBoolean showInfoTypeView = new ObservableBoolean();
     public ObservableBoolean showBannerAndLrcView = new ObservableBoolean();
@@ -52,6 +54,8 @@ public class PlayerViewModel extends ViewModel {
         setModeSrc((PlayingInfoManager.RepeatMode) PlayerManager.getInstance().getRepeatMode());
         maxStr.set("00:00");
         currentStr.set("00:00");
+        likeNumText.set("0");
+        commentNumText.set("0");
     }
 
     public String getPlayString() {

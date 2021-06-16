@@ -38,7 +38,7 @@ public class PlayerHttpHelper {
         //先取之前 保存的旧值
         Object oldData = getPlayDataLiveData();
         if (oldData != null) {
-//            PlayerManager.getInstance().getPlayDataLiveData().postValue(oldData);
+            PlayerManager.getInstance().getPlayDataLiveData().postValue(oldData);
             if (listener != null) {
                 listener.upData();
             }
@@ -118,7 +118,7 @@ public class PlayerHttpHelper {
         //子线程
         Object result = dataResult.getResult();
         LogUtils.e("网络访问结束--" + result);
-//        PlayerManager.getInstance().getPlayDataLiveData().postValue(result);
+        PlayerManager.getInstance().getPlayDataLiveData().postValue(result);
         if (result != null) {
             TestAlbum.TestMusic playingMusic = PlayerManager.getInstance().getCurrentPlayingMusic();
             if (playingMusic == null) {

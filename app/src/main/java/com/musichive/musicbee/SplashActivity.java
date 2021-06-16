@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.kunminx.architecture.ui.page.BaseActivity;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
+import com.musichive.main.app.BaseStatusBarActivity;
 import com.musichive.main.ui.home.activity.HomeActivity;
 import com.musichive.main.utils.HandlerUtils;
 import com.musichive.main.utils.LogUtils;
@@ -23,7 +24,7 @@ import me.jessyan.autosize.internal.CancelAdapt;
  * Date 2021 年 05月 27 日 15:42
  * Description 音乐蜜蜂-mvvm版本
  */
-public class SplashActivity extends BaseActivity implements CancelAdapt {
+public class SplashActivity extends BaseStatusBarActivity implements CancelAdapt {
 
     private SplashViewModel splashViewModel;
     private long skipCurrentTime = 5L;

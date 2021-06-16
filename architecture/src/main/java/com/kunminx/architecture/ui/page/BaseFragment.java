@@ -31,8 +31,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.kunminx.architecture.BaseApplication;
 
@@ -98,10 +96,6 @@ public abstract class BaseFragment extends DataBindingFragment {
         if (activity == null) {
             throw new IllegalStateException("Can't create ViewModelProvider for detached fragment");
         }
-    }
-
-    protected NavController nav() {
-        return NavHostFragment.findNavController(this);
     }
 
     @Nullable

@@ -1,0 +1,25 @@
+//apply plugin: 'com.android.library'
+//
+//android {
+//    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+//    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+//
+//
+//    defaultConfig {
+//        minSdkVersion rootProject.ext.android["minSdkVersion"]
+//        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+//        consumerProguardFiles 'consumer-rules.pro'
+//    }
+//}
+//
+//dependencies {
+//    api fileTree(dir: "libs", include: ["*.jar"])
+//
+//    api 'com.squareup.retrofit2:retrofit:2.9.0'
+//    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+//    api "com.squareup.okhttp3:logging-interceptor:3.14.9"
+//
+//}
+
+configurations.maybeCreate("default")
+artifacts.add("default", file('data_1.1.2.jar'))

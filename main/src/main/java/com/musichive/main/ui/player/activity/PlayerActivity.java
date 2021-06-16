@@ -103,6 +103,8 @@ public class PlayerActivity extends BaseStatusBarActivity {
                     playerViewModel.showInfoTypeViewTime.set("");
                     playerViewModel.musicGenreName.set("");
                     playerViewModel.showInfoTypeView.set(false);
+                    playerViewModel.likeNumText.set(String.valueOf(musicLibPlayerBean.getLikeNum()));
+                    playerViewModel.commentNumText.set(String.valueOf(musicLibPlayerBean.getRepliesNum() + musicLibPlayerBean.getCommentNum()));
                 } else if (result instanceof NFTPlayerBean) {
                     NFTPlayerBean nftPlayerBean = (NFTPlayerBean) result;
                     playerViewModel.lrcText.set(nftPlayerBean.getLyric());
@@ -111,6 +113,8 @@ public class PlayerActivity extends BaseStatusBarActivity {
                     playerViewModel.showInfoTypeViewYear.set("");
                     playerViewModel.showInfoTypeViewTime.set("");
                     playerViewModel.showInfoTypeView.set(false);
+                    playerViewModel.likeNumText.set("0");
+                    playerViewModel.commentNumText.set("0");
                 }
             }
         });

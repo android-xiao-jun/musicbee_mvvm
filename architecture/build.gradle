@@ -53,15 +53,25 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api 'androidx.appcompat:appcompat:1.3.0'
 
+    api project(':unpeeklivedata')
+    api project(':scaffold:data')
+    api project(':scaffold:domain')
+    api project(':strict_data_binding:binding_adapter')
+    api project(':strict_data_binding:binding_recyclerview')
+    api project(':strict_data_binding:strict_databinding')
+
     api 'androidx.lifecycle:lifecycle-runtime:2.3.1'
     api 'androidx.lifecycle:lifecycle-common-java8:2.3.1'
     api 'androidx.lifecycle:lifecycle-viewmodel:2.3.1'
     api 'androidx.lifecycle:lifecycle-livedata:2.3.1'
-    api 'androidx.navigation:navigation-runtime:2.3.5'
 
-    api 'com.kunminx.archi:unpeek-livedata:4.4.1-beta1'
-    api 'com.kunminx.archi:smooth-navigation:3.3.2-beta5'
-    api 'com.kunminx.archi:strict-databinding:3.6.2-beta1'
-    api 'com.kunminx.archi:domain:1.1.0'
-    api 'com.kunminx.archi:data:1.1.2'
+//    api 'androidx.navigation:navigation-runtime:2.3.5'
+//    api 'com.kunminx.archi:smooth-navigation:3.3.2-beta5'
+
+//    api 'com.kunminx.archi:unpeek-livedata:4.4.1-beta1'
+//    api 'com.kunminx.archi:strict-databinding:3.6.2-beta1'
+//    api 'com.kunminx.archi:domain:1.1.0'
+//    api 'com.kunminx.archi:data:1.1.2'
+//    api "com.kunminx.archi:binding-recyclerview:3.8.3-beta1"
+
 }

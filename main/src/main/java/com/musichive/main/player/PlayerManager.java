@@ -235,7 +235,7 @@ public class PlayerManager implements IPlayController<TestAlbum, TestAlbum.TestM
             if (playDataLiveData == null) {
                 return this.playDataLiveData;
             }
-//            this.playDataLiveData.postValue(playDataLiveData);
+            this.playDataLiveData.postValue(playDataLiveData);
         }
         return this.playDataLiveData;
     }

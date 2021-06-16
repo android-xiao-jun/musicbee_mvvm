@@ -23,28 +23,25 @@
         android:layout_height="wrap_content"
         android:clipChildren="false">
 
-        <com.youth.banner.Banner
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.youth.banner.Banner xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/banner"
             android:layout_width="match_parent"
-            android:layout_height="375dp"
+            android:layout_height="310dp"
+            app:addBannerLifecycleObserver="@{owner}"
+            app:bindBannerData="@{bannerData.listBannerBean}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:bindBannerData="@{bannerData.listBannerBean}"
-            app:addBannerLifecycleObserver="@{owner}"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/ll_temp_2"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginTop="300dp"
-            android:background="@drawable/bg_f5f6f9_top_20"
+            android:background="#f5f6f9"
             android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/banner"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,7 +80,7 @@
                     android:onClick="@{()->clickProxy.homeActivityClick()}"
                     android:scaleType="centerCrop"
                     app:loadPic="@{bannerData.listActivityBean.get(0).icon}"
-                    app:round_radius="6dp"/>
+                    app:round_radius="6dp" />
             </FrameLayout>
 
         </LinearLayout>

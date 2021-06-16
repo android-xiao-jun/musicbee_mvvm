@@ -249,7 +249,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/ib_like"
                         android:background="@null"
-                        android:text="0"
+                        android:text="@{viewModel.likeNumText}"
                         android:textColor="#1e1e1e"
                         android:textSize="9sp" />
 
@@ -278,7 +278,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/ib_quotecount"
                         android:background="@null"
-                        android:text="0"
+                        android:text="@{viewModel.commentNumText}"
                         android:textColor="#1e1e1e"
                         android:textSize="9sp" />
 
