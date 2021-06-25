@@ -2,6 +2,7 @@
 
 #### 介绍
 音乐蜜蜂 app 4.0 部分页面 （基于 [KunMinX](https://github.com/KunMinX/Jetpack-MVVM-Scaffold) 的框架）
+[直接下载apk](https://gitee.com/Android-jun/musicbee_mvvm/blob/master/apk/app-debug.apk)
 
 #### 软件架构
 MVVM 数据绑定
