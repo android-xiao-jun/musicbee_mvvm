@@ -199,7 +199,7 @@ public class MediaPlayerHelper implements OnCompletionListener, OnBufferingUpdat
             uiHolder.player.setDisplay(null);
             uiHolder.player.reset();
             uiHolder.player.setDataSource(uiHolder.assetDescriptor.getFileDescriptor(), uiHolder.assetDescriptor.getStartOffset(), uiHolder.assetDescriptor.getLength());
-            uiHolder.player.prepare();
+            uiHolder.player.prepareAsync();
         } catch (Exception e) {
             callBack(CallBackState.ERROR, uiHolder.player);
             return false;
@@ -227,7 +227,7 @@ public class MediaPlayerHelper implements OnCompletionListener, OnBufferingUpdat
             uiHolder.player.setDisplay(null);
             uiHolder.player.reset();
             uiHolder.player.setDataSource(localPathOrURL);
-            uiHolder.player.prepare();
+            uiHolder.player.prepareAsync();
         } catch (Exception e) {
             callBack(CallBackState.ERROR, uiHolder.player);
             return false;

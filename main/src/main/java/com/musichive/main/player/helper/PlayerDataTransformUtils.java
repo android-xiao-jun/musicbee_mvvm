@@ -1,5 +1,7 @@
 package com.musichive.main.player.helper;
 
+import android.text.TextUtils;
+
 import com.alibaba.fastjson.JSON;
 import com.musichive.main.app.BaseApplication;
 import com.musichive.main.bean.home.HomeDynamicInfo;
@@ -58,6 +60,9 @@ public class PlayerDataTransformUtils {
     public static TestAlbum transformHomeMusic(List<HomeDynamicInfo.ListBean> list, int playIndex) {
         List<TestAlbum.TestMusic> musics = new ArrayList<>();
         for (HomeDynamicInfo.ListBean item : list) {
+            if (TextUtils.isEmpty(item.demoInfoVO.musicEncodeUrl)){
+                continue;
+            }
             TestAlbum.TestArtist testArtist = new TestAlbum.TestArtist();
             TestAlbum.TestMusic testMusic;
             if (item.type == 5) {
@@ -92,6 +97,9 @@ public class PlayerDataTransformUtils {
         List<MusicEntity> musicEntities = new ArrayList<>();
         if (list != null) {
             for (HomeDynamicInfo.ListBean item : list) {
+                if (TextUtils.isEmpty(item.demoInfoVO.musicEncodeUrl)){
+                    continue;
+                }
                 MusicEntity musicEntity = new MusicEntity();
                 musicEntity.musicId = item.demoInfoVO.goodsId;
                 musicEntity.url = item.demoInfoVO.musicEncodeUrl;
@@ -185,6 +193,9 @@ public class PlayerDataTransformUtils {
         List<MusicEntity> musicEntities = new ArrayList<>();
         if (list != null) {
             for (HomeNFTBean item : list) {
+                if (TextUtils.isEmpty(item.musicEncodeUrl)){
+                    continue;
+                }
                 MusicEntity musicEntity = new MusicEntity();
                 musicEntity.musicId = String.valueOf(item.nftPostsId);
                 musicEntity.url = item.musicEncodeUrl;
@@ -209,6 +220,9 @@ public class PlayerDataTransformUtils {
     public static TestAlbum transformNftMusic(List<HomeNFTBean> list, int playIndex) {
         List<TestAlbum.TestMusic> musics = new ArrayList<>();
         for (HomeNFTBean item : list) {
+            if (TextUtils.isEmpty(item.musicEncodeUrl)){
+                continue;
+            }
             TestAlbum.TestArtist testArtist = new TestAlbum.TestArtist();
             testArtist.setName(item.getCreaterName());
             testArtist.setAccount("");//这个可以为空
@@ -246,6 +260,9 @@ public class PlayerDataTransformUtils {
     public static void addMusicLibAndPlay(MusicLibPlayerBean item) {
         List<TestAlbum.TestMusic> albumMusics = PlayerManager.getInstance().getAlbumMusics();
         if (albumMusics == null) {
+            return;
+        }
+        if (TextUtils.isEmpty(item.getMusic_encode_url())){
             return;
         }
         TestAlbum.TestMusic testMusic = transformMusicLib(item);
