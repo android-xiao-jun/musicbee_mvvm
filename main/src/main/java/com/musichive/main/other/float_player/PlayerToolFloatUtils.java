@@ -250,4 +250,12 @@ public class PlayerToolFloatUtils {
             }
         }
     }
+
+    public void setDark(boolean dark) {
+        for (PlayerToolViewDataListener playerToolView : playerToolViews) {
+            if (playerToolView instanceof PlayerToolTwoView) {
+               ((PlayerToolTwoView) playerToolView).setDark(dark);
+            }
+        }
+    }
 }

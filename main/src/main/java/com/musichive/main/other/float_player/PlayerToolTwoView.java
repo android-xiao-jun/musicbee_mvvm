@@ -2,19 +2,24 @@ package com.musichive.main.other.float_player;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.kunminx.player.bean.dto.ChangeMusic;
+import com.kunminx.player.bean.dto.PlayingMusic;
 import com.musichive.base.glide.GlideUtils;
 import com.musichive.main.R;
 import com.musichive.main.databinding.ViewLayoutFloatBottomBinding;
 import com.musichive.main.player.PlayerManager;
-import com.musichive.main.utils.HandlerUtils;
+import com.musichive.main.ui.player.weight.PlayerListView;
 
 /**
  * @Author Jun
@@ -25,6 +30,7 @@ public class PlayerToolTwoView extends PlayerToolViewDataListener {
 
     private ViewLayoutFloatBottomBinding bottomBinding;
     private ValueAnimator rotateAnimation;
+    private boolean isDark;
 
     public PlayerToolTwoView(@NonNull Context context) {
         this(context, null);
@@ -38,34 +44,80 @@ public class PlayerToolTwoView extends PlayerToolViewDataListener {
         super(context, attrs, defStyleAttr);
         bottomBinding = ViewLayoutFloatBottomBinding.inflate(LayoutInflater.from(context), this, true);
         bottomBinding.ivPlay.setOnClickListener(v -> {
-            HandlerUtils.getInstance().postWork(() -> {
-                if (PlayerManager.getInstance().isPlaying()) {
-                    PlayerManager.getInstance().pauseAudio();
-                } else {
-                    PlayerManager.getInstance().playAudio();
-                }
-            });
+            if (PlayerManager.getInstance().isPlaying()) {
+                PlayerManager.getInstance().pauseAudio();
+            } else {
+                PlayerManager.getInstance().playAudio();
+            }
         });
-        bottomBinding.ivPlayNext.setOnClickListener(v -> {
-            HandlerUtils.getInstance().postWork(() -> {
-                PlayerManager.getInstance().playNext();
-            });
+        bottomBinding.ivNewFloatMiniLb.setOnClickListener(v -> {
+            PlayerListView playerListView = new PlayerListView(ActivityUtils.getTopActivity());
+            playerListView.showAtLocation();
         });
     }
 
     @Override
     public void upData(ChangeMusic changeMusic) {
         super.upData(changeMusic);
-        bottomBinding.tvName.setText(changeMusic.getTitle());
+        bottomBinding.miniTextView.getSongNameView().setText(changeMusic.getTitle());
+        if (!TextUtils.isEmpty(changeMusic.getArtist().getName())) {
+            bottomBinding.miniTextView.getAuthorNameView().setText(" - " + changeMusic.getArtist().getName());
+        } else {
+            bottomBinding.miniTextView.getAuthorNameView().setText("");
+        }
     }
 
     @Override
     public void upPlayStatus(boolean isPlay) {
         super.upPlayStatus(isPlay);
-        if (isPlay) {
-            bottomBinding.ivPlay.setImageResource(R.drawable.ic_action_pause);
+        upControlBtnBackground();
+    }
+
+    /**
+     * 更新深色和浅色主题
+     *
+     * @param dark
+     */
+    public void setDark(boolean dark) {
+        if (isDark == dark) {
+            return;
+        }
+        isDark = dark;
+        upDataBackground();
+    }
+
+    private void upDataBackground() {
+        if (isDark) {
+            bottomBinding.layout.setBackgroundColor(Color.parseColor("#232631"));
+            bottomBinding.ivNewFloatMiniLb.setImageResource(R.drawable.new_float_mini_lb_w);
+            bottomBinding.miniplayerProgress.setBackColor(Color.parseColor("#88FFFFFF"));
+            bottomBinding.miniplayerProgress.setProgColor(Color.parseColor("#FFFFFF"));
+            bottomBinding.miniTextView.getSongNameView().setTextColor(Color.parseColor("#FFFFFF"));
+            bottomBinding.miniTextView.getAuthorNameView().setTextColor(Color.parseColor("#88FFFFFF"));
         } else {
-            bottomBinding.ivPlay.setImageResource(R.drawable.ic_action_play);
+            bottomBinding.layout.setBackgroundColor(Color.parseColor("#F8F8F8"));
+            bottomBinding.ivNewFloatMiniLb.setImageResource(R.drawable.new_float_mini_lb);
+            bottomBinding.miniplayerProgress.setBackColor(Color.parseColor("#e2e2e2"));
+            bottomBinding.miniplayerProgress.setProgColor(Color.parseColor("#1e1e1e"));
+            bottomBinding.miniTextView.getSongNameView().setTextColor(Color.parseColor("#1e1e1e"));
+            bottomBinding.miniTextView.getAuthorNameView().setTextColor(Color.parseColor("#999999"));
+        }
+        upControlBtnBackground();//主题变化更新
+    }
+
+    private void upControlBtnBackground() {
+        if (isDark) {
+            if (PlayerManager.getInstance().isPlaying()) {
+                bottomBinding.ivPlay.setImageResource(R.drawable.new_float_mini_zt_w);
+            } else {
+                bottomBinding.ivPlay.setImageResource(R.drawable.new_float_mini_bf_w);
+            }
+        } else {
+            if (PlayerManager.getInstance().isPlaying()) {
+                bottomBinding.ivPlay.setImageResource(R.drawable.new_float_mini_zt);
+            } else {
+                bottomBinding.ivPlay.setImageResource(R.drawable.new_float_mini_bf);
+            }
         }
     }
 
@@ -76,7 +128,7 @@ public class PlayerToolTwoView extends PlayerToolViewDataListener {
 
     @Override
     public void setFloatClick(OnClickListener listener) {
-        bottomBinding.viewTempoFloat.setOnClickListener(listener);
+        bottomBinding.miniTextView.setOnClickListener(listener);
     }
 
     @Override
@@ -88,6 +140,36 @@ public class PlayerToolTwoView extends PlayerToolViewDataListener {
             bottomBinding.icon.setVisibility(VISIBLE);
         }
         GlideUtils.loadPicToImageViewAsBitmap(getContext(), pic, bottomBinding.icon);
+    }
+
+    public Observer<Boolean> loadRunnable = new Observer<Boolean>() {
+
+        @Override
+        public void onChanged(Boolean aBoolean) {
+            bottomBinding.pbLoading.setVisibility(aBoolean ? VISIBLE : GONE);
+        }
+    };
+
+    public Observer<PlayingMusic> playingMusicObserver = playingMusic -> {
+        // 播放进度 状态的改变
+        bottomBinding.miniplayerProgress.setMaxProgress(playingMusic.getDuration());
+        bottomBinding.miniplayerProgress.setProgress(playingMusic.getPlayerPosition());
+    };
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        PlayerManager.getInstance().getIsLoadPrepareAsync().observeForever(loadRunnable);
+        PlayerManager.getInstance().getPlayingMusicLiveData().observeForever(playingMusicObserver);
+        rotateAnimation(PlayerManager.getInstance().isPlaying());
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        PlayerManager.getInstance().getIsLoadPrepareAsync().removeObserver(loadRunnable);
+        PlayerManager.getInstance().getPlayingMusicLiveData().removeObserver(playingMusicObserver);
+        rotateAnimation(false);
     }
 
     @Override

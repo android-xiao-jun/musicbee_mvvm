@@ -51,6 +51,7 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
     private final MutableLiveData<Boolean> pauseLiveData = new MutableLiveData<>();
     private final MutableLiveData<Enum> playModeLiveData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> clearPlayListLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isLoadPrepareAsync = new MutableLiveData<>();
 
     private IServiceNotifier mIServiceNotifier;
 
@@ -197,6 +198,10 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
                                 runnableMistake.run();
                             }
                         }
+                    }else if (state == MediaPlayerHelper.CallBackState.PREPARE_START){
+                        isLoadPrepareAsync.postValue(true);
+                    }else if (state == MediaPlayerHelper.CallBackState.PREPARE){
+                        isLoadPrepareAsync.postValue(false);
                     }
                 });
     }
@@ -341,6 +346,10 @@ public class PlayerController<B extends BaseAlbumItem, M extends BaseMusicItem> 
 
     public LiveData<Enum> getPlayModeLiveData() {
         return playModeLiveData;
+    }
+
+    public MutableLiveData<Boolean> getIsLoadPrepareAsync() {
+        return isLoadPrepareAsync;
     }
 
     public Enum getRepeatMode() {

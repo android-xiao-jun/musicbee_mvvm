@@ -216,6 +216,10 @@ public class PlayerManager implements IPlayController<TestAlbum, TestAlbum.TestM
         return mController.getCurrentPlayingMusic();
     }
 
+    public MutableLiveData<Boolean> getIsLoadPrepareAsync() {
+        return mController.getIsLoadPrepareAsync();
+    }
+
     public void playAudio(TestAlbum.TestMusic item) {
         mController.playAudio(mController.getAlbumMusics().indexOf(item));
     }

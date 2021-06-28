@@ -76,6 +76,7 @@ public class MediaPlayerHelper implements OnCompletionListener, OnBufferingUpdat
      * 状态枚举
      */
     public enum CallBackState {
+        PREPARE_START("MediaPlayer--开始准备"),
         PREPARE("MediaPlayer--准备完毕"),
         COMPLETE("MediaPlayer--播放结束"),
         ERROR("MediaPlayer--播放错误"),
@@ -228,6 +229,7 @@ public class MediaPlayerHelper implements OnCompletionListener, OnBufferingUpdat
             uiHolder.player.reset();
             uiHolder.player.setDataSource(localPathOrURL);
             uiHolder.player.prepareAsync();
+            callBack(CallBackState.PREPARE_START, uiHolder.player);
         } catch (Exception e) {
             callBack(CallBackState.ERROR, uiHolder.player);
             return false;

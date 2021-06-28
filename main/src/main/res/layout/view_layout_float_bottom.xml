@@ -2,67 +2,158 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/view_tempo_float"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp"
-    android:background="@drawable/shape_home_bottom_bg"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:layout_height="@dimen/music_layout_height"
+    android:background="#F8F8F8"
+    android:clipChildren="false"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
 
-
-    <ImageView
-        android:id="@+id/iv_temp"
-        android:layout_width="44dp"
-        android:layout_height="50dp"
-        android:src="@drawable/cd_moren"
+    <FrameLayout
+        android:id="@+id/fl_bg_temp_1"
+        android:layout_width="47dp"
+        android:layout_height="53dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_bg_temp_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/new_float_mini" />
+
+        <com.musichive.main.weight.CircleImageView
+            android:id="@+id/icon"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:layout_gravity="center"
+            android:src="@drawable/default_pic" />
+    </FrameLayout>
+
+    <com.musichive.main.other.float_player.PlayerToolTitleTextView
+        android:id="@+id/miniTextView"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/music_layout_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/fl_bg_temp_1"
+        app:layout_constraintRight_toLeftOf="@+id/ivPlay"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.musichive.main.weight.CircleImageView
-        android:id="@+id/icon"
-        android:layout_width="17dp"
-        android:layout_height="17dp"
-        android:layout_gravity="center"
-        android:scaleType="centerCrop"
-        android:src="@drawable/default_pic"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_temp"
-        app:layout_constraintLeft_toLeftOf="@+id/iv_temp"
-        app:layout_constraintRight_toRightOf="@+id/iv_temp"
-        app:layout_constraintTop_toTopOf="@+id/iv_temp" />
+    <ImageView
+        android:id="@+id/ivPlay"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="5dp"
+        android:src="@drawable/new_float_mini_bf"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/iv_new_float_mini_lb"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_name"
+    <com.musichive.main.weight.CircularProgressView
+        android:id="@+id/miniplayer_progress"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:gravity="center_vertical"
-        android:text="111111"
-        android:textColor="#fff"
-        app:layout_constraintLeft_toRightOf="@+id/iv_temp"
-        app:layout_constraintRight_toLeftOf="@+id/iv_play" />
-
-
-    <ImageView
-        android:id="@+id/iv_play"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/ic_action_play"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
-        app:layout_constraintLeft_toRightOf="@+id/tv_name"
-        app:layout_constraintRight_toLeftOf="@+id/iv_play_next"
-        app:layout_constraintTop_toTopOf="@+id/tv_name" />
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:padding="5dp"
+        app:backColor="#e2e2e2"
+        app:backWidth="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivPlay"
+        app:layout_constraintLeft_toLeftOf="@+id/ivPlay"
+        app:layout_constraintRight_toRightOf="@+id/ivPlay"
+        app:layout_constraintTop_toTopOf="@+id/ivPlay"
+        app:progColor="#1e1e1e"
+        app:progWidth="2dp" />
 
     <ImageView
-        android:id="@+id/iv_play_next"
+        android:id="@+id/iv_new_float_mini_lb"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        android:src="@drawable/ic_previous_dark"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
-        app:layout_constraintLeft_toRightOf="@+id/iv_play"
+        android:padding="5dp"
+        android:src="@drawable/new_float_mini_lb"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_name" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:indeterminateDrawable="@drawable/progress_rotate_style"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout><!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:id="@+id/view_tempo_float"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="50dp"-->
+    <!--    android:layout_marginStart="20dp"-->
+    <!--    android:layout_marginEnd="20dp"-->
+    <!--    android:background="@drawable/shape_home_bottom_bg"-->
+    <!--    android:paddingLeft="10dp"-->
+    <!--    android:paddingRight="10dp">-->
+
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/iv_temp"-->
+    <!--        android:layout_width="44dp"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:src="@drawable/cd_moren"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    <com.musichive.main.weight.CircleImageView-->
+    <!--        android:id="@+id/icon"-->
+    <!--        android:layout_width="17dp"-->
+    <!--        android:layout_height="17dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:scaleType="centerCrop"-->
+    <!--        android:src="@drawable/default_pic"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/iv_temp"-->
+    <!--        app:layout_constraintLeft_toLeftOf="@+id/iv_temp"-->
+    <!--        app:layout_constraintRight_toRightOf="@+id/iv_temp"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/iv_temp" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_name"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_marginStart="10dp"-->
+    <!--        android:gravity="center_vertical"-->
+    <!--        android:text="111111"-->
+    <!--        android:textColor="#fff"-->
+    <!--        app:layout_constraintLeft_toRightOf="@+id/iv_temp"-->
+    <!--        app:layout_constraintRight_toLeftOf="@+id/iv_play" />-->
+
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/iv_play"-->
+    <!--        android:layout_width="30dp"-->
+    <!--        android:layout_height="30dp"-->
+    <!--        android:src="@drawable/ic_action_play"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/tv_name"-->
+    <!--        app:layout_constraintLeft_toRightOf="@+id/tv_name"-->
+    <!--        app:layout_constraintRight_toLeftOf="@+id/iv_play_next"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/tv_name" />-->
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/iv_play_next"-->
+    <!--        android:layout_width="30dp"-->
+    <!--        android:layout_height="30dp"-->
+    <!--        android:layout_marginStart="10dp"-->
+    <!--        android:src="@drawable/ic_previous_dark"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/tv_name"-->
+    <!--        app:layout_constraintLeft_toRightOf="@+id/iv_play"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/tv_name" />-->
+
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->

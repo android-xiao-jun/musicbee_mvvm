@@ -64,6 +64,10 @@ public final class PlayerTool implements Application.ActivityLifecycleCallbacks 
         application = null;
     }
 
+    public void setDark(boolean dark){
+        PlayerToolFloatUtils.get().setDark(dark);
+    }
+
     private Observer<ChangeMusic> changeMusic = new Observer<ChangeMusic>() {
         @Override
         public void onChanged(ChangeMusic changeMusic) {

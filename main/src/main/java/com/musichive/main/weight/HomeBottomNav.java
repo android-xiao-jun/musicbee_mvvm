@@ -16,6 +16,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.musichive.main.R;
 import com.musichive.main.config.AppConfig;
 import com.musichive.main.databinding.CommonHomeBottomNavBinding;
+import com.musichive.main.other.float_player.PlayerTool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,18 +118,19 @@ public class HomeBottomNav extends RelativeLayout {
 
     private void setBottomNavSelected(int position) {
         if (position == AppConfig.HomeTab.HOME_NFT_TAB_INDEX) {
-            mBottomNavBtns.get(AppConfig.HomeTab.HOME_TAB_INDEX).setImageResource(R.drawable.sy_fx_nft);
-            mBottomNavBtns.get(AppConfig.HomeTab.HOME_NFT_TAB_INDEX).setImageResource(R.drawable.sy_nft_nft);
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_TAB_INDEX).setImageResource(R.drawable.sy_fx_nft2);
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_NFT_TAB_INDEX).setImageResource(R.drawable.sy_nft_nft2);
             bottomNavBinding.ivMarket.setImageResource(R.drawable.sy_shiji);
             bottomNavBinding.tvMarketBg.setVisibility(View.VISIBLE);
-            mBottomNavBtns.get(AppConfig.HomeTab.HOME_WORKS_TAB_INDEX).setImageResource(R.drawable.sy_cz_nft);
-            mBottomNavBtns.get(AppConfig.HomeTab.HOME_ME_TAB_INDEX).setImageResource(R.drawable.sy_user_nft);
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_WORKS_TAB_INDEX).setImageResource(R.drawable.sy_cz_nft2);
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_ME_TAB_INDEX).setImageResource(R.drawable.sy_user_nft2);
 
-            mBottomNavBtns.get(AppConfig.HomeTab.HOME_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#9977C2FB"));
-            mBottomNavBtns.get(AppConfig.HomeTab.HOME_NFT_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#9977C2FB"));
-            bottomNavBinding.tvText.setTextColor(Color.parseColor("#9977C2FB"));
-            mBottomNavBtns.get(AppConfig.HomeTab.HOME_WORKS_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#9977C2FB"));
-            mBottomNavBtns.get(AppConfig.HomeTab.HOME_ME_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#9977C2FB"));
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#33FFFFFF"));
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_NFT_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#33FFFFFF"));
+            bottomNavBinding.tvText.setTextColor(Color.parseColor("#33FFFFFF"));
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_WORKS_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#33FFFFFF"));
+            mBottomNavBtns.get(AppConfig.HomeTab.HOME_ME_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#33FFFFFF"));
+            PlayerTool.getInstance().setDark(true);
         } else {
 
             mBottomNavBtns.get(AppConfig.HomeTab.HOME_TAB_INDEX).setImageResource(icons[AppConfig.HomeTab.HOME_TAB_INDEX]);
@@ -142,9 +144,10 @@ public class HomeBottomNav extends RelativeLayout {
             bottomNavBinding.tvText.setTextColor(Color.parseColor("#1e1e1e"));
             mBottomNavBtns.get(AppConfig.HomeTab.HOME_WORKS_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#1e1e1e"));
             mBottomNavBtns.get(AppConfig.HomeTab.HOME_ME_TAB_INDEX).getmTextView().setTextColor(Color.parseColor("#1e1e1e"));
+            PlayerTool.getInstance().setDark(false);
         }
         if (position == 1) {
-            bottomNavBinding.homeNavLayout.setBackgroundResource(R.drawable.sy_nft_bottom_bg);
+            bottomNavBinding.homeNavLayout.setBackgroundColor(Color.parseColor("#FF191D26"));
         } else {
             bottomNavBinding.homeNavLayout.setBackgroundResource(R.color.colorHomeBottomBg);
         }
